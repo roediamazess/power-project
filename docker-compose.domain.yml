@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  # Laravel Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: powerpro/laravel:latest
+    container_name: powerpro-app
+    restart: unless-stopped
+    environment:
+      APP_NAME: "PowerPro"
+      APP_ENV: production
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: false
+      APP_URL: https://powerpro.cloud
+
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: powerpro_production
+      DB_USERNAME: ${DB_USERNAME:-powerpro_user}
+      DB_PASSWORD: ${DB_PASSWORD:-powerpro_password}
+
+      REDIS_HOST: redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis_password}
+      CACHE_DRIVER: redis
+      SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
+
+      MAIL_MAILER: smtp
+      MAIL_HOST: ${MAIL_HOST:-smtp.hostinger.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-noreply@powerpro.cloud}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_ENCRYPTION: tls
+      MAIL_FROM_ADDRESS: ${MAIL_USERNAME:-noreply@powerpro.cloud}
+      MAIL_FROM_NAME: "PowerPro"
+
+      CDN_URL: https://cdn.powerpro.cloud
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated
+      - ./storage:/var/www/storage
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "php", "/var/www/artisan", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Web Server with SSL
+  nginx:
+    image: nginx:alpine
+    container_name: powerpro-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/ssl:/etc/ssl/certs
+      - ./docker/certbot/www:/var/www/certbot
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  # PostgreSQL Database
+  db:
+    image: postgres:14-alpine
+    container_name: powerpro-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: powerpro_production
+      POSTGRES_USER: ${DB_USERNAME:-powerpro_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-powerpro_password}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-powerpro_user} -d powerpro_production"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: powerpro-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password}
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # SSL Certificate Manager (Let's Encrypt)
+  certbot:
+    image: certbot/certbot
+    container_name: powerpro-certbot
+    volumes:
+      - ./docker/ssl:/etc/letsencrypt
+      - ./docker/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  # Dynamic DNS Updater (Optional)
+  ddns:
+    image: qmcgaw/ddns-updater:latest
+    container_name: powerpro-ddns
+    restart: unless-stopped
+    environment:
+      - CONFIG=/updater/data/config.json
+    volumes:
+      - ./docker/ddns:/updater/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  redis-data:
+    driver: local
+
+
+

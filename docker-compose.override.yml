@@ -1,0 +1,41 @@
+# Docker Compose Override untuk Development
+# File ini akan otomatis di-load oleh docker-compose
+# Gunakan untuk development-specific configurations
+
+version: '3.8'
+
+services:
+  app:
+    # Override untuk development
+    environment:
+      APP_ENV: local
+      APP_DEBUG: true
+      LOG_LEVEL: debug
+    volumes:
+      # Lebih cepat untuk development
+      - ./:/var/www:delegated
+      # Exclude node_modules dan vendor untuk performa
+      - /var/www/vendor
+      - /var/www/node_modules
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+
+  nginx:
+    volumes:
+      - ./:/var/www:delegated
+
+  # Development database dengan persistent data
+  db:
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+
+  # Redis untuk development
+  redis:
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru

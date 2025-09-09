@@ -1,0 +1,98 @@
+version: '3.8'
+services:
+  # Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: power-project/app
+    container_name: power-project-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      PHP_OPCACHE_ENABLE: 1
+      PHP_OPCACHE_MEMORY_CONSUMPTION: 256
+      PHP_OPCACHE_MAX_ACCELERATED_FILES: 7963
+      PHP_OPCACHE_REVALIDATE_FREQ: 0
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "php", "-r", "echo 'OK';"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+
+  # Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: power-project-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/ssl/powerpro.cloud.crt:/etc/ssl/certs/powerpro.cloud.crt
+      - ./docker/ssl/powerpro.cloud.key:/etc/ssl/certs/powerpro.cloud.key
+    networks:
+      - app-network
+
+  # PostgreSQL Service
+  db:
+    image: postgres:14-alpine
+    container_name: power-project-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-laravel}
+      POSTGRES_USER: ${DB_USERNAME:-user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  # Redis Service
+  redis:
+    image: redis:7-alpine
+    container_name: power-project-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispassword}
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  db-data:
+    driver: local
+  redis-data:
+    driver: local
