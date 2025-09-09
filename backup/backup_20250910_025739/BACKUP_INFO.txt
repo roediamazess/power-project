@@ -1,0 +1,14 @@
+﻿PowerPro Website Backup
+================================
+
+Backup Date: 09/10/2025 02:57:44
+Backup Directory: backup\backup_20250910_025739
+
+Contents:
+- Database: database.sqlite
+- Configuration: .env, config files
+- Application: app, resources, routes, public
+- Storage: storage directory
+- Documentation: README, guides, scripts
+
+To restore: Run restore-website.bat

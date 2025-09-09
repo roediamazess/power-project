@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @php
-    $title='Dashboard';
+    $title='Analytics Dashboard';
     $subTitle = 'AI';
     $script= '<script src="' . asset('assets/js/homeOneChart.js') . '"></script>';
 @endphp

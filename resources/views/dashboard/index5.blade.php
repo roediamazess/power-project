@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @php
-    $title='Dashboard';
+    $title='Analytics Dashboard';
     $subTitle = 'Investment';
     $script = ' <script src="' . asset('assets/js/homeFiveChart.js') . '"></script>';
 @endphp

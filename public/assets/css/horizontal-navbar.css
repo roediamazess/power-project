@@ -1,0 +1,213 @@
+/* Horizontal Navigation Bar Styles */
+
+.horizontal-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.main-content {
+    margin-top: 64px; /* Height of horizontal navbar */
+    min-height: calc(100vh - 64px);
+    transition: margin-top 0.3s ease;
+}
+
+.content-wrapper {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Navigation Menu Styles */
+.horizontal-navbar .relative.group:hover .absolute {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.horizontal-navbar .absolute {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+/* Dropdown Menu Styles */
+.horizontal-navbar .dropdown-menu {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.horizontal-navbar .dropdown-menu a {
+    transition: all 0.2s ease;
+}
+
+.horizontal-navbar .dropdown-menu a:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+    color: #3b82f6;
+}
+
+/* Mobile Menu Styles */
+#mobile-menu {
+    transition: all 0.3s ease;
+}
+
+#mobile-menu.show {
+    display: block !important;
+}
+
+/* Search Input Styles */
+.horizontal-navbar input[type="text"] {
+    transition: all 0.2s ease;
+}
+
+.horizontal-navbar input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button Hover Effects */
+.horizontal-navbar button {
+    transition: all 0.2s ease;
+}
+
+.horizontal-navbar button:hover {
+    transform: translateY(-1px);
+}
+
+/* Notification Badge Styles */
+.horizontal-navbar .relative span {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Dark Mode Adjustments */
+.dark .horizontal-navbar {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.dark .horizontal-navbar .dropdown-menu {
+    background-color: #374151;
+    border-color: #4b5563;
+}
+
+.dark .horizontal-navbar input[type="text"] {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark .horizontal-navbar input[type="text"]:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .horizontal-navbar .hidden.md\\:flex {
+        display: none !important;
+    }
+    
+    .horizontal-navbar .hidden.sm\\:block {
+        display: none !important;
+    }
+    
+    .content-wrapper {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 640px) {
+    .horizontal-navbar .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .content-wrapper {
+        padding: 10px;
+    }
+}
+
+/* Animation for smooth transitions */
+.horizontal-navbar * {
+    transition: all 0.2s ease;
+}
+
+/* Logo animation */
+.horizontal-navbar .flex.items-center.space-x-2:hover img {
+    transform: scale(1.05);
+}
+
+/* Menu item hover effects */
+.horizontal-navbar .flex.items-center.space-x-1:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-radius: 0.5rem;
+}
+
+/* Profile dropdown hover */
+.horizontal-navbar button[data-dropdown-toggle="dropdownProfile"]:hover {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Notification and message buttons */
+.horizontal-navbar button[data-dropdown-toggle] {
+    position: relative;
+    overflow: visible;
+}
+
+.horizontal-navbar button[data-dropdown-toggle]:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Smooth scrolling for mobile menu */
+#mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+#mobile-menu.show {
+    max-height: 500px;
+}
+
+/* Focus states for accessibility */
+.horizontal-navbar button:focus,
+.horizontal-navbar a:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Loading state for dropdowns */
+.horizontal-navbar .dropdown-menu.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Custom scrollbar for dropdowns */
+.horizontal-navbar .dropdown-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.horizontal-navbar .dropdown-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.horizontal-navbar .dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.horizontal-navbar .dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}

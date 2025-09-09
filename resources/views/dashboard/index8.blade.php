@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @php
-    $title='Dashboard';
+    $title='Analytics Dashboard';
     $subTitle = 'Medical';
     $script = '<script>
                     // ===================== Average Enrollment Rate Start =============================== 
