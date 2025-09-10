@@ -298,6 +298,17 @@
         align-items: center;
         justify-content: center;
     }
+
+    /* Force left alignment for Description and Action/Solution columns */
+    #activity-table tbody td[data-col="6"],
+    #activity-table tbody td[data-col="7"] {
+        text-align: left !important;
+    }
+
+    /* Ensure table cells maintain proper alignment */
+    #activity-table tbody td {
+        vertical-align: middle;
+    }
 </style>
 @endpush
 
