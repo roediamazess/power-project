@@ -110,3 +110,7 @@ echo 1. Run: C:\xampp\php\php.exe artisan serve
 echo 2. Check your website at http://localhost:8000
 echo.
 pause
+
+
+
+

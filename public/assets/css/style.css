@@ -6714,7 +6714,7 @@ h6, .h6 {
   display: flex;
   height: 72px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   border-inline-end-width: 1px;
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
@@ -6732,6 +6732,20 @@ h6, .h6 {
 
 .sidebar-logo img{
   max-height: 3.4375rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-logo:hover img{
+  animation: logoRotate 2s linear infinite;
+}
+
+@keyframes logoRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .sidebar-logo img.dark-logo{
@@ -6981,6 +6995,17 @@ h6, .h6 {
 }
 
 /* === sidebar css end === */
+
+/* === Logo Animation CSS === */
+.horizontal-navbar img{
+  transition: transform 0.3s ease-in-out;
+}
+
+.horizontal-navbar:hover img{
+  animation: logoRotate 2s linear infinite;
+}
+
+/* === Logo Animation CSS End === */
 /* === dashboard body css start === */
 .dashboard-main{
   margin-inline-start: 0px;

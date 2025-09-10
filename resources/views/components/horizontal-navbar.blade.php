@@ -6,7 +6,7 @@
             <!-- Logo Section -->
             <div class="flex items-center">
                 <a href="{{ route('index') }}" class="flex items-center space-x-2">
-                    <img src="{{ asset('assets/images/logo-icon.png') }}" alt="site logo" class="h-8 w-8">
+                    <img src="{{ asset('assets/images/company-logo.png') }}" alt="site logo" class="h-8 w-8">
                     <span class="text-xl font-bold text-neutral-900 dark:text-white">PowerPro</span>
                 </a>
             </div>

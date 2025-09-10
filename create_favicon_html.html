@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+</head>
+<body>
+    <h1>Favicon Generator dari Logo Perusahaan</h1>
+    <canvas id="faviconCanvas" width="16" height="16" style="border: 1px solid #ccc; image-rendering: pixelated; width: 64px; height: 64px;"></canvas>
+    <br><br>
+    <button onclick="generateFavicon()">Generate Favicon</button>
+    <button onclick="downloadFavicon()">Download Favicon</button>
+    
+    <script>
+        function generateFavicon() {
+            const canvas = document.getElementById('faviconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 16, 16);
+            
+            // Set background to black
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 16, 16);
+            
+            // Warna sesuai logo perusahaan
+            const colors = {
+                blue: '#0096FF',      // Biru terang
+                pink: '#FF64C8',      // Pink terang  
+                green: '#64FF64',     // Hijau terang
+                yellow: '#FFFF64'     // Kuning terang
+            };
+            
+            // Buat 4 bentuk oval yang tumpang tindih
+            const center = 8;
+            const radius = 6;
+            
+            // Atas - Biru
+            ctx.fillStyle = colors.blue;
+            ctx.beginPath();
+            ctx.ellipse(center, center-radius/2, radius/2, radius/2, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Kiri - Pink
+            ctx.fillStyle = colors.pink;
+            ctx.beginPath();
+            ctx.ellipse(center-radius/2, center, radius/2, radius/2, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Kanan - Hijau  
+            ctx.fillStyle = colors.green;
+            ctx.beginPath();
+            ctx.ellipse(center+radius/2, center, radius/2, radius/2, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Bawah - Kuning
+            ctx.fillStyle = colors.yellow;
+            ctx.beginPath();
+            ctx.ellipse(center, center+radius/2, radius/2, radius/2, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            console.log('Favicon generated!');
+        }
+        
+        function downloadFavicon() {
+            const canvas = document.getElementById('faviconCanvas');
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Generate favicon saat halaman dimuat
+        window.onload = function() {
+            generateFavicon();
+        };
+    </script>
+</body>
+</html>
+
+
+

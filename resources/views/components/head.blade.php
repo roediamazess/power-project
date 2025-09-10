@@ -3,7 +3,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Wowdash - Tailwind CSS Admin Dashboard Laravel-11 Template</title>
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}" sizes="16x16">
+    <!-- Favicon menggunakan logo perusahaan -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/company-logo.png') }}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/company-logo.png') }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/company-logo.png') }}" sizes="48x48">
+    <link rel="shortcut icon" href="{{ asset('assets/images/company-logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/company-logo.png') }}">
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <!-- remix icon font css  -->
