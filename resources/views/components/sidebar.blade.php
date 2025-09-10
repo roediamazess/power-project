@@ -223,14 +223,14 @@
             <li class="dropdown">
                 <a href="javascript:void(0)">
                     <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
-                    <span>Table</span>
+                    <span>Tables</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="{{ route('tableBasic') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Basic Table</a>
+                        <a href="{{ route('tableData') }}"><i class="ri-circle-fill circle-icon text-warning-600 w-auto"></i> Data Table</a>
                     </li>
                     <li>
-                        <a href="{{ route('tableData') }}"><i class="ri-circle-fill circle-icon text-warning-600 w-auto"></i> Data Table</a>
+                        <a href="{{ route('tableUsers') }}"><i class="ri-circle-fill circle-icon text-success-600 w-auto"></i> Users</a>
                     </li>
                 </ul>
             </li>
@@ -256,20 +256,6 @@
                     <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
                     <span>Widgets</span>
                 </a>
-            </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Users</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('viewProfile') }}"><i class="ri-circle-fill circle-icon text-danger-600 w-auto"></i> View Profile</a>
-                    </li>
-                </ul>
             </li>
 
             <li class="sidebar-menu-group-title">Application</li>
@@ -305,4 +291,26 @@
             </li>
         </ul>
     </div>
+    
+    <!-- User Profile Section -->
+    @if(session('user_id') && session('logged_in'))
+    <div class="sidebar-user-profile">
+        <div class="flex items-center space-x-3 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg mx-4 mb-4">
+            <img src="{{ asset('assets/images/users/komeng-avatar.png') }}" alt="User Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-primary-200 dark:border-primary-700">
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white truncate">
+                    {{ session('user_name', 'User') }}
+                </p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 truncate">
+                    {{ session('user_email', 'user@example.com') }}
+                </p>
+                @if(session('user_role'))
+                <span class="inline-block px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full mt-1">
+                    {{ session('user_role') }}
+                </span>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
 </aside>

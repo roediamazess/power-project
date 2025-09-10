@@ -14,6 +14,13 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CryptocurrencyController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+
+// Authentication routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Layout switching routes
 Route::controller(LayoutController::class)->group(function () {
@@ -161,8 +168,8 @@ Route::prefix('settings')->group(function () {
 // Table
 Route::prefix('table')->group(function () {
     Route::controller(TableController::class)->group(function () {
-        Route::get('/table-basic', 'tableBasic')->name('tableBasic');
         Route::get('/table-data', 'tableData')->name('tableData');
+        Route::get('/table-users', 'tableUsers')->name('tableUsers');
     });
 });
 
@@ -173,5 +180,13 @@ Route::prefix('users')->group(function () {
         Route::get('/users-grid', 'usersGrid')->name('usersGrid');
         Route::get('/users-list', 'usersList')->name('usersList');
         Route::get('/view-profile', 'viewProfile')->name('viewProfile');
+    });
+});
+
+// User Update API
+Route::prefix('api')->group(function () {
+    Route::controller(UserController::class)->group(function () {
+        Route::post('/update-user', 'updateUser')->name('updateUser');
+        Route::post('/update-all-users', 'updateAllUsers')->name('updateAllUsers');
     });
 });

@@ -46,40 +46,51 @@
                 <img src="{{ asset('assets/images/user-grid/user-grid-bg1.png') }}" alt="" class="w-full object-fit-cover">
                 <div class="pb-6 ms-6 mb-6 me-6 -mt-[100px]">
                     <div class="text-center border-b border-neutral-200 dark:border-neutral-600">
-                        <img src="{{ asset('assets/images/user-grid/user-grid-img14.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-[200px] rounded-full object-fit-cover mx-auto">
-                        <h6 class="mb-0 mt-4">Jacob Jones</h6>
-                        <span class="text-secondary-light mb-4">ifrandom@gmail.com</span>
+                        <img src="{{ asset('assets/images/users/komeng-avatar.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-[200px] rounded-full object-fit-cover mx-auto">
+                        <h6 class="mb-0 mt-4">{{ session('user_name', 'User') }}</h6>
+                        <span class="text-secondary-light mb-4">{{ session('user_email', 'user@example.com') }}</span>
+                        @if(session('user_role'))
+                        <span class="inline-block px-3 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full">
+                            {{ session('user_role') }}
+                        </span>
+                        @endif
                     </div>
                     <div class="mt-6">
                         <h6 class="text-xl mb-4">Personal Info</h6>
                         <ul>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Full Name</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: Will Jonto</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Display Name</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: {{ session('user_name', 'User') }}</span>
                             </li>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Email</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: willjontoax@gmail.com</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Email</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: {{ session('user_email', 'user@example.com') }}</span>
                             </li>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Phone Number</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: (1) 2536 2561 2365</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">User Role</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: {{ session('user_role', 'User') }}</span>
                             </li>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Department</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: Design</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">User ID</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: {{ session('user_id', 'N/A') }}</span>
                             </li>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Designation</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: UI UX Designer</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Status</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: 
+                                    @if(session('logged_in'))
+                                        <span class="text-green-600 dark:text-green-400">Online</span>
+                                    @else
+                                        <span class="text-red-600 dark:text-red-400">Offline</span>
+                                    @endif
+                                </span>
                             </li>
                             <li class="flex items-center gap-1 mb-3">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Languages</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: English</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Company</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: PowerPro</span>
                             </li>
                             <li class="flex items-center gap-1">
-                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200"> Bio</span>
-                                <span class="w-[70%] text-secondary-light font-medium">: Lorem Ipsum is simply dummy text of the       printing and typesetting industry.</span>
+                                <span class="w-[30%] text-base font-semibold text-neutral-600 dark:text-neutral-200">Bio</span>
+                                <span class="w-[70%] text-secondary-light font-medium">: Administrator di PowerPro dengan akses penuh ke sistem dashboard analytics.</span>
                             </li>
                         </ul>
                     </div>
