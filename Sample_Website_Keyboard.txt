@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Excel Web</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style untuk sel yang sedang dipilih */
+        .selected-cell {
+            outline: 2px solid #2563eb;
+            outline-offset: -2px;
+            background-color: #dbeafe;
+        }
+        /* Style untuk sel yang sedang diedit */
+        .editing-cell {
+            padding: 0 !important;
+        }
+        .editing-cell input, .editing-cell select {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding: 1rem 1.5rem; /* Menyesuaikan padding tabel */
+            box-sizing: border-box;
+        }
+        /* Style untuk tombol modal yang fokus */
+        .modal-button-focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+            outline: 2px solid #3b82f6;
+            outline-offset: 1px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-800">Daftar Tugas Proyek</h1>
+                <p class="text-sm text-gray-500 mt-1"><b>Aksi:</b> Edit (Enter/F2), Hapus (Del), Modal (Ctrl+Klik). | <b>Simpan:</b> Enter/Tab.</p>
+            </div>
+
+            <!-- Tabel Data -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16">No</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remark</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Data akan dimasukkan oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+             <!-- Footer -->
+            <div class="p-4 bg-gray-50 text-center text-xs text-gray-400 border-t">
+                Website Excel Sederhana
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div id="edit-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center pb-3 border-b">
+                <p class="text-2xl font-bold">Edit Detail Tugas</p>
+                <button id="close-modal-btn" class="cursor-pointer z-50">
+                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path></svg>
+                </button>
+            </div>
+            <div class="mt-5">
+                <form id="edit-form">
+                    <input type="hidden" id="modal-row-index">
+                    <div class="mb-4">
+                        <label for="modal-description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                        <input type="text" id="modal-description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="modal-remark" class="block text-gray-700 text-sm font-bold mb-2">Remark</label>
+                        <input type="text" id="modal-remark" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="modal-status" class="block text-gray-700 text-sm font-bold mb-2">Status</label>
+                        <select id="modal-status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="Open">Open</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-end gap-3">
+                        <button id="cancel-modal-btn" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none">
+                            Batal
+                        </button>
+                        <button id="save-modal-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="confirm-delete-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-sm shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Hapus Baris</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        Yakin hapus? (<b>Y</b>/<b>N</b>)
+                    </p>
+                </div>
+                <div class="items-center px-4 py-3 gap-3 flex justify-center">
+                    <button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none">
+                        Batal (N)
+                    </button>
+                    <button id="confirm-delete-btn" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none">
+                        Ya, Hapus (Y)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Contoh data awal
+            const data = [
+                { no: 1, description: 'Mendesain halaman utama website', remark: 'Fokus pada UX/UI', status: 'Done' },
+                { no: 2, description: 'Membuat endpoint API untuk user', remark: 'Gunakan autentikasi JWT', status: 'Done' },
+                { no: 3, description: 'Integrasi frontend dengan backend', remark: 'Perlu testing end-to-end', status: 'Open' },
+                { no: 4, description: 'Setup database dan migrasi data awal', remark: 'Backup data lama terlebih dahulu', status: 'Open' },
+                { no: 5, description: 'Deployment aplikasi ke server staging', remark: 'Cek environment variables', status: 'Open' }
+            ];
+
+            const tableBody = document.getElementById('data-table-body');
+            const editModal = document.getElementById('edit-modal');
+            const editForm = document.getElementById('edit-form');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const cancelModalBtn = document.getElementById('cancel-modal-btn');
+            const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+
+            let selectedCoords = { row: 0, col: 1 };
+            let isEditing = false;
+            let deleteModalFocusedButton = 'confirm'; // 'confirm' or 'cancel'
+            const columnKeys = ['no', 'description', 'remark', 'status'];
+            const editableCols = [1, 2, 3];
+
+            // --- FUNGSI MODAL ---
+            function openEditModal(rowIndex) {
+                const item = data[rowIndex];
+                document.getElementById('modal-row-index').value = rowIndex;
+                document.getElementById('modal-description').value = item.description;
+                document.getElementById('modal-remark').value = item.remark;
+                document.getElementById('modal-status').value = item.status;
+                editModal.classList.remove('hidden');
+            }
+
+            function closeEditModal() { editModal.classList.add('hidden'); }
+            
+            function updateDeleteModalFocus() {
+                confirmDeleteBtn.classList.remove('modal-button-focus');
+                cancelDeleteBtn.classList.remove('modal-button-focus');
+                if (deleteModalFocusedButton === 'confirm') {
+                    confirmDeleteBtn.classList.add('modal-button-focus');
+                } else {
+                    cancelDeleteBtn.classList.add('modal-button-focus');
+                }
+            }
+
+            function openConfirmModal() { 
+                confirmDeleteModal.classList.remove('hidden');
+                deleteModalFocusedButton = 'confirm';
+                updateDeleteModalFocus();
+            }
+
+            function closeConfirmModal() { 
+                confirmDeleteModal.classList.add('hidden');
+                confirmDeleteBtn.classList.remove('modal-button-focus');
+                cancelDeleteBtn.classList.remove('modal-button-focus');
+            }
+            
+            function saveModalData(e) {
+                e.preventDefault();
+                const rowIndex = document.getElementById('modal-row-index').value;
+                data[rowIndex].description = document.getElementById('modal-description').value;
+                data[rowIndex].remark = document.getElementById('modal-remark').value;
+                data[rowIndex].status = document.getElementById('modal-status').value;
+                closeEditModal();
+                renderTable();
+            }
+
+            // --- FUNGSI AKSI BARIS ---
+            function addNewRow() {
+                const newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
+                data.push({ no: newNo, description: 'Tugas baru...', remark: '', status: 'Open' });
+                selectedCoords.row = data.length - 1;
+                renderTable();
+            }
+            
+            function deleteSelectedRow() {
+                if (data.length === 0) return;
+                data.splice(selectedCoords.row, 1);
+                data.forEach((item, index) => { item.no = index + 1; });
+                if (selectedCoords.row >= data.length && data.length > 0) {
+                    selectedCoords.row = data.length - 1;
+                }
+                closeConfirmModal();
+                renderTable();
+            }
+
+            // --- FUNGSI RENDER & SELEKSI ---
+            function renderTable() {
+                tableBody.innerHTML = '';
+                data.forEach((item, rowIndex) => {
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50 cursor-pointer';
+                    columnKeys.forEach((key, colIndex) => {
+                        const cell = document.createElement('td');
+                        cell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                        cell.dataset.row = rowIndex;
+                        cell.dataset.col = colIndex;
+
+                        if (key === 'status') {
+                            cell.innerHTML = `<span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${item.status === 'Done' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${item.status}</span>`;
+                        } else {
+                            cell.textContent = item[key];
+                        }
+                        if (colIndex === 0) cell.classList.add('font-medium', 'text-gray-900');
+                        else cell.classList.add('text-gray-600');
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                });
+                updateSelection();
+            }
+
+            function updateSelection() {
+                document.querySelectorAll('.selected-cell').forEach(c => c.classList.remove('selected-cell'));
+                const cell = document.querySelector(`[data-row='${selectedCoords.row}'][data-col='${selectedCoords.col}']`);
+                if (cell) cell.classList.add('selected-cell');
+            }
+            
+            function makeCellEditable(cell) {
+                if (isEditing || !editableCols.includes(selectedCoords.col)) return;
+                isEditing = true;
+                const rowIndex = parseInt(cell.dataset.row);
+                const colIndex = parseInt(cell.dataset.col);
+                const key = columnKeys[colIndex];
+                const originalValue = data[rowIndex][key];
+                cell.classList.add('editing-cell');
+                if (key === 'status') {
+                    cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Open" ${originalValue === 'Open' ? 'selected' : ''}>Open</option><option value="Done" ${originalValue === 'Done' ? 'selected' : ''}>Done</option></select>`;
+                } else {
+                    cell.innerHTML = `<input type="text" value="${originalValue}" class="focus:ring-2 focus:ring-blue-400">`;
+                }
+                const input = cell.querySelector('input, select');
+                input.focus();
+                
+                const saveAndExit = (moveSelectionDown = false) => {
+                    if (!isEditing) return;
+                    data[rowIndex][key] = input.value;
+                    isEditing = false;
+                    
+                    if (moveSelectionDown) {
+                        if (rowIndex === data.length - 1) { addNewRow(); return; } 
+                        else { selectedCoords.row++; }
+                    }
+                    renderTable();
+                };
+
+                input.addEventListener('blur', () => saveAndExit(false));
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') { e.preventDefault(); saveAndExit(true); } 
+                    else if (e.key === 'Escape') { isEditing = false; renderTable(); } 
+                    else if (e.key === 'Tab') {
+                        e.preventDefault();
+                        if (!isEditing) return;
+                        data[rowIndex][key] = input.value;
+                        isEditing = false;
+                        let nextRow = rowIndex, nextCol = colIndex + 1;
+                        if (nextCol >= columnKeys.length) { nextCol = editableCols[0]; nextRow++; }
+                        if (nextRow >= data.length) { addNewRow(); selectedCoords.col = editableCols[0]; return; } 
+                        else { selectedCoords.row = nextRow; selectedCoords.col = nextCol; }
+                        renderTable();
+                    }
+                });
+            }
+
+            // --- EVENT LISTENERS ---
+            document.addEventListener('keydown', (e) => {
+                // Prioritaskan event keyboard untuk modal hapus jika sedang aktif
+                if (!confirmDeleteModal.classList.contains('hidden')) {
+                    e.preventDefault();
+                    switch (e.key) {
+                        case 'ArrowLeft':
+                        case 'ArrowRight':
+                            deleteModalFocusedButton = (deleteModalFocusedButton === 'confirm') ? 'cancel' : 'confirm';
+                            updateDeleteModalFocus();
+                            break;
+                        case 'Enter':
+                            if (deleteModalFocusedButton === 'confirm') confirmDeleteBtn.click();
+                            else cancelDeleteBtn.click();
+                            break;
+                        case 'y': case 'Y': confirmDeleteBtn.click(); break;
+                        case 'n': case 'N': case 'Escape': cancelDeleteBtn.click(); break;
+                    }
+                    return;
+                }
+                
+                if (isEditing) return;
+                if (e.key === 'Escape') { closeEditModal(); }
+
+                switch (e.key) {
+                    case 'ArrowUp': if (selectedCoords.row > 0) { selectedCoords.row--; updateSelection(); } e.preventDefault(); break;
+                    case 'ArrowDown':
+                        if (selectedCoords.row === data.length - 1) { addNewRow(); } 
+                        else { selectedCoords.row++; updateSelection(); }
+                        e.preventDefault(); break;
+                    case 'ArrowLeft': if (selectedCoords.col > 1) { selectedCoords.col--; updateSelection(); } e.preventDefault(); break;
+                    case 'ArrowRight': if (selectedCoords.col < columnKeys.length - 1) { selectedCoords.col++; updateSelection(); } e.preventDefault(); break;
+                    case 'Delete': if (data.length > 0) { openConfirmModal(); } e.preventDefault(); break;
+                    case 'Enter':
+                    case 'F2':
+                        const cell = document.querySelector(`[data-row='${selectedCoords.row}'][data-col='${selectedCoords.col}']`);
+                        if (cell) makeCellEditable(cell);
+                        e.preventDefault(); break;
+                }
+            });
+
+            tableBody.addEventListener('click', (e) => {
+                const cell = e.target.closest('td');
+                if (!cell) return;
+                const rowIndex = parseInt(cell.dataset.row);
+                if (e.ctrlKey) { openEditModal(rowIndex); } 
+                else { selectedCoords.row = rowIndex; selectedCoords.col = parseInt(cell.dataset.col); updateSelection(); }
+            });
+
+            tableBody.addEventListener('dblclick', (e) => {
+                if(e.ctrlKey) return;
+                const cell = e.target.closest('td');
+                if (!cell || isEditing) return;
+                const colIndex = parseInt(cell.dataset.col);
+                if (editableCols.includes(colIndex)) makeCellEditable(cell);
+            });
+
+            // Listener Modal Edit
+            closeModalBtn.addEventListener('click', closeEditModal);
+            cancelModalBtn.addEventListener('click', closeEditModal);
+            editForm.addEventListener('submit', saveModalData);
+            // Listener Modal Hapus
+            confirmDeleteBtn.addEventListener('click', deleteSelectedRow);
+            cancelDeleteBtn.addEventListener('click', closeConfirmModal);
+
+            renderTable();
+        });
+    </script>
+
+</body>
+</html>
+

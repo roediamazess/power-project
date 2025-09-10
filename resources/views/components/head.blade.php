@@ -40,4 +40,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- horizontal navbar css -->
     <link rel="stylesheet" href="{{ asset('assets/css/horizontal-navbar.css') }}">
+
+    @stack('styles')
 </head>

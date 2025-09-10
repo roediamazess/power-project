@@ -16,6 +16,7 @@ use App\Http\Controllers\CryptocurrencyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityController;
 
 // Authentication routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -183,10 +184,22 @@ Route::prefix('users')->group(function () {
     });
 });
 
+// Activity
+Route::get('/activity', [ActivityController::class, 'index'])->name('activity');
+
 // User Update API
 Route::prefix('api')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::post('/update-user', 'updateUser')->name('updateUser');
         Route::post('/update-all-users', 'updateAllUsers')->name('updateAllUsers');
+    });
+
+    // Activity API routes
+    Route::controller(ActivityController::class)->group(function () {
+        Route::get('/activities', 'getActivities')->name('activities.get');
+        Route::post('/activities', 'store')->name('activities.store');
+        Route::put('/activities/{id}', 'update')->name('activities.update');
+        Route::delete('/activities/{id}', 'destroy')->name('activities.destroy');
+        Route::get('/activities/next-number', 'getNextNumber')->name('activities.next-number');
     });
 });

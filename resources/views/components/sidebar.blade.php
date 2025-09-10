@@ -54,6 +54,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('activity') }}">
+                    <iconify-icon icon="solar:activity-outline" class="menu-icon"></iconify-icon>
+                    <span>Activity</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('chatMessage') }}">
                     <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
                     <span>Chat</span>
