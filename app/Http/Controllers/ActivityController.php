@@ -14,14 +14,73 @@ class ActivityController extends Controller
         return view('activity.index');
     }
 
-    // API endpoint to get all activities
-    public function getActivities()
+    // API endpoint to get all activities with pagination
+    public function getActivities(Request $request)
     {
-        $activities = Activity::orderBy('no')->get();
+        $perPage = $request->get('per_page', 10); // Default 10 items per page
+        $page = $request->get('page', 1);
+        $showAll = $request->get('show_all', false); // New parameter to show all activities
+
+        // Add logging to diagnose pagination issue
+        $totalActivities = Activity::count();
+        \Log::info('Activity API Request', [
+            'requested_per_page' => $perPage,
+            'requested_page' => $page,
+            'show_all' => $showAll,
+            'total_activities_in_db' => $totalActivities,
+            'timestamp' => now()
+        ]);
+
+        if ($showAll) {
+            // Return all activities without pagination
+            $activities = Activity::orderBy('no')->get();
+
+            \Log::info('Activity API Response (All)', [
+                'returned_count' => $activities->count(),
+                'total_available' => $totalActivities
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'data' => $activities,
+                'pagination' => [
+                    'current_page' => 1,
+                    'last_page' => 1,
+                    'per_page' => $totalActivities,
+                    'total' => $totalActivities,
+                    'from' => 1,
+                    'to' => $totalActivities,
+                    'has_more_pages' => false,
+                    'next_page_url' => null,
+                    'prev_page_url' => null,
+                ]
+            ]);
+        }
+
+        $activities = Activity::orderBy('no')->paginate($perPage);
+
+        \Log::info('Activity API Response (Paginated)', [
+            'returned_count' => count($activities->items()),
+            'total_available' => $activities->total(),
+            'current_page' => $activities->currentPage(),
+            'last_page' => $activities->lastPage(),
+            'has_more_pages' => $activities->hasMorePages()
+        ]);
 
         return response()->json([
             'success' => true,
-            'data' => $activities
+            'data' => $activities->items(),
+            'pagination' => [
+                'current_page' => $activities->currentPage(),
+                'last_page' => $activities->lastPage(),
+                'per_page' => $activities->perPage(),
+                'total' => $activities->total(),
+                'from' => $activities->firstItem(),
+                'to' => $activities->lastItem(),
+                'has_more_pages' => $activities->hasMorePages(),
+                'next_page_url' => $activities->nextPageUrl(),
+                'prev_page_url' => $activities->previousPageUrl(),
+            ]
         ]);
     }
 
@@ -213,5 +272,6 @@ class ActivityController extends Controller
         ]);
     }
 }
+
 
 

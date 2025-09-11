@@ -5,6 +5,8 @@
 @endphp
 
 @section('content')
+
+
 <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
     <div class="col-span-12">
         <div class="card h-full p-0 border-0">
@@ -38,6 +40,67 @@
                                 <!-- Data akan dimasukkan oleh JavaScript -->
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div class="datatable-bottom hidden" aria-hidden="true">
+                        <div class="hidden"></div>
+                        <div class="datatable-info">
+                            Showing <span id="pagination-from" style="font-weight: bold; color: red;">0</span> to <span id="pagination-to" style="font-weight: bold; color: red;">0</span> of <span id="pagination-total" style="font-weight: bold; color: red;">0</span> entries
+                        </div>
+                        <div class="flex items-center justify-between gap-5">
+                            <!-- Per Page Selector -->
+                            <div class="flex items-center gap-2">
+                                <label for="per-page-select" class="text-sm text-gray-600 dark:text-gray-300">Show:</label>
+                                <select id="per-page-select" class="border rounded px-2 py-1 bg-white dark:bg-neutral-700 text-sm">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="text-sm text-gray-600 dark:text-gray-300">entries</span>
+                            </div>
+
+                            <!-- Pagination Navigation -->
+                            <div class="datatable-pagination flex items-center">
+                                <ul class="datatable-pagination-list">
+                                    <li class="datatable-pagination-list-item">
+                                        <button id="first-page-btn" class="datatable-pagination-list-item-link" type="button" title="First Page">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" width="16" height="16">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6 6 18M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                    <li class="datatable-pagination-list-item">
+                                        <button id="prev-page-btn" class="datatable-pagination-list-item-link" type="button" title="Previous Page">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" width="12" height="12">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                    <li class="datatable-pagination-list-item page-numbers">
+                                        <div id="page-numbers-container">
+                                            <!-- Page number buttons will be inserted here by JavaScript -->
+                                        </div>
+                                    </li>
+                                    <li class="datatable-pagination-list-item">
+                                        <button id="next-page-btn" class="datatable-pagination-list-item-link" type="button" title="Next Page">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" width="12" height="12">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 5 4-4 4 4"/>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                    <li class="datatable-pagination-list-item">
+                                        <button id="last-page-btn" class="datatable-pagination-list-item-link" type="button" title="Last Page">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" width="16" height="16">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 6l12 12M14 6l-12 12"/>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -456,6 +519,133 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
+    /* Pagination button styles */
+    .datatable-pagination-list-item-link {
+        transition: all 0.15s ease;
+        min-width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .datatable-pagination-list-item-link:hover:not(.disabled):not(.active) {
+        background-color: #f3f4f6;
+        color: #374151;
+    }
+
+    .dark .datatable-pagination-list-item-link:hover:not(.disabled):not(.active) {
+        background-color: #374151;
+        color: #f8f9fa;
+    }
+
+    .datatable-pagination-list-item-link.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        color: #9ca3af;
+    }
+
+    .datatable-pagination-list-item-link.disabled:hover {
+        background-color: transparent;
+        color: #9ca3af;
+    }
+
+    /* Active page button */
+    .datatable-pagination-list-item-link.active {
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 600;
+    }
+
+    .dark .datatable-pagination-list-item-link.active {
+        background-color: #2563eb;
+        color: white;
+    }
+
+    /* Page number buttons */
+    .page-number-btn {
+        min-width: 40px;
+        margin: 0 2px;
+    }
+
+    /* Ellipsis styling */
+    .page-ellipsis {
+        cursor: default;
+        color: #9ca3af;
+        font-weight: normal;
+    }
+
+    .dark .page-ellipsis {
+        color: #6b7280;
+    }
+
+    /* Page numbers container */
+    #page-numbers-container {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    /* Pagination info styling */
+    .datatable-info {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+
+    .dark .datatable-info {
+        color: #9ca3af;
+    }
+
+    /* Clean pagination styling */
+    .datatable-bottom {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        background-color: #f9fafb;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .dark .datatable-bottom {
+        border-color: #374151;
+        background-color: #111827;
+    }
+
+    .datatable-bottom .flex {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Hide pagination UI entirely (keep DOM for logic) */
+    .datatable-bottom,
+    .datatable-pagination,
+    .datatable-pagination-list,
+    .datatable-pagination-list-item,
+    .datatable-info,
+    #per-page-select,
+    #page-numbers-container { display: none !important; visibility: hidden !important; opacity: 0 !important; }
+
+    .datatable-pagination-list {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .datatable-pagination-list-item {
+        display: flex;
+    }
+
+    #page-numbers-container {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
 </style>
 @endpush
 
@@ -464,8 +654,27 @@
         document.addEventListener('DOMContentLoaded', function () {
             console.log('Activity page loaded, initializing...');
 
-            // Global data array - will be populated from database
+            // Remove debug banner after 5 seconds
+            setTimeout(() => {
+                const debugBanner = document.getElementById('debug-test');
+                if (debugBanner) {
+                    debugBanner.style.display = 'none';
+                }
+            }, 5000);
+
+            // Do not auto-scroll to pagination; pagination UI is hidden on this page
+
+            // Global data array and pagination state
             let data = [];
+            let pagination = {
+                current_page: 1,
+                last_page: 1,
+                per_page: 10,
+                total: 0,
+                from: 0,
+                to: 0,
+                has_more_pages: false
+            };
             console.log('🚀 Data initialized as empty array:', data);
             console.log('📊 Initial data length:', data.length);
 
@@ -508,10 +717,11 @@
     }
 
     // --- AJAX FUNCTIONS ---
-    async function loadActivities() {
+    async function loadActivities(page = 1, perPage = 10, showAll = true) {
         try {
             console.log('🔄 Loading activities from database...');
-            const response = await fetch('/api/activities');
+            const url = `/api/activities?page=${page}&per_page=${perPage}&show_all=${showAll}`;
+            const response = await fetch(url);
             console.log('📡 API Response status:', response.status);
 
             const result = await response.json();
@@ -519,8 +729,10 @@
 
             if (result.success) {
                 data = result.data || [];
+                pagination = result.pagination || pagination;
                 console.log('✅ Activities loaded from database:', data.length, 'items');
                 console.log('📊 Data array:', data);
+                console.log('📄 Pagination info:', pagination);
 
                 // Initialize selection if data exists
                 if (data.length > 0) {
@@ -532,6 +744,7 @@
                 }
 
                 renderTable();
+                renderPagination();
             } else {
                 console.error('❌ Failed to load activities:', result.message);
                 showNotification('Failed to load activities', 'error');
@@ -814,13 +1027,10 @@
         console.log('📥 Save result:', result);
 
         if (result) {
-            data.push(result);
-            console.log('✅ New row added successfully:', data[data.length - 1]);
-            selectedCoords.row = data.length - 1;
-            selectedCoords.col = 0; // Reset to first column
-            renderTable();
-            console.log('🎯 Selection moved to new row:', selectedCoords.row);
+            console.log('✅ New row added successfully:', result);
             showNotification('New activity created successfully', 'success');
+            // Reload current page to refresh pagination
+            loadActivities(pagination.current_page, pagination.per_page, true);
         } else {
             console.log('❌ Failed to add new row - saveActivity returned null');
             showNotification('Failed to create new activity', 'error');
@@ -834,26 +1044,17 @@
         if (activityToDelete && activityToDelete.id) {
             const success = await deleteActivity(activityToDelete.id);
             if (success) {
-                console.log('Deleting row', selectedCoords.row);
-                data.splice(selectedCoords.row, 1);
-                // Renumber remaining activities
-                data.forEach((item, index) => { item.no = index + 1; });
-                if (selectedCoords.row >= data.length && data.length > 0) {
-                    selectedCoords.row = data.length - 1;
-                }
+                console.log('Activity deleted successfully');
                 closeConfirmModal();
-                renderTable();
+                // Reload current page to refresh pagination
+                loadActivities(pagination.current_page, pagination.per_page, true);
             }
         } else {
             // If no ID, just remove from local array (for unsaved new rows)
             console.log('Deleting unsaved row', selectedCoords.row);
-            data.splice(selectedCoords.row, 1);
-            data.forEach((item, index) => { item.no = index + 1; });
-            if (selectedCoords.row >= data.length && data.length > 0) {
-                selectedCoords.row = data.length - 1;
-            }
             closeConfirmModal();
-            renderTable();
+            // Reload current page to refresh pagination
+            loadActivities(pagination.current_page, pagination.per_page, true);
         }
     }
 
@@ -938,6 +1139,139 @@
         updateSelection();
         console.log('✅ Table rendered successfully with', data.length, 'rows');
         console.log('🎯 Current selection:', selectedCoords);
+    }
+
+    function renderPagination() {
+        console.log('📄 Rendering pagination controls...');
+        console.log('📊 Current pagination state:', pagination);
+
+        // Update pagination info
+        const fromEl = document.getElementById('pagination-from');
+        const toEl = document.getElementById('pagination-to');
+        const totalEl = document.getElementById('pagination-total');
+
+        if (fromEl) fromEl.textContent = pagination.from || 0;
+        if (toEl) toEl.textContent = pagination.to || 0;
+        if (totalEl) totalEl.textContent = pagination.total || 0;
+
+        // Update per-page selector
+        const perPageSelect = document.getElementById('per-page-select');
+        if (perPageSelect) {
+            perPageSelect.value = pagination.per_page || 10;
+        }
+
+        // Update button states
+        const firstBtn = document.getElementById('first-page-btn');
+        const prevBtn = document.getElementById('prev-page-btn');
+        const nextBtn = document.getElementById('next-page-btn');
+        const lastBtn = document.getElementById('last-page-btn');
+
+        // Enable/disable navigation buttons
+        const isFirstPage = pagination.current_page <= 1;
+        const isLastPage = pagination.current_page >= pagination.last_page;
+
+        if (firstBtn) {
+            firstBtn.disabled = isFirstPage;
+            firstBtn.classList.toggle('disabled', isFirstPage);
+        }
+        if (prevBtn) {
+            prevBtn.disabled = isFirstPage;
+            prevBtn.classList.toggle('disabled', isFirstPage);
+        }
+        if (nextBtn) {
+            nextBtn.disabled = isLastPage;
+            nextBtn.classList.toggle('disabled', isLastPage);
+        }
+        if (lastBtn) {
+            lastBtn.disabled = isLastPage;
+            lastBtn.classList.toggle('disabled', isLastPage);
+        }
+
+        // Render page number buttons
+        renderPageNumbers();
+
+        console.log('✅ Pagination rendered successfully');
+    }
+
+    function renderPageNumbers() {
+        const container = document.getElementById('page-numbers-container');
+        if (!container) {
+            console.error('❌ Page numbers container not found!');
+            return;
+        }
+
+        console.log('🔢 Rendering page numbers...');
+        container.innerHTML = '';
+
+        const currentPage = pagination.current_page;
+        const totalPages = pagination.last_page;
+
+        console.log('📊 Page numbers - Current:', currentPage, 'Total:', totalPages);
+
+        if (totalPages <= 1) {
+            console.log('📄 Only 1 page, no page numbers needed');
+            return;
+        }
+
+        // Calculate range of pages to show
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        // Adjust range to always show 5 pages when possible
+        if (endPage - startPage < 4) {
+            if (startPage === 1) {
+                endPage = Math.min(totalPages, startPage + 4);
+            } else if (endPage === totalPages) {
+                startPage = Math.max(1, endPage - 4);
+            }
+        }
+
+        console.log('📊 Page range:', startPage, 'to', endPage);
+
+        // Add "..." before first page if needed
+        if (startPage > 1) {
+            const ellipsisBtn = document.createElement('button');
+            ellipsisBtn.className = 'datatable-pagination-list-item-link page-ellipsis';
+            ellipsisBtn.textContent = '...';
+            ellipsisBtn.disabled = true;
+            container.appendChild(ellipsisBtn);
+            console.log('➕ Added ellipsis before first page');
+        }
+
+        // Add page number buttons
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'datatable-pagination-list-item-link page-number-btn';
+            pageBtn.textContent = i;
+            pageBtn.dataset.page = i;
+
+            if (i === currentPage) {
+                pageBtn.classList.add('active');
+                console.log('🎯 Page', i, 'is active (current page)');
+            }
+
+            pageBtn.addEventListener('click', () => {
+                console.log('🖱️ Page', i, 'clicked');
+                if (i !== currentPage) {
+                    loadActivities(i, pagination.per_page);
+                }
+            });
+
+            container.appendChild(pageBtn);
+            console.log('➕ Added page button:', i);
+        }
+
+        // Add "..." after last page if needed
+        if (endPage < totalPages) {
+            const ellipsisBtn = document.createElement('button');
+            ellipsisBtn.className = 'datatable-pagination-list-item-link page-ellipsis';
+            ellipsisBtn.textContent = '...';
+            ellipsisBtn.disabled = true;
+            container.appendChild(ellipsisBtn);
+            console.log('➕ Added ellipsis after last page');
+        }
+
+        console.log('✅ Page numbers rendered successfully');
     }
 
     function updateSelection() {
@@ -1268,11 +1602,42 @@
     confirmDeleteBtn.addEventListener('click', deleteSelectedRow);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
 
+    // Pagination event listeners
+    document.getElementById('first-page-btn').addEventListener('click', () => {
+        if (pagination.current_page > 1) {
+            loadActivities(1, pagination.per_page, true);
+        }
+    });
+
+    document.getElementById('prev-page-btn').addEventListener('click', () => {
+        if (pagination.current_page > 1) {
+            loadActivities(pagination.current_page - 1, pagination.per_page, true);
+        }
+    });
+
+    document.getElementById('next-page-btn').addEventListener('click', () => {
+        if (pagination.current_page < pagination.last_page) {
+            loadActivities(pagination.current_page + 1, pagination.per_page, true);
+        }
+    });
+
+    document.getElementById('last-page-btn').addEventListener('click', () => {
+        if (pagination.current_page < pagination.last_page) {
+            loadActivities(pagination.last_page, pagination.per_page, true);
+        }
+    });
+
+    // Per-page selector event listener
+    document.getElementById('per-page-select').addEventListener('change', (e) => {
+        const newPerPage = parseInt(e.target.value);
+        loadActivities(1, newPerPage, true); // Reset to first page when changing per-page
+    });
+
             // Test API connectivity
             async function testAPIConnection() {
                 try {
                     console.log('🔍 Testing API connectivity...');
-                    const response = await fetch('/api/activities');
+                    const response = await fetch('/api/activities?show_all=true');
                     console.log('🌐 API Response status:', response.status);
                     if (response.ok) {
                         console.log('✅ API is accessible');
@@ -1284,13 +1649,17 @@
                 }
             }
 
+            // Skip all pagination UI checks and forcing visibility – it is intentionally hidden
+
             // Inisialisasi - Load data from database
             testAPIConnection();
-            loadActivities().then(() => {
+            loadActivities(1, 10, true).then(() => {
                 console.log('🎯 Initialization complete - Data loaded:', data.length, 'items');
                 if (data.length === 0) {
                     console.log('📝 No activities found, ready to create first activity with ArrowDown');
                 }
+
+                // No UI confirmation needed
             });
         });
     </script>
