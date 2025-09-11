@@ -45,7 +45,7 @@ class AuthController extends Controller
                 'role' => $user->user_role
             ]);
 
-            return redirect('/')->with('success', 'Login berhasil! Selamat datang ' . $user->display_name);
+            return redirect('/')->with('success', 'Login successful! Welcome ' . $user->display_name);
         }
 
         // Log failed login attempt
@@ -54,7 +54,7 @@ class AuthController extends Controller
             'ip' => $request->ip()
         ]);
 
-        return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();
+        return back()->withErrors(['email' => 'Email or password is incorrect.'])->withInput();
     }
 
     public function logout(Request $request)
@@ -77,7 +77,7 @@ class AuthController extends Controller
         ]);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('success', 'Logout berhasil!');
+        return redirect()->route('login')->with('success', 'Logout successful!');
     }
 
     public function checkSession(Request $request)

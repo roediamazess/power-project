@@ -29,14 +29,14 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'project_id' => 'required|string|max:255',
+            'project_id' => 'nullable|string|max:255',
             'no' => 'required|integer|unique:activities,no',
             'information_date' => 'required|date',
-            'user_position' => 'required|string|max:255',
+            'user_position' => 'nullable|string|max:255',
             'department' => 'required|string',
             'application' => 'required|string',
             'type' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'action_solution' => 'nullable|string',
             'due_date' => 'nullable|date',
             'status' => 'required|string',
@@ -44,16 +44,21 @@ class ActivityController extends Controller
         ]);
 
         if ($validator->fails()) {
+            \Log::error('Activity creation validation failed:', [
+                'request_data' => $request->all(),
+                'validation_errors' => $validator->errors()->toArray()
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
+                'request_data' => $request->all() // For debugging
             ], 422);
         }
 
         try {
             $activity = new Activity();
-            $activity->activity_id = 'ACT-' . str_pad(Activity::max('id') + 1, 3, '0', STR_PAD_LEFT);
             $activity->fill($request->all());
             $activity->save();
 
@@ -76,31 +81,91 @@ class ActivityController extends Controller
     {
         $activity = Activity::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'project_id' => 'required|string|max:255',
-            'no' => 'required|integer|unique:activities,no,' . $id,
-            'information_date' => 'required|date',
-            'user_position' => 'required|string|max:255',
-            'department' => 'required|string',
-            'application' => 'required|string',
-            'type' => 'required|string',
-            'description' => 'required|string',
-            'action_solution' => 'nullable|string',
-            'due_date' => 'nullable|date',
-            'status' => 'required|string',
-            'cnc_number' => 'nullable|string|max:255'
-        ]);
+        // For partial updates (inline editing), only validate the fields that are being updated
+        $requestData = $request->all();
+        $isPartialUpdate = count($requestData) < 5; // If less than 5 fields, consider it a partial update
+
+        if ($isPartialUpdate) {
+            // For partial updates, only validate the specific field being updated
+            $fieldToUpdate = array_key_first($requestData);
+            $validationRules = [];
+
+            switch ($fieldToUpdate) {
+                case 'project_id':
+                    $validationRules['project_id'] = 'nullable|string|max:255';
+                    break;
+                case 'no':
+                    $validationRules['no'] = 'required|integer|unique:activities,no,' . $id;
+                    break;
+                case 'information_date':
+                    $validationRules['information_date'] = 'required|date';
+                    break;
+                case 'user_position':
+                    $validationRules['user_position'] = 'nullable|string|max:255';
+                    break;
+                case 'department':
+                    $validationRules['department'] = 'required|string';
+                    break;
+                case 'application':
+                    $validationRules['application'] = 'required|string';
+                    break;
+                case 'type':
+                    $validationRules['type'] = 'required|string';
+                    break;
+                case 'description':
+                    $validationRules['description'] = 'nullable|string';
+                    break;
+                case 'action_solution':
+                    $validationRules['action_solution'] = 'nullable|string';
+                    break;
+                case 'due_date':
+                    $validationRules['due_date'] = 'nullable|date';
+                    break;
+                case 'status':
+                    $validationRules['status'] = 'required|string';
+                    break;
+                case 'cnc_number':
+                    $validationRules['cnc_number'] = 'nullable|string|max:255';
+                    break;
+            }
+        } else {
+            // Full update validation
+            $validationRules = [
+                'project_id' => 'nullable|string|max:255',
+                'no' => 'required|integer|unique:activities,no,' . $id,
+                'information_date' => 'required|date',
+                'user_position' => 'nullable|string|max:255',
+                'department' => 'required|string',
+                'application' => 'required|string',
+                'type' => 'required|string',
+                'description' => 'nullable|string',
+                'action_solution' => 'nullable|string',
+                'due_date' => 'nullable|date',
+                'status' => 'required|string',
+                'cnc_number' => 'nullable|string|max:255'
+            ];
+        }
+
+        $validator = Validator::make($requestData, $validationRules);
 
         if ($validator->fails()) {
+            \Log::error('Activity validation failed:', [
+                'is_partial_update' => $isPartialUpdate,
+                'field_updated' => $isPartialUpdate ? array_key_first($requestData) : 'full_update',
+                'request_data' => $requestData,
+                'validation_errors' => $validator->errors()->toArray()
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
+                'request_data' => $requestData // For debugging
             ], 422);
         }
 
         try {
-            $activity->fill($request->all());
+            $activity->fill($requestData);
             $activity->save();
 
             return response()->json([
@@ -148,4 +213,5 @@ class ActivityController extends Controller
         ]);
     }
 }
+
 

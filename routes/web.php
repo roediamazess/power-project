@@ -194,13 +194,4 @@ Route::prefix('api')->group(function () {
         Route::post('/update-user', 'updateUser')->name('updateUser');
         Route::post('/update-all-users', 'updateAllUsers')->name('updateAllUsers');
     });
-
-    // Activity API routes
-    Route::controller(ActivityController::class)->group(function () {
-        Route::get('/activities', 'getActivities')->name('activities.get');
-        Route::post('/activities', 'store')->name('activities.store');
-        Route::put('/activities/{id}', 'update')->name('activities.update');
-        Route::delete('/activities/{id}', 'destroy')->name('activities.destroy');
-        Route::get('/activities/next-number', 'getNextNumber')->name('activities.next-number');
-    });
 });

@@ -10,10 +10,22 @@
         <div class="col-span-12">
             <div class="card border-0 overflow-hidden h-full">
                 <div class="card-header">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h5 class="card-title text-lg mb-0">Users Data Table</h5>
-                            <p class="text-sm text-neutral-500 dark:text-neutral-400">Complete list of users with their information</p>
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex-1">
+                            <!-- Search Input -->
+                            <div class="relative max-w-md">
+                                <input type="text" 
+                                       id="userSearchInput" 
+                                       placeholder="Search users..." 
+                                       class="w-full px-4 py-3 pr-10 text-sm border border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm">
+                                <button id="clearSearchBtn" 
+                                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hidden">
+                                    <iconify-icon icon="heroicons:x-mark" class="h-4 w-4"></iconify-icon>
+                                </button>
+                            </div>
+                            <div id="searchResults" class="mt-2 text-xs text-gray-500 dark:text-gray-400 hidden">
+                                <span id="searchCount">0</span> users found
+                            </div>
                         </div>
                         <div class="bulk-actions">
                             <!-- Bulk actions removed - using modal edit instead -->
@@ -31,8 +43,8 @@
                                     <th>Full Name</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th>Tier</th>
-                                    <th>User Role</th>
+                                    <th class="text-center">Tier</th>
+                                    <th class="text-center">User Role</th>
                                     <th>Start Work</th>
                                     <th>Birthday</th>
                                     <th class="!rounded-e-none">Actions</th>
@@ -59,12 +71,12 @@
                                     <td>
                                         <span class="text-muted text-sm">••••••••</span>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <span class="badge bg-success-100 text-success-600 dark:bg-success-900 dark:text-success-400 px-2 py-1 rounded">
                                             {{ $user->tier }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <span class="badge bg-info-100 text-info-600 dark:bg-info-900 dark:text-info-400 px-2 py-1 rounded">
                                             {{ $user->user_role }}
                                         </span>
@@ -243,13 +255,13 @@
 
             <!-- Modal Footer -->
             <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+                <button onclick="saveUserModal()"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
+                    <i class="ri-save-line mr-2"></i>Save
+                </button>
                 <button onclick="closeEditModal()"
                         class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
                     Cancel
-                </button>
-                <button onclick="saveUserModal()"
-                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
-                    <i class="ri-save-line mr-2"></i>Save Changes
                 </button>
             </div>
         </div>
@@ -298,6 +310,73 @@
     background-color: #111827;
 }
 
+/* Table Column Alignment */
+.table-users-clean th.text-center,
+.table-users-clean td.text-center {
+    text-align: center;
+}
+
+/* Badge Centering */
+.table-users-clean td.text-center .badge {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* Search Input Styling */
+#userSearchInput {
+    transition: all 0.2s ease;
+}
+
+#userSearchInput:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+#userSearchInput::placeholder {
+    font-weight: 400;
+}
+
+/* Clear button positioning */
+.relative .absolute.inset-y-0.right-0 {
+    z-index: 20;
+    pointer-events: auto;
+}
+
+#clearSearchBtn {
+    transition: all 0.2s ease;
+}
+
+#clearSearchBtn:hover {
+    transform: scale(1.05);
+    color: #ef4444;
+}
+
+#searchResults {
+    font-weight: 500;
+}
+
+/* Search Results Animation */
+.user-row {
+    transition: all 0.3s ease;
+}
+
+.user-row[style*="display: none"] {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+/* Search Highlight Effect */
+.user-row.search-highlight {
+    background-color: rgba(59, 130, 246, 0.03) !important;
+    border-left: 2px solid #3b82f6;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+}
+
+.dark .user-row.search-highlight {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
+}
+
 /* Modal Styles */
 .modal-overlay {
     backdrop-filter: blur(4px);
@@ -337,6 +416,87 @@
 
 @push('scripts')
 <script>
+// Search Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('userSearchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    const userRows = document.querySelectorAll('.user-row');
+    const searchResults = document.getElementById('searchResults');
+    const searchCount = document.getElementById('searchCount');
+    
+    // Search function
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+        
+        userRows.forEach((row, index) => {
+            const displayName = row.querySelector('td:nth-child(2) span')?.textContent?.toLowerCase() || '';
+            const fullName = row.querySelector('td:nth-child(3) span')?.textContent?.toLowerCase() || '';
+            const email = row.querySelector('td:nth-child(4) a')?.textContent?.toLowerCase() || '';
+            const tier = row.querySelector('td:nth-child(6) span')?.textContent?.toLowerCase() || '';
+            const userRole = row.querySelector('td:nth-child(7) span')?.textContent?.toLowerCase() || '';
+            
+            const searchableText = `${displayName} ${fullName} ${email} ${tier} ${userRole}`;
+            
+            if (searchTerm === '' || searchableText.includes(searchTerm)) {
+                row.style.display = '';
+                visibleCount++;
+                
+                // Add highlight effect for search term
+                if (searchTerm !== '') {
+                    row.classList.add('search-highlight');
+                } else {
+                    row.classList.remove('search-highlight');
+                }
+            } else {
+                row.style.display = 'none';
+                row.classList.remove('search-highlight');
+            }
+        });
+        
+        // Show/hide clear button and search results
+        if (searchTerm !== '') {
+            clearBtn.classList.remove('hidden');
+            searchResults.classList.remove('hidden');
+            searchCount.textContent = visibleCount;
+        } else {
+            clearBtn.classList.add('hidden');
+            searchResults.classList.add('hidden');
+        }
+        
+        // Update row numbers for visible rows
+        let visibleIndex = 1;
+        userRows.forEach((row) => {
+            if (row.style.display !== 'none') {
+                const numberCell = row.querySelector('td:first-child');
+                if (numberCell) {
+                    numberCell.textContent = visibleIndex;
+                    visibleIndex++;
+                }
+            }
+        });
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', performSearch);
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Escape') {
+            searchInput.value = '';
+            performSearch();
+            searchInput.blur();
+        }
+    });
+    
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+    });
+    
+    // Initial search to set up row numbers
+    performSearch();
+});
+
 // Modal Functions
 function openEditModal(rowIndex) {
     // Find user data from the table using row index

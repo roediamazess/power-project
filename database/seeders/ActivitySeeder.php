@@ -15,8 +15,7 @@ class ActivitySeeder extends Seeder
     {
         $activities = [
             [
-                'activity_id' => 1,
-                'project_id' => 'PROJ-2024-001',
+                'project_id' => null,
                 'no' => 1,
                 'information_date' => '2024-09-10',
                 'user_position' => 'John Doe - Software Developer',
@@ -27,11 +26,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Added new API endpoints and updated frontend components with Chart.js integration',
                 'due_date' => '2024-09-15',
                 'status' => 'Done',
-                'cnc_number' => 'CNC-2024-001'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 2,
-                'project_id' => 'PROJ-2024-002',
+                'project_id' => null,
                 'no' => 2,
                 'information_date' => '2024-09-09',
                 'user_position' => 'Jane Smith - System Analyst',
@@ -42,11 +40,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Fixed tax calculation algorithm in payment processing module',
                 'due_date' => '2024-09-12',
                 'status' => 'On Progress',
-                'cnc_number' => 'CNC-2024-002'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 3,
-                'project_id' => 'PROJ-2024-003',
+                'project_id' => null,
                 'no' => 3,
                 'information_date' => '2024-09-08',
                 'user_position' => 'Mike Johnson - IT Manager',
@@ -57,11 +54,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Setting up warehouse locations, item categories, and stock management parameters',
                 'due_date' => '2024-09-20',
                 'status' => 'Open',
-                'cnc_number' => 'CNC-2024-003'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 4,
-                'project_id' => 'PROJ-2024-004',
+                'project_id' => null,
                 'no' => 4,
                 'information_date' => '2024-09-07',
                 'user_position' => 'Sarah Wilson - Business Analyst',
@@ -72,11 +68,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Created new report template with dynamic date ranges and export functionality',
                 'due_date' => '2024-09-18',
                 'status' => 'Need Requirement',
-                'cnc_number' => 'CNC-2024-004'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 5,
-                'project_id' => 'PROJ-2024-005',
+                'project_id' => null,
                 'no' => 5,
                 'information_date' => '2024-09-06',
                 'user_position' => 'David Brown - Network Administrator',
@@ -87,11 +82,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Upgraded network infrastructure and optimized streaming parameters',
                 'due_date' => '2024-09-14',
                 'status' => 'Done',
-                'cnc_number' => 'CNC-2024-005'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 6,
-                'project_id' => 'PROJ-2024-006',
+                'project_id' => null,
                 'no' => 6,
                 'information_date' => '2024-09-05',
                 'user_position' => 'Lisa Chen - Accounting Manager',
@@ -102,11 +96,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Implemented currency conversion module with real-time exchange rates',
                 'due_date' => '2024-09-25',
                 'status' => 'On Progress',
-                'cnc_number' => 'CNC-2024-006'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 7,
-                'project_id' => 'PROJ-2024-007',
+                'project_id' => null,
                 'no' => 7,
                 'information_date' => '2024-09-04',
                 'user_position' => 'Robert Taylor - Housekeeping Supervisor',
@@ -117,11 +110,10 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Set up preventive maintenance schedules and notification system',
                 'due_date' => '2024-09-22',
                 'status' => 'Open',
-                'cnc_number' => 'CNC-2024-007'
+                'cnc_number' => null
             ],
             [
-                'activity_id' => 8,
-                'project_id' => 'PROJ-2024-008',
+                'project_id' => null,
                 'no' => 8,
                 'information_date' => '2024-09-03',
                 'user_position' => 'Maria Garcia - Front Desk Manager',
@@ -132,7 +124,7 @@ class ActivitySeeder extends Seeder
                 'action_solution' => 'Optimized check-in workflow and added express check-in option',
                 'due_date' => '2024-09-16',
                 'status' => 'Done',
-                'cnc_number' => 'CNC-2024-008'
+                'cnc_number' => null
             ]
         ];
 

@@ -1,33 +1,28 @@
 @extends('layout.layout')
+@php
+    $title='Activity';
+    $subTitle = 'Project Activities';
+@endphp
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-0 overflow-hidden">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title text-lg mb-0">Activity Management</h5>
-                            <p class="text-sm text-neutral-500 dark:text-neutral-400">Manage project activities with Excel-like editing</p>
-                        </div>
-                    </div>
-                </div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+    <div class="col-span-12">
+        <div class="card h-full p-0 border-0">
+            <!-- Instructions -->
+            <div class="p-4 bg-light border-bottom">
+                <p class="text-sm text-muted mb-0">
+                    <b>Actions:</b> Edit (Enter/F2), Delete (Del), Modal (Ctrl+Click). | <b>Save:</b> Enter/Tab.<br>
+                    <b>Navigation:</b> ↑↓←→ to move between cells. | <b>Add New Row:</b> Press ↓ on last row.<br>
+                    <b>Note:</b> CNC Number & Project ID can be edited via Modal (Ctrl+Click).
+                </p>
+            </div>
 
-                <!-- Instructions -->
-                <div class="p-4 bg-light border-bottom">
-                    <p class="text-sm text-muted mb-0">
-                        <b>Aksi:</b> Edit (Enter/F2), Hapus (Del), Modal (Ctrl+Klik). | <b>Simpan:</b> Enter/Tab.<br>
-                        <b>Catatan:</b> CNC Number & Project ID dapat diedit melalui Modal (Ctrl+Klik).
-                    </p>
-                </div>
-
-                <div class="card-body p-0">
+            <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0" id="activity-table">
-                            <thead class="table-light dark:bg-gray-800 dark:border-gray-700">
+                            <thead class="table-light dark:bg-gray-800 dark:border-gray-700 sticky-header">
                                 <tr>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-10">No</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-8">No</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Info Date</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">User & Position</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Department</th>
@@ -54,7 +49,7 @@
 <div id="edit-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden flex items-center justify-center dark:bg-gray-900 dark:bg-opacity-70" style="z-index: 9999;">
     <div class="relative mx-auto p-4 border w-full max-w-4xl shadow-lg rounded-md bg-white dark:bg-gray-800 dark:border-gray-600">
         <div class="flex justify-between items-center pb-3 border-b dark:border-gray-600">
-            <p class="text-2xl font-bold text-gray-900 dark:text-white">Edit Detail Tugas</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">Edit Task Details</p>
             <button id="close-modal-btn" class="cursor-pointer z-50">
                 <svg class="fill-current text-black dark:text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path></svg>
             </button>
@@ -176,10 +171,10 @@
                 </div>
                 <div class="flex items-center justify-end gap-3">
                     <button id="cancel-modal-btn" type="button" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded focus:outline-none">
-                        Batal
+                        Cancel
                     </button>
                     <button id="save-modal-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none">
-                        Simpan Perubahan
+                        Save Changes
                     </button>
                 </div>
             </form>
@@ -194,19 +189,20 @@
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900">
                 <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
             </div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mt-2">Hapus Baris</h3>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mt-2">Delete Activity</h3>
             <div class="mt-2 px-7 py-3">
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                    Yakin hapus? (<b>Y</b>/<b>N</b>)
+                    Are you sure? (<b>Y</b>/<b>N</b>)
                 </p>
             </div>
             <div class="items-center px-4 py-3 gap-3 flex justify-center">
-                <button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 focus:outline-none">
-                    Batal (N)
+                <button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 focus:outline-none border border-gray-300 dark:border-gray-500">
+                    Cancel (N)
                 </button>
-                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded-md hover:bg-red-600 dark:hover:bg-red-500 focus:outline-none">
-                    Ya, Hapus (Y)
+                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-800 dark:bg-red-900 text-white dark:text-white rounded-md hover:bg-red-900 dark:hover:bg-red-800 focus:outline-none border-4 border-red-900 dark:border-red-950 font-black shadow-2xl ring-4 ring-red-600 dark:ring-red-700 transform scale-105">
+                    Yes, Delete (Y)
                 </button>
+            </div>
             </div>
         </div>
     </div>
@@ -216,6 +212,106 @@
 
 @push('styles')
 <style>
+    /* Sticky Header Styling */
+    .table-responsive {
+        position: relative;
+        overflow: auto;
+        max-height: 70vh;
+    }
+    
+    .table-responsive thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .dark .table-responsive thead th {
+        background-color: #374151;
+        border-bottom: 2px solid #4b5563;
+    }
+    
+    /* Ensure header stays above content */
+    .table-responsive thead {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    /* Sticky header specific styling */
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 15;
+    }
+    
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        z-index: 15;
+        background-color: #f8f9fa !important;
+        border-bottom: 2px solid #dee2e6 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dark .sticky-header th {
+        background-color: #374151 !important;
+        border-bottom: 2px solid #4b5563 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* NO column specific styling - square box with same colors as other columns */
+    .sticky-header th:first-child {
+        border-radius: 0 !important;
+        border: 2px solid #dee2e6 !important;
+        border-right: none !important;
+        background-color: #f8f9fa !important;
+        font-weight: bold;
+        text-align: center !important;
+        color: #495057 !important;
+    }
+    
+    .dark .sticky-header th:first-child {
+        border: 2px solid #4b5563 !important;
+        border-right: none !important;
+        background-color: #374151 !important;
+        color: #f8f9fa !important;
+    }
+    
+    /* NO column data cells - square box with same colors as other columns */
+    .table tbody tr td:first-child {
+        border-radius: 0 !important;
+        border: 1px solid #dee2e6 !important;
+        border-right: none !important;
+        background-color: #ffffff !important;
+        text-align: center !important;
+        font-weight: 500;
+        color: #495057 !important;
+    }
+    
+    .dark .table tbody tr td:first-child {
+        border: 1px solid #4b5563 !important;
+        border-right: none !important;
+        background-color: #1f2937 !important;
+        color: #f8f9fa !important;
+    }
+    
+    /* Dark mode data cells */
+    .dark .table tbody tr td:first-child {
+        background-color: #1f2937 !important;
+        color: #f8f9fa !important;
+    }
+    
+    /* Hover state for NO column */
+    .table tbody tr:hover td:first-child {
+        background-color: #f8f9fa !important;
+    }
+    
+    .dark .table tbody tr:hover td:first-child {
+        background-color: #374151 !important;
+    }
+    
     /* Style untuk sel yang sedang dipilih */
     .selected-cell {
         outline: 2px solid #2563eb !important;
@@ -370,7 +466,8 @@
 
             // Global data array - will be populated from database
             let data = [];
-            console.log('Data initialized:', data);
+            console.log('🚀 Data initialized as empty array:', data);
+            console.log('📊 Initial data length:', data.length);
 
     const tableBody = document.getElementById('data-table-body');
     const editModal = document.getElementById('edit-modal');
@@ -413,18 +510,34 @@
     // --- AJAX FUNCTIONS ---
     async function loadActivities() {
         try {
+            console.log('🔄 Loading activities from database...');
             const response = await fetch('/api/activities');
+            console.log('📡 API Response status:', response.status);
+
             const result = await response.json();
+            console.log('📋 API Response data:', result);
+
             if (result.success) {
-                data = result.data;
-                console.log('Activities loaded from database:', data);
+                data = result.data || [];
+                console.log('✅ Activities loaded from database:', data.length, 'items');
+                console.log('📊 Data array:', data);
+
+                // Initialize selection if data exists
+                if (data.length > 0) {
+                    selectedCoords.row = 0; // Start at first row
+                    selectedCoords.col = 0; // Start at first column
+                } else {
+                    selectedCoords.row = 0; // Will be used for first new row
+                    selectedCoords.col = 0;
+                }
+
                 renderTable();
             } else {
-                console.error('Failed to load activities:', result.message);
+                console.error('❌ Failed to load activities:', result.message);
                 showNotification('Failed to load activities', 'error');
             }
         } catch (error) {
-            console.error('Error loading activities:', error);
+            console.error('💥 Error loading activities:', error);
             showNotification('Error loading activities', 'error');
         }
     }
@@ -432,16 +545,29 @@
     async function saveActivity(activityData) {
         try {
             console.log('🔄 Saving activity with data:', activityData);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-            console.log('🔑 CSRF Token:', csrfToken ? 'Found' : 'NOT FOUND');
+            console.log('📊 Data types:', {
+                project_id: typeof activityData.project_id,
+                no: typeof activityData.no,
+                information_date: typeof activityData.information_date,
+                user_position: typeof activityData.user_position,
+                department: typeof activityData.department,
+                application: typeof activityData.application,
+                type: typeof activityData.type,
+                description: typeof activityData.description,
+                status: typeof activityData.status
+            });
+
+            // Convert to FormData for better API compatibility
+            const formData = new FormData();
+            Object.keys(activityData).forEach(key => {
+                if (activityData[key] !== null && activityData[key] !== undefined) {
+                    formData.append(key, activityData[key]);
+                }
+            });
 
             const response = await fetch('/api/activities', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken || ''
-                },
-                body: JSON.stringify(activityData)
+                body: formData
             });
 
             console.log('📡 Response status:', response.status);
@@ -454,6 +580,9 @@
                 return result.data;
             } else {
                 console.error('❌ Failed to save activity:', result.message);
+                if (result.errors) {
+                    console.error('🔍 Validation errors:', result.errors);
+                }
                 showNotification('Failed to save activity: ' + result.message, 'error');
                 return null;
             }
@@ -467,16 +596,19 @@
     async function updateActivity(id, activityData) {
         try {
             console.log('🔄 Updating activity ID:', id, 'with data:', activityData);
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-            console.log('🔑 CSRF Token:', csrfToken ? 'Found' : 'NOT FOUND');
+
+            // Convert to FormData for better API compatibility
+            const formData = new FormData();
+            formData.append('_method', 'PUT'); // Laravel needs this for PUT with FormData
+            Object.keys(activityData).forEach(key => {
+                if (activityData[key] !== null && activityData[key] !== undefined) {
+                    formData.append(key, activityData[key]);
+                }
+            });
 
             const response = await fetch(`/api/activities/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken || ''
-                },
-                body: JSON.stringify(activityData)
+                method: 'POST', // Use POST with _method=PUT for Laravel
+                body: formData
             });
 
             console.log('📡 Response status:', response.status);
@@ -501,11 +633,12 @@
 
     async function deleteActivity(id) {
         try {
+            const formData = new FormData();
+            formData.append('_method', 'DELETE');
+
             const response = await fetch(`/api/activities/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-                }
+                method: 'POST', // Use POST with _method=DELETE for Laravel
+                body: formData
             });
             const result = await response.json();
             if (result.success) {
@@ -551,7 +684,7 @@
     function openEditModal(rowIndex) {
         const item = data[rowIndex];
         document.getElementById('modal-row-index').value = rowIndex;
-        document.getElementById('modal-activity-id').value = item.activity_id;
+        document.getElementById('modal-activity-id').value = item.id;
         document.getElementById('modal-project-id').value = item.project_id;
         document.getElementById('modal-no').value = item.no;
         // Format dates for modal inputs (convert dd-mm-yy to yyyy-mm-dd)
@@ -635,30 +768,62 @@
 
     // --- FUNGSI AKSI BARIS ---
     async function addNewRow() {
+        console.log('🔄 addNewRow() called - Current data length:', data.length);
+
         const today = new Date().toISOString().split('T')[0];
-        const newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
+
+        // Get next available number from server to avoid unique constraint issues
+        let newNo;
+        try {
+            const response = await fetch('/api/activities/next-number');
+            const result = await response.json();
+            if (result.success) {
+                newNo = result.next_number;
+                console.log('📡 Got next number from server:', newNo);
+            } else {
+                // Fallback to local calculation
+                newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
+                console.log('📊 Using local calculation for next number:', newNo);
+            }
+        } catch (error) {
+            console.log('💥 Error getting next number from server, using local calculation');
+            newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
+        }
+
+        console.log('📝 Creating new activity with No:', newNo, 'Date:', today);
+        console.log('📊 Current data in memory:', data.map(d => ({ id: d.id, no: d.no })));
 
         const newActivityData = {
-            project_id: '',
+            project_id: 'PROJ-' + newNo.toString().padStart(3, '0'),
             no: newNo,
             information_date: today,
-            user_position: '',
+            user_position: 'Staff',
             department: 'IT / EDP',
             application: 'Power FO',
             type: 'Setup',
-            description: 'New activity...',
+            description: 'New activity - please update details',
             action_solution: '',
             due_date: '',
             status: 'Open',
             cnc_number: ''
         };
 
+        console.log('📤 Sending new activity data:', newActivityData);
+
         const result = await saveActivity(newActivityData);
+        console.log('📥 Save result:', result);
+
         if (result) {
             data.push(result);
-            console.log('New row added:', data[data.length - 1]);
+            console.log('✅ New row added successfully:', data[data.length - 1]);
             selectedCoords.row = data.length - 1;
+            selectedCoords.col = 0; // Reset to first column
             renderTable();
+            console.log('🎯 Selection moved to new row:', selectedCoords.row);
+            showNotification('New activity created successfully', 'success');
+        } else {
+            console.log('❌ Failed to add new row - saveActivity returned null');
+            showNotification('Failed to create new activity', 'error');
         }
     }
     
@@ -694,8 +859,25 @@
 
     // --- FUNGSI RENDER & SELEKSI ---
     function renderTable() {
-        console.log('Rendering table with data:', data);
+        console.log('🎨 Rendering table with data length:', data.length);
+        console.log('📋 Data to render:', data);
         tableBody.innerHTML = '';
+
+        // Handle empty data case
+        if (data.length === 0) {
+            console.log('📭 No data to render, creating empty state row');
+            const emptyRow = document.createElement('tr');
+            emptyRow.className = 'bg-gray-50 dark:bg-gray-800';
+            const emptyCell = document.createElement('td');
+            emptyCell.colSpan = columnKeys.length;
+            emptyCell.className = 'px-4 py-8 text-center text-gray-500 dark:text-gray-400';
+            emptyCell.innerHTML = '<div class="text-sm font-medium">No activities yet</div><div class="text-xs mt-2 text-gray-400 dark:text-gray-500">Press <kbd class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded text-xs font-mono">↓</kbd> to create first activity</div>';
+            emptyRow.appendChild(emptyCell);
+            tableBody.appendChild(emptyRow);
+            updateSelection(); // Still update selection for empty table
+            return;
+        }
+
         data.forEach((item, rowIndex) => {
             const row = document.createElement('tr');
             row.className = 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer';
@@ -709,6 +891,8 @@
                 // Set alignment and styling based on column
                 if (key === 'description' || key === 'action_solution') {
                     cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-left break-words'; // Left align for description and action/solution with word wrapping
+                } else if (key === 'no') {
+                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center w-8'; // Center align for NO column with specific width
                 } else {
                     cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center'; // Center align for others
                 }
@@ -752,13 +936,33 @@
             tableBody.appendChild(row);
         });
         updateSelection();
-        console.log('Table rendered successfully');
+        console.log('✅ Table rendered successfully with', data.length, 'rows');
+        console.log('🎯 Current selection:', selectedCoords);
     }
 
     function updateSelection() {
+        console.log('🎯 updateSelection called with coords:', selectedCoords, 'data.length:', data.length);
         document.querySelectorAll('.selected-cell').forEach(c => c.classList.remove('selected-cell'));
+
+        // If no data, don't try to select a cell
+        if (data.length === 0) {
+            console.log('📭 No data available, skipping cell selection');
+            return;
+        }
+
+        // Ensure row index is within bounds
+        if (selectedCoords.row >= data.length) {
+            selectedCoords.row = data.length - 1;
+            console.log('🔧 Adjusted row index to:', selectedCoords.row);
+        }
+
         const cell = document.querySelector(`[data-row='${selectedCoords.row}'][data-col='${selectedCoords.col}']`);
-        if (cell) cell.classList.add('selected-cell');
+        if (cell) {
+            cell.classList.add('selected-cell');
+            console.log('✅ Cell selected successfully');
+        } else {
+            console.log('❌ Cell not found for selection');
+        }
     }
     
     function makeCellEditable(cell) {
@@ -808,16 +1012,18 @@
             // Only save if value changed
             if (newValue !== oldValue) {
                 const updateData = { [key]: newValue };
+                console.log('📤 Preparing to save:', { rowIndex, key, oldValue, newValue, hasId: data[rowIndex] && data[rowIndex].id });
 
                 if (data[rowIndex] && data[rowIndex].id) {
                     // Update existing activity
-                    console.log('📝 Updating existing activity via inline edit');
+                    console.log('📝 Updating existing activity via inline edit, ID:', data[rowIndex].id);
                     const result = await updateActivity(data[rowIndex].id, updateData);
                     if (result) {
                         data[rowIndex][key] = newValue;
                         console.log('✅ Inline edit saved for row', rowIndex, 'col', colIndex, 'value:', newValue);
+                        console.log('📊 Updated data in memory:', data[rowIndex]);
                     } else {
-                        console.log('❌ Failed to save inline edit');
+                        console.log('❌ Failed to save inline edit - keeping old value');
                         return; // Don't exit editing if save failed
                     }
                 } else {
@@ -844,22 +1050,114 @@
             else if (e.key === 'Escape') { console.log('Escape pressed, canceling edit'); isEditing = false; renderTable(); }
             else if (e.key === 'Tab') {
                 e.preventDefault();
+                e.stopPropagation();
                 if (!isEditing) return;
-                data[rowIndex][key] = input.value;
-                console.log('Tab pressed, moving to next cell');
-                isEditing = false;
-                let nextRow = rowIndex, nextCol = colIndex + 1;
-                if (nextCol >= columnKeys.length) { nextCol = editableCols[0]; nextRow++; }
-                if (nextRow >= data.length) { addNewRow(); selectedCoords.col = editableCols[0]; return; }
-                else { selectedCoords.row = nextRow; selectedCoords.col = nextCol; }
-                renderTable();
+
+                const newValue = input.value;
+                const oldValue = data[rowIndex][key];
+
+                console.log('Tab pressed, saving and moving to next cell:', {
+                    rowIndex,
+                    colIndex,
+                    key,
+                    oldValue,
+                    newValue,
+                    hasId: data[rowIndex] && data[rowIndex].id
+                });
+
+                // Only save if value changed
+                if (newValue !== oldValue) {
+                    const updateData = { [key]: newValue };
+
+                    if (data[rowIndex] && data[rowIndex].id) {
+                        // Update existing activity - wait for save to complete
+                        console.log('📝 Updating existing activity via Tab key, ID:', data[rowIndex].id);
+                        updateActivity(data[rowIndex].id, updateData).then(result => {
+                            if (result) {
+                                data[rowIndex][key] = newValue;
+                                console.log('✅ Tab key save successful for row', rowIndex, 'col', colIndex, 'value:', newValue);
+                                moveToNextCell();
+                            } else {
+                                console.log('❌ Tab key save failed - staying in current cell');
+                                // Don't move if save failed
+                                return;
+                            }
+                        });
+                    } else {
+                        // For new unsaved rows, just update local data
+                        data[rowIndex][key] = newValue;
+                        console.log('💾 Tab key saved locally for row', rowIndex, 'col', colIndex, 'value:', newValue);
+                        moveToNextCell();
+                    }
+                } else {
+                    console.log('⏭️ No changes detected with Tab, moving to next cell');
+                    moveToNextCell();
+                }
+
+                function moveToNextCell() {
+                    isEditing = false;
+                    let nextRow = rowIndex, nextCol = colIndex + 1;
+
+                    // Move to next editable column
+                    if (nextCol >= columnKeys.length) {
+                        nextCol = editableCols[0];
+                        nextRow++;
+                    }
+
+                    // If we're at the last row, create new row
+                    if (nextRow >= data.length) {
+                        addNewRow().then(() => {
+                            selectedCoords.col = editableCols[0];
+                            renderTable();
+                        });
+                        return;
+                    } else {
+                        selectedCoords.row = nextRow;
+                        selectedCoords.col = nextCol;
+                    }
+
+                    renderTable();
+                }
             }
         });
     }
 
     // --- EVENT LISTENERS ---
     document.addEventListener('keydown', (e) => {
-        console.log('Key pressed:', e.key, 'isEditing:', isEditing);
+        console.log('🎹 Key pressed:', e.key, 'isEditing:', isEditing, 'selectedCoords:', selectedCoords, 'data.length:', data.length);
+
+        // Handle Tab key navigation when not editing - always stay within table
+        if (e.key === 'Tab' && !isEditing) {
+            // Allow normal Tab navigation in modals
+            if (!editModal.classList.contains('hidden') || !confirmDeleteModal.classList.contains('hidden')) {
+                console.log('Tab in modal - allowing normal navigation');
+                return; // Let browser handle Tab in modals
+            }
+
+            e.preventDefault(); // Always prevent default Tab behavior on activity page
+            console.log('Tab pressed - moving to next cell like right arrow');
+
+            // Move to next column (same as right arrow)
+            if (selectedCoords.col < columnKeys.length - 1) {
+                selectedCoords.col++;
+                console.log('Tab moved right to col', selectedCoords.col);
+                updateSelection();
+            } else {
+                // If at last column, move to first column of next row
+                if (selectedCoords.row < data.length - 1) {
+                    selectedCoords.row++;
+                    selectedCoords.col = 0; // First column
+                    console.log('Tab moved to next row, first column:', selectedCoords);
+                    updateSelection();
+                } else {
+                    // If at last row and last column, create new row
+                    console.log('Tab at last cell - creating new row');
+                    addNewRow();
+                }
+            }
+            return;
+        }
+
         // Prioritaskan event keyboard untuk modal hapus jika sedang aktif
         if (!confirmDeleteModal.classList.contains('hidden')) {
             e.preventDefault();
@@ -892,11 +1190,16 @@
                 e.preventDefault();
                 break;
             case 'ArrowDown':
-                if (selectedCoords.row === data.length - 1) {
+                console.log('ArrowDown pressed - Current row:', selectedCoords.row, 'Total rows:', data.length);
+                if (data.length === 0) {
+                    console.log('📝 No activities exist, creating first activity...');
+                    addNewRow();
+                } else if (selectedCoords.row === data.length - 1) {
+                    console.log('🔄 On last row, adding new row...');
                     addNewRow();
                 } else {
                     selectedCoords.row++;
-                    console.log('Moved down to row', selectedCoords.row);
+                    console.log('⬇️ Moved down to row', selectedCoords.row);
                     updateSelection();
                 }
                 e.preventDefault();
@@ -983,7 +1286,12 @@
 
             // Inisialisasi - Load data from database
             testAPIConnection();
-            loadActivities();
+            loadActivities().then(() => {
+                console.log('🎯 Initialization complete - Data loaded:', data.length, 'items');
+                if (data.length === 0) {
+                    console.log('📝 No activities found, ready to create first activity with ArrowDown');
+                }
+            });
         });
     </script>
 @endpush

@@ -43,7 +43,7 @@
                     <img src="{{ asset('assets/images/company-logo.png') }}" alt="PowerPro" class="w-full h-full object-contain">
                 </div>
                 <h1 class="text-3xl font-bold text-white mb-2">PowerPro</h1>
-                <p class="text-white/80 text-sm">Masuk ke Dashboard Analytics</p>
+                <p class="text-white/80 text-sm">Access Dashboard Analytics</p>
             </div>
 
             <!-- Error Messages -->
@@ -81,7 +81,7 @@
                     </label>
                     <input id="email" name="email" type="email" required 
                            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent input-focus transition-all duration-300"
-                           placeholder="Masukkan email Anda"
+                           placeholder="Enter your email address"
                            value="{{ old('email') }}">
                 </div>
 
@@ -93,32 +93,17 @@
                     </label>
                     <input id="password" name="password" type="password" required 
                            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent input-focus transition-all duration-300"
-                           placeholder="Masukkan password Anda">
+                           placeholder="Enter your password">
                 </div>
 
                 <!-- Login Button -->
                 <button type="submit" 
                         class="w-full bg-white text-gray-900 py-3 px-4 rounded-lg font-semibold hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/50 btn-hover transition-all duration-300 flex items-center justify-center">
                     <iconify-icon icon="heroicons:arrow-right-on-rectangle" class="mr-2"></iconify-icon>
-                    Masuk ke Dashboard
+                    Access Dashboard
                 </button>
             </form>
 
-            <!-- Demo Credentials -->
-            <div class="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
-                <h3 class="text-white/90 text-sm font-medium mb-2 flex items-center">
-                    <iconify-icon icon="heroicons:information-circle" class="mr-1"></iconify-icon>
-                    Demo Login
-                </h3>
-                <div class="space-y-1 text-sm">
-                    <p class="text-white/70">
-                        <span class="font-medium">Email:</span> pms@powerpro.id
-                    </p>
-                    <p class="text-white/70">
-                        <span class="font-medium">Password:</span> Bismillah
-                    </p>
-                </div>
-            </div>
 
             <!-- Footer -->
             <div class="mt-8 text-center">
