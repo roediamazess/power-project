@@ -28,8 +28,10 @@ const sidebarToggle = document.querySelector(".sidebar-toggle");
 if(sidebarToggle) {
   sidebarToggle.addEventListener("click", function() {
     this.classList.toggle("active");
-    document.querySelector(".sidebar").classList.toggle("active");
-    document.querySelector(".dashboard-main").classList.toggle("active");
+    const sidebarEl = document.querySelector(".sidebar");
+    const dashboardMainEl = document.querySelector(".dashboard-main");
+    if (sidebarEl) sidebarEl.classList.toggle("active");
+    if (dashboardMainEl) dashboardMainEl.classList.toggle("active");
   });
 }
 
@@ -37,7 +39,8 @@ if(sidebarToggle) {
 const sidebarMobileToggle = document.querySelector(".sidebar-mobile-toggle");
 if(sidebarMobileToggle) {
   sidebarMobileToggle.addEventListener("click", function() {
-    document.querySelector(".sidebar").classList.add("sidebar-open");
+    const sidebarEl = document.querySelector(".sidebar");
+    if (sidebarEl) sidebarEl.classList.add("sidebar-open");
     document.body.classList.add("overlay-active");
   });
 }
@@ -46,7 +49,8 @@ if(sidebarMobileToggle) {
 const sidebarColseBtn = document.querySelector(".sidebar-close-btn");
 if(sidebarColseBtn){
   sidebarColseBtn.addEventListener("click", function() {
-    document.querySelector(".sidebar").classList.remove("sidebar-open");
+    const sidebarEl = document.querySelector(".sidebar");
+    if (sidebarEl) sidebarEl.classList.remove("sidebar-open");
     document.body.classList.remove("overlay-active");
   });
 }

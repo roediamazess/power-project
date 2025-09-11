@@ -43,19 +43,9 @@
                 </div>
 
                 <!-- Application Menu Items -->
-                <a href="{{ route('email') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                    <iconify-icon icon="mage:email" class="text-lg"></iconify-icon>
-                    <span>Email</span>
-                </a>
-
                 <a href="{{ route('activity') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
                     <iconify-icon icon="solar:activity-outline" class="text-lg"></iconify-icon>
                     <span>Activity</span>
-                </a>
-
-                <a href="{{ route('chatMessage') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                    <iconify-icon icon="bi:chat-dots" class="text-lg"></iconify-icon>
-                    <span>Chat</span>
                 </a>
 
                 <a href="{{ route('calendarMain') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
@@ -237,17 +227,9 @@
     <!-- Mobile Menu (Hidden by default, can be shown with JavaScript) -->
     <div class="md:hidden hidden bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="{{ route('email') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                <iconify-icon icon="mage:email" class="text-lg"></iconify-icon>
-                <span>Email</span>
-            </a>
             <a href="{{ route('activity') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
                 <iconify-icon icon="solar:activity-outline" class="text-lg"></iconify-icon>
                 <span>Activity</span>
-            </a>
-            <a href="{{ route('chatMessage') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                <iconify-icon icon="bi:chat-dots" class="text-lg"></iconify-icon>
-                <span>Chat</span>
             </a>
             <a href="{{ route('calendarMain') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
                 <iconify-icon icon="solar:calendar-outline" class="text-lg"></iconify-icon>

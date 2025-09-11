@@ -24,7 +24,7 @@
                         <table class="table table-hover mb-0" id="activity-table">
                             <thead class="table-light dark:bg-gray-800 dark:border-gray-700 sticky-header">
                                 <tr>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-8">No</th>
+                                    <th class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-12">No</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Info Date</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">User & Position</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Department</th>
@@ -324,54 +324,38 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
-    /* NO column specific styling - square box with same colors as other columns */
-    .sticky-header th:first-child {
-        border-radius: 0 !important;
+    /* Make all table headers consistent - remove special styling for first column */
+    .sticky-header th {
         border: 2px solid #dee2e6 !important;
-        border-right: none !important;
         background-color: #f8f9fa !important;
-        font-weight: bold;
-        text-align: center !important;
         color: #495057 !important;
     }
-    
-    .dark .sticky-header th:first-child {
+
+    .dark .sticky-header th {
         border: 2px solid #4b5563 !important;
-        border-right: none !important;
         background-color: #374151 !important;
         color: #f8f9fa !important;
     }
-    
-    /* NO column data cells - square box with same colors as other columns */
-    .table tbody tr td:first-child {
-        border-radius: 0 !important;
+
+    /* Make all table cells consistent - uniform border and background */
+    .table tbody tr td {
         border: 1px solid #dee2e6 !important;
-        border-right: none !important;
         background-color: #ffffff !important;
-        text-align: center !important;
-        font-weight: 500;
         color: #495057 !important;
     }
-    
-    .dark .table tbody tr td:first-child {
+
+    .dark .table tbody tr td {
         border: 1px solid #4b5563 !important;
-        border-right: none !important;
         background-color: #1f2937 !important;
         color: #f8f9fa !important;
     }
-    
-    /* Dark mode data cells */
-    .dark .table tbody tr td:first-child {
-        background-color: #1f2937 !important;
-        color: #f8f9fa !important;
-    }
-    
-    /* Hover state for NO column */
-    .table tbody tr:hover td:first-child {
+
+    /* Consistent hover state for all cells */
+    .table tbody tr:hover td {
         background-color: #f8f9fa !important;
     }
-    
-    .dark .table tbody tr:hover td:first-child {
+
+    .dark .table tbody tr:hover td {
         background-color: #374151 !important;
     }
     
@@ -1093,7 +1077,7 @@
                 if (key === 'description' || key === 'action_solution') {
                     cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-left break-words'; // Left align for description and action/solution with word wrapping
                 } else if (key === 'no') {
-                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center w-8'; // Center align for NO column with specific width
+                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center w-12'; // Center align for NO column with increased width
                 } else {
                     cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center'; // Center align for others
                 }
@@ -1128,9 +1112,8 @@
                     cell.textContent = displayValue;
                 }
 
-                // Add text color classes
-                if (colIndex === 0) cell.classList.add('font-medium', 'text-gray-900', 'dark:text-white');
-                else cell.classList.add('text-gray-600', 'dark:text-gray-300');
+                // Add consistent text color classes for all columns
+                cell.classList.add('text-gray-900', 'dark:text-gray-200');
 
                 row.appendChild(cell);
             });
