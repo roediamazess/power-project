@@ -262,7 +262,7 @@
                 <button id="cancel-delete-btn" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 focus:outline-none border border-gray-300 dark:border-gray-500">
                     Cancel (N)
                 </button>
-                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-800 dark:bg-red-900 text-white dark:text-white rounded-md hover:bg-red-900 dark:hover:bg-red-800 focus:outline-none border-4 border-red-900 dark:border-red-950 font-black shadow-2xl ring-4 ring-red-600 dark:ring-red-700 transform scale-105">
+                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 dark:bg-red-700 text-white dark:text-white rounded-md hover:bg-red-700 dark:hover:bg-red-600 focus:outline-none border border-red-500 dark:border-red-600">
                     Yes, Delete (Y)
                 </button>
             </div>

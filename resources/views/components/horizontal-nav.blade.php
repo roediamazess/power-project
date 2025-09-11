@@ -48,40 +48,6 @@
                     <span>Activity</span>
                 </a>
 
-                <a href="{{ route('calendarMain') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                    <iconify-icon icon="solar:calendar-outline" class="text-lg"></iconify-icon>
-                    <span>Calendar</span>
-                </a>
-
-                <a href="{{ route('kanban') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                    <iconify-icon icon="material-symbols:map-outline" class="text-lg"></iconify-icon>
-                    <span>Kanban</span>
-                </a>
-
-                <!-- Invoice Dropdown -->
-                <div class="relative group">
-                    <button class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                        <iconify-icon icon="hugeicons:invoice-03" class="text-lg"></iconify-icon>
-                        <span>Invoice</span>
-                        <iconify-icon icon="heroicons:chevron-down-20-solid" class="text-xs"></iconify-icon>
-                    </button>
-                    <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-neutral-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-neutral-200 dark:border-neutral-700">
-                        <div class="py-1">
-                            <a href="{{ route('invoiceList') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                                <i class="ri-circle-fill text-primary-600"></i>
-                                <span>List</span>
-                            </a>
-                            <a href="{{ route('invoicePreview') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                                <i class="ri-circle-fill text-warning-600"></i>
-                                <span>Preview</span>
-                            </a>
-                            <a href="{{ route('invoiceAdd') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                                <i class="ri-circle-fill text-info-600"></i>
-                                <span>Add new</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Components Dropdown (from Sidebar) -->
                 <div class="relative group">
@@ -117,22 +83,6 @@
                     </div>
                 </div>
 
-                <!-- Forms Dropdown -->
-                <div class="relative group">
-                    <button class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                        <iconify-icon icon="heroicons:document" class="text-lg"></iconify-icon>
-                        <span>Forms</span>
-                        <iconify-icon icon="heroicons:chevron-down-20-solid" class="text-xs"></iconify-icon>
-                    </button>
-                    <div class="absolute left-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-neutral-200 dark:border-neutral-700 dropdown-menu">
-                        <div class="py-1">
-                            <a href="{{ route('form') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Input Forms</span></a>
-                            <a href="{{ route('formLayout') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Input Layout</span></a>
-                            <a href="{{ route('formValidation') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Form Validation</span></a>
-                            <a href="{{ route('wizard') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Form Wizard</span></a>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Tables Dropdown -->
                 <div class="relative group">
@@ -171,25 +121,6 @@
                     <span>Widgets</span>
                 </a>
 
-                <!-- Settings Dropdown -->
-                <div class="relative group">
-                    <button class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                        <iconify-icon icon="icon-park-outline:setting-two" class="text-lg"></iconify-icon>
-                        <span>Settings</span>
-                        <iconify-icon icon="heroicons:chevron-down-20-solid" class="text-xs"></iconify-icon>
-                    </button>
-                    <div class="absolute left-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-neutral-200 dark:border-neutral-700 dropdown-menu">
-                        <div class="py-1">
-                            <a href="{{ route('company') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Company</span></a>
-                            <a href="{{ route('notification') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Notification</span></a>
-                            <a href="{{ route('notificationAlert') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Notification Alert</span></a>
-                            <a href="{{ route('theme') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Theme</span></a>
-                            <a href="{{ route('currencies') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Currencies</span></a>
-                            <a href="{{ route('language') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Languages</span></a>
-                            <a href="{{ route('paymentGateway') }}" class="flex items-center space-x-3 px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700"><span>Payment Gateway</span></a>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Right Side Items -->
@@ -230,10 +161,6 @@
             <a href="{{ route('activity') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
                 <iconify-icon icon="solar:activity-outline" class="text-lg"></iconify-icon>
                 <span>Activity</span>
-            </a>
-            <a href="{{ route('calendarMain') }}" class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700">
-                <iconify-icon icon="solar:calendar-outline" class="text-lg"></iconify-icon>
-                <span>Calendar</span>
             </a>
         </div>
     </div>

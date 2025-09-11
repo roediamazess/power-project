@@ -1,5 +1,41 @@
 # PowerPro - Version History
 
+## Version 1.2.0 - Horizontal Navigation Cleanup
+**Date:** 2025-09-12 01:30:00
+
+### 🎯 **Changes Made:**
+
+#### **Horizontal Navigation Updates:**
+- ✅ **Removed Menu Items** - Cleaned up horizontal navigation by removing:
+  - Calendar (main menu and mobile menu)
+  - Kanban (main menu)
+  - Invoice dropdown (with all submenu: List, Preview, Add new)
+  - Forms dropdown (with all submenu: Input Forms, Input Layout, Form Validation, Form Wizard)
+  - Settings dropdown (with all submenu: Company, Notification, Notification Alert, Theme, Currencies, Languages, Payment Gateway)
+
+#### **UI/UX Improvements:**
+- ✅ **Delete Modal Button** - Fixed styling for "Yes, Delete (Y)" button in activity delete confirmation modal
+- ✅ **Password System** - Fixed bcrypt algorithm error for user authentication
+- ✅ **Database Recovery** - Restored user data after PostgreSQL volume corruption
+
+#### **Technical Fixes:**
+- ✅ **Database Connection** - Fixed PostgreSQL connection issues in Docker environment
+- ✅ **Password Hashing** - Corrected password storage format for proper authentication
+- ✅ **Container Management** - Resolved Docker volume corruption and container restart issues
+
+### 📋 **Files Modified:**
+- `resources/views/components/horizontal-nav.blade.php` - Removed specified menu items
+- `resources/views/activity/index.blade.php` - Fixed delete modal button styling
+- Database migrations and user data restoration
+
+### 🚀 **Impact:**
+- Cleaner, more focused horizontal navigation
+- Improved user experience with better modal styling
+- Stable authentication system
+- Reliable database operations
+
+---
+
 ## Version 1.1.0 - Menu Optimization Update
 **Date:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
 
