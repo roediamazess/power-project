@@ -9,9 +9,14 @@
     transition: all 0.3s ease;
 }
 
+/* Ensure page content sits below the fixed horizontal navbar */
+.dashboard-main {
+    padding-top: 60px; /* match nav height (h-30) */
+}
+
 .main-content {
-    margin-top: 64px; /* Height of horizontal navbar */
-    min-height: calc(100vh - 64px);
+    margin-top: 60px; /* Height of horizontal navbar */
+    min-height: calc(100vh - 60px);
     transition: margin-top 0.3s ease;
 }
 

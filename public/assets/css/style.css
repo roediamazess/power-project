@@ -6346,13 +6346,6 @@ svg.radial-progress text.percentage {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-.\[a-zA-Z0-9\:_\\-\.\]{
-  a-z-a--z0-9: \-.;
-}
-
-.\[a-zA-Z\:_\]{
-  a-z-a--z: ;
-}
 span, a{
   display: inline-block;
 }
@@ -7006,6 +6999,50 @@ h6, .h6 {
 }
 
 /* === Logo Animation CSS End === */
+/* === horizontal navigation css start === */
+.horizontal-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .horizontal-navbar {
+  background: #1f2937;
+  border-bottom-color: #374151;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.nav-link {
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover {
+  background-color: #f3f4f6;
+}
+
+.dark .nav-link:hover {
+  background-color: #374151;
+}
+
+/* Mobile menu styles */
+.horizontal-navbar .md\\:hidden {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .horizontal-navbar .hidden {
+    display: block;
+  }
+  .horizontal-navbar .md\\:flex {
+    display: none;
+  }
+}
+
+/* === horizontal navigation css end === */
+
 /* === dashboard body css start === */
 .dashboard-main{
   margin-inline-start: 0px;
@@ -7019,21 +7056,6 @@ h6, .h6 {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
-@media (min-width: 1200px){
-  .dashboard-main{
-    margin-inline-start: 13.75rem;
-  }
-}
-@media (min-width: 1400px){
-  .dashboard-main{
-    margin-inline-start: 17.1875rem;
-  }
-}
-@media (min-width: 1650px){
-  .dashboard-main{
-    margin-inline-start: 19.5rem;
-  }
-}
 
 .dashboard-main-body {
   padding: 0.9375rem;
@@ -7043,10 +7065,6 @@ h6, .h6 {
   .dashboard-main-body{
     padding: 1.5rem;
   }
-}
-
-.dashboard-main.active{
-  margin-inline-start: 5.375rem;
 }
 
 /* === dashboard body css end === */
