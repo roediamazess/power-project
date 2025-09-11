@@ -16,33 +16,14 @@
                             <p class="text-sm text-neutral-500 dark:text-neutral-400">Complete list of users with their information</p>
                         </div>
                         <div class="bulk-actions">
-                            <button class="btn btn-primary btn-sm" onclick="toggleEditMode()" id="edit-mode-btn">
-                                <i class="ri-edit-line"></i> Edit Mode
-                            </button>
-                            <button class="btn btn-success btn-sm" onclick="saveAllUsers()" id="save-all-btn" style="display: none;">
-                                <i class="ri-save-line"></i> Save All
-                            </button>
-                            <button class="btn btn-secondary btn-sm" onclick="cancelAllEdits()" id="cancel-all-btn" style="display: none;">
-                                <i class="ri-close-line"></i> Cancel All
-                            </button>
+                            <!-- Bulk actions removed - using modal edit instead -->
                         </div>
                     </div>
                 </div>
                 
-                <!-- Keyboard Instructions -->
-                <div class="keyboard-instructions" id="keyboard-instructions" style="display: none;">
-                    <h6>📝 Excel-like Keyboard Navigation</h6>
-                    <ul>
-                        <li><strong>F2</strong> - Edit current field</li>
-                        <li><strong>Arrow Keys</strong> - Navigate between fields and rows</li>
-                        <li><strong>Enter</strong> - Save current field and move to next</li>
-                        <li><strong>Escape</strong> - Cancel current edit</li>
-                        <li><strong>Tab</strong> - Move to next field</li>
-                    </ul>
-                </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table border-0 mb-0">
+                        <table class="table-users-clean w-full">
                             <thead>
                                 <tr>
                                     <th class="!rounded-s-none">#</th>
@@ -59,15 +40,14 @@
                             </thead>
                             <tbody>
                                 @foreach($users as $index => $user)
-                                <tr id="user-row-{{ $index }}" class="user-row">
+                                <tr id="user-row-{{ $index }}" class="user-row" data-user-id="{{ $user->id }}" data-user-email="{{ $user->email }}">
                                     <td class="fw-semibold">{{ $index + 1 }}</td>
                                     <td>
                                         <span class="fw-semibold text-muted">{{ $user->display_name }}</span>
                                         <small class="text-muted d-block">(Read Only)</small>
                                     </td>
                                     <td>
-                                        <span class="display-field" data-field="full_name">{{ $user->full_name }}</span>
-                                        <input type="text" class="form-control edit-field" value="{{ $user->full_name }}" style="display: none;" data-field="full_name">
+                                        <span class="text-gray-900 dark:text-white">{{ $user->full_name }}</span>
                                     </td>
                                     <td>
                                         <span class="text-muted">
@@ -75,52 +55,31 @@
                                                 {{ $user->email }}
                                             </a>
                                         </span>
-                                        <small class="text-muted d-block">(Read Only)</small>
                                     </td>
                                     <td>
-                                        <span class="display-field text-muted text-sm" data-field="password">••••••••</span>
-                                        <input type="password" class="form-control edit-field" placeholder="Enter new password" style="display: none;" data-field="password">
+                                        <span class="text-muted text-sm">••••••••</span>
                                     </td>
                                     <td>
-                                        <span class="display-field badge bg-success-100 text-success-600 dark:bg-success-900 dark:text-success-400" data-field="tier">
+                                        <span class="badge bg-success-100 text-success-600 dark:bg-success-900 dark:text-success-400 px-2 py-1 rounded">
                                             {{ $user->tier }}
                                         </span>
-                                        <select class="form-control edit-field" style="display: none;" data-field="tier">
-                                            <option value="New Born" {{ $user->tier == 'New Born' ? 'selected' : '' }}>New Born</option>
-                                            <option value="Tier 1" {{ $user->tier == 'Tier 1' ? 'selected' : '' }}>Tier 1</option>
-                                            <option value="Tier 2" {{ $user->tier == 'Tier 2' ? 'selected' : '' }}>Tier 2</option>
-                                            <option value="Tier 3" {{ $user->tier == 'Tier 3' ? 'selected' : '' }}>Tier 3</option>
-                                        </select>
                                     </td>
                                     <td>
-                                        <span class="display-field badge bg-info-100 text-info-600 dark:bg-info-900 dark:text-info-400" data-field="user_role">
+                                        <span class="badge bg-info-100 text-info-600 dark:bg-info-900 dark:text-info-400 px-2 py-1 rounded">
                                             {{ $user->user_role }}
                                         </span>
-                                        <select class="form-control edit-field" style="display: none;" data-field="user_role">
-                                            <option value="Administrator" {{ $user->user_role == 'Administrator' ? 'selected' : '' }}>Administrator</option>
-                                            <option value="Admin Officer" {{ $user->user_role == 'Admin Officer' ? 'selected' : '' }}>Admin Officer</option>
-                                            <option value="User" {{ $user->user_role == 'User' ? 'selected' : '' }}>User</option>
-                                            <option value="Client" {{ $user->user_role == 'Client' ? 'selected' : '' }}>Client</option>
-                                        </select>
                                     </td>
                                     <td>
-                                        <span class="display-field" data-field="start_work">{{ $user->start_work ? \Carbon\Carbon::parse($user->start_work)->format('d/m/Y') : '-' }}</span>
-                                        <input type="date" class="form-control edit-field" value="{{ $user->start_work ? \Carbon\Carbon::parse($user->start_work)->format('Y-m-d') : '' }}" style="display: none;" data-field="start_work">
+                                        <span class="text-gray-900 dark:text-white">{{ $user->start_work ? \Carbon\Carbon::parse($user->start_work)->format('d/m/Y') : '-' }}</span>
                                     </td>
                                     <td>
-                                        <span class="display-field" data-field="birthday">{{ $user->birthday ? \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') : '-' }}</span>
-                                        <input type="date" class="form-control edit-field" value="{{ $user->birthday ? \Carbon\Carbon::parse($user->birthday)->format('Y-m-d') : '' }}" style="display: none;" data-field="birthday">
+                                        <span class="text-gray-900 dark:text-white">{{ $user->birthday ? \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') : '-' }}</span>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn btn-sm btn-primary edit-btn" onclick="editUser({{ $index }})" style="display: none;">
-                                                <i class="ri-edit-line"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-success save-btn" onclick="saveUser({{ $index }})" style="display: none;">
-                                                <i class="ri-save-line"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-secondary cancel-btn" onclick="cancelEdit({{ $index }})" style="display: none;">
-                                                <i class="ri-close-line"></i>
+                                            <!-- Modal Edit Button -->
+                                            <button class="btn btn-sm btn-info" onclick="openEditModal({{ $index }})" title="Edit User">
+                                                <i class="ri-edit-box-line"></i> Edit
                                             </button>
                                         </div>
                                     </td>
@@ -173,95 +132,377 @@
         </div>
     </div>
 
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    <i class="ri-edit-line mr-2"></i>Edit User
+                </h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="ri-close-line text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <form id="editUserForm" class="space-y-6">
+                    <input type="hidden" id="editUserId" name="id">
+
+                    <!-- Display Name (Read Only) -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Display Name
+                        </label>
+                        <input type="text" id="editDisplayName" name="display_name"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                               readonly>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Display name cannot be changed</p>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Full Name *
+                        </label>
+                        <input type="text" id="editFullName" name="full_name"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                               placeholder="Enter full name" required>
+                    </div>
+
+                    <!-- Email (Read Only) -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Email Address
+                        </label>
+                        <input type="email" id="editEmail" name="email"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                               readonly>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Email address cannot be changed</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            New Password
+                        </label>
+                        <input type="password" id="editPassword" name="password"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                               placeholder="Leave empty to keep current password">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Leave empty if you don't want to change the password</p>
+                    </div>
+
+                    <!-- Tier -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Tier *
+                        </label>
+                        <select id="editTier" name="tier"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                            <option value="New Born">New Born</option>
+                            <option value="Tier 1">Tier 1</option>
+                            <option value="Tier 2">Tier 2</option>
+                            <option value="Tier 3">Tier 3</option>
+                        </select>
+                    </div>
+
+                    <!-- User Role -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            User Role *
+                        </label>
+                        <select id="editUserRole" name="user_role"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" required>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Admin Officer">Admin Officer</option>
+                            <option value="User">User</option>
+                            <option value="Client">Client</option>
+                        </select>
+                    </div>
+
+                    <!-- Start Work Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Start Work Date
+                        </label>
+                        <input type="date" id="editStartWork" name="start_work"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+
+                    <!-- Birthday -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Birthday
+                        </label>
+                        <input type="date" id="editBirthday" name="birthday"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+                <button onclick="closeEditModal()"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
+                    Cancel
+                </button>
+                <button onclick="saveUserModal()"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
+                    <i class="ri-save-line mr-2"></i>Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
 @push('styles')
 <style>
-.user-row.editing {
-    background-color: rgba(59, 130, 246, 0.1) !important;
-    border-left: 4px solid #3b82f6;
+/* Clean table styling */
+.table-users-clean {
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-.edit-field {
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.375rem;
-    background-color: white;
+.table-users-clean th {
+    background-color: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
     color: #374151;
+    padding: 1rem;
+    text-align: left;
 }
 
-.dark .edit-field {
-    background-color: #374151;
-    border-color: #4b5563;
+.dark .table-users-clean th {
+    background-color: #1f2937;
+    border-bottom-color: #374151;
     color: #f9fafb;
 }
 
-.bulk-actions {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.form-check-input {
-    width: 1.25rem;
-    height: 1.25rem;
-    cursor: pointer;
-}
-
-.form-check-input:checked {
-    background-color: #3b82f6;
-    border-color: #3b82f6;
-}
-
-/* Excel-like highlighting */
-.excel-highlight {
-    background-color: #3b82f6 !important;
-    color: white !important;
-    box-shadow: 0 0 0 2px #1d4ed8 !important;
-    outline: none !important;
-}
-
-.excel-highlight::placeholder {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-/* Focus styles for better visibility */
-.edit-field:focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
-    outline: none !important;
-}
-
-/* Instructions for keyboard shortcuts */
-.keyboard-instructions {
-    background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.5rem;
+.table-users-clean td {
     padding: 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-    color: #64748b;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
 }
 
-.keyboard-instructions h6 {
-    color: #1e293b;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+.dark .table-users-clean td {
+    border-bottom-color: #374151;
 }
 
-.keyboard-instructions ul {
-    margin: 0;
-    padding-left: 1.5rem;
+.table-users-clean tbody tr:hover {
+    background-color: #f9fafb;
 }
 
-.keyboard-instructions li {
-    margin-bottom: 0.25rem;
+.dark .table-users-clean tbody tr:hover {
+    background-color: #111827;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content.closing {
+    animation: modalSlideOut 0.2s ease-in forwards;
+}
+
+@keyframes modalSlideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
 }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+// Modal Functions
+function openEditModal(rowIndex) {
+    // Find user data from the table using row index
+    const userRow = document.querySelector(`#user-row-${rowIndex}`);
+    if (!userRow) return;
+
+    // Get actual user ID from data attribute
+    const userId = userRow.getAttribute('data-user-id');
+    const userEmail = userRow.getAttribute('data-user-email');
+
+    // Get user data from table cells
+    const displayName = userRow.querySelector('td:nth-child(2) span')?.textContent?.trim() || '';
+    const fullName = userRow.querySelector('td:nth-child(3) span')?.textContent?.trim() || '';
+    const email = userRow.querySelector('td:nth-child(4) a')?.textContent?.trim() || '';
+    const tier = userRow.querySelector('td:nth-child(6) span')?.textContent?.trim() || '';
+    const userRole = userRow.querySelector('td:nth-child(7) span')?.textContent?.trim() || '';
+
+    // Get date values and convert format
+    const startWorkText = userRow.querySelector('td:nth-child(8) span')?.textContent?.trim() || '';
+    const birthdayText = userRow.querySelector('td:nth-child(9) span')?.textContent?.trim() || '';
+
+    const startWork = startWorkText && startWorkText !== '-' ? convertDateFormat(startWorkText) : '';
+    const birthday = birthdayText && birthdayText !== '-' ? convertDateFormat(birthdayText) : '';
+
+    // Populate modal form with actual user ID
+    document.getElementById('editUserId').value = userId;
+    document.getElementById('editDisplayName').value = displayName;
+    document.getElementById('editFullName').value = fullName;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editTier').value = tier;
+    document.getElementById('editUserRole').value = userRole;
+    document.getElementById('editStartWork').value = startWork;
+    document.getElementById('editBirthday').value = birthday;
+
+    // Show modal
+    const modal = document.getElementById('editUserModal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Focus on first editable field
+    setTimeout(() => {
+        document.getElementById('editFullName').focus();
+    }, 100);
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editUserModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function saveUserModal() {
+    const form = document.getElementById('editUserForm');
+    const formData = new FormData(form);
+
+    // Validate required fields
+    const fullName = formData.get('full_name')?.trim();
+    const tier = formData.get('tier');
+    const userRole = formData.get('user_role');
+
+    if (!fullName || !tier || !userRole) {
+        showNotification('Please fill in all required fields (Full Name, Tier, User Role)', 'error');
+        return;
+    }
+
+    // Show loading state
+    const saveBtn = document.querySelector('#editUserModal button[onclick="saveUserModal()"]');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<i class="ri-loader-4-line animate-spin mr-2"></i>Saving...';
+    saveBtn.disabled = true;
+
+    // Prepare data for API
+    const userData = {
+        id: formData.get('id'),
+        full_name: fullName,
+        tier: tier,
+        user_role: userRole,
+        start_work: formData.get('start_work') || null,
+        birthday: formData.get('birthday') || null
+    };
+
+    // Add password only if provided
+    const password = formData.get('password')?.trim();
+    if (password) {
+        userData.password = password;
+    }
+
+    // Debug: Log the data being sent
+    console.log('Sending user data:', userData);
+
+    // Send to API
+    fetch('/api/update-user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.success) {
+            showNotification('User updated successfully!', 'success');
+            closeEditModal();
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            throw new Error(data.message || 'Failed to update user');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Failed to update user: ' + error.message, 'error');
+    })
+    .finally(() => {
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+    });
+}
+
+// Utility Functions
+function convertDateFormat(dateString) {
+    if (!dateString || dateString === '-') return '';
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+    }
+    return dateString;
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.innerHTML = `
+        <div class="flex items-center">
+            <i class="ri-${type === 'success' ? 'check' : type === 'error' ? 'error-warning' : 'information'}-line mr-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Close modal when clicking outside
+    document.getElementById('editUserModal')?.addEventListener('click', function(e) {
+        if (e.target === this) closeEditModal();
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('editUserModal').style.display === 'flex') {
+            closeEditModal();
+        }
+    });
+});
+</script>
 @endpush
 

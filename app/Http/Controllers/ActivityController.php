@@ -148,3 +148,4 @@ class ActivityController extends Controller
         ]);
     }
 }
+

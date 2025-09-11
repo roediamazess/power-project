@@ -11,13 +11,33 @@ class UserController extends Controller
     public function updateUser(Request $request)
     {
         try {
-            $userId = $request->input('user_id');
+            // Debug: Log all incoming data
+            \Log::info('UpdateUser Request Data:', $request->all());
+
+            $userId = $request->input('id'); // Changed from 'user_id' to 'id'
             $fullName = $request->input('full_name');
             $password = $request->input('password');
             $tier = $request->input('tier');
             $userRole = $request->input('user_role');
             $startWork = $request->input('start_work');
             $birthday = $request->input('birthday');
+
+            \Log::info('Parsed data:', [
+                'userId' => $userId,
+                'fullName' => $fullName,
+                'tier' => $tier,
+                'userRole' => $userRole,
+                'startWork' => $startWork,
+                'birthday' => $birthday
+            ]);
+
+            // Validate required fields
+            if (empty($fullName) || empty($tier) || empty($userRole)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Full Name, Tier, and User Role are required fields!'
+                ], 400);
+            }
 
             // Prepare update data
             $updateData = [
@@ -34,12 +54,16 @@ class UserController extends Controller
                 $updateData['password'] = Hash::make($password);
             }
 
-            // Update user in database
+            \Log::info('Update data prepared:', $updateData);
+
+            // Update user in database using ID instead of email
             $result = DB::table('users')
-                ->where('email', $userId)
+                ->where('id', $userId)
                 ->update($updateData);
 
-            if ($result) {
+            \Log::info('Database update result:', ['result' => $result]);
+
+            if ($result > 0) {
                 return response()->json([
                     'success' => true,
                     'message' => 'User updated successfully!'
@@ -52,6 +76,7 @@ class UserController extends Controller
             }
 
         } catch (\Exception $e) {
+            \Log::error('UpdateUser Error:', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => 'Error updating user: ' . $e->getMessage()

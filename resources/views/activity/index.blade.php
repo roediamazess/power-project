@@ -17,7 +17,8 @@
                 <!-- Instructions -->
                 <div class="p-4 bg-light border-bottom">
                     <p class="text-sm text-muted mb-0">
-                        <b>Aksi:</b> Edit (Enter/F2), Hapus (Del), Modal (Ctrl+Klik). | <b>Simpan:</b> Enter/Tab.
+                        <b>Aksi:</b> Edit (Enter/F2), Hapus (Del), Modal (Ctrl+Klik). | <b>Simpan:</b> Enter/Tab.<br>
+                        <b>Catatan:</b> CNC Number & Project ID dapat diedit melalui Modal (Ctrl+Klik).
                     </p>
                 </div>
 
@@ -26,18 +27,16 @@
                         <table class="table table-hover mb-0" id="activity-table">
                             <thead class="table-light dark:bg-gray-800 dark:border-gray-700">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-12">No</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-24">Information Date</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User & Position</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Department</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Application</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Action / Solution</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Status</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-24">Due Date</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">CNC Number</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Project ID</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-10">No</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Info Date</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">User & Position</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Department</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Application</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Type</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-64">Description</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-64">Action / Solution</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Status</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Due Date</th>
                                 </tr>
                             </thead>
                             <tbody id="data-table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -235,18 +234,28 @@
     }
 
     .editing-cell input,
-    .editing-cell select {
+    .editing-cell select,
+    .editing-cell textarea {
         width: 100%;
-        height: 100%;
         border: none;
         outline: none;
         padding: 0.75rem 1rem;
         box-sizing: border-box;
         background: white;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #111827;
+    }
+
+    .editing-cell textarea {
+        resize: vertical;
+        min-height: 60px;
+        height: auto;
     }
 
     .dark .editing-cell input,
-    .dark .editing-cell select {
+    .dark .editing-cell select,
+    .dark .editing-cell textarea {
         background: #374151;
         color: white;
     }
@@ -309,6 +318,48 @@
     #activity-table tbody td {
         vertical-align: middle;
     }
+
+    /* Make table responsive and fit within viewport */
+    #activity-table {
+        min-width: 1100px;
+        table-layout: fixed;
+    }
+
+    /* Allow text wrapping in description and action/solution columns */
+    #activity-table tbody td[data-col="6"],
+    #activity-table tbody td[data-col="7"] {
+        white-space: normal !important;
+        word-wrap: break-word;
+        vertical-align: top;
+        min-height: 3rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    /* Adjust table container for better fit */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Optimize table header styling */
+    #activity-table thead th {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        vertical-align: top;
+    }
+
+    /* Allow table rows to have variable heights */
+    #activity-table tbody tr {
+        height: auto;
+    }
+
+    /* Ensure table fits better on screen */
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 </style>
 @endpush
 
@@ -333,16 +384,18 @@
     let selectedCoords = { row: 0, col: 0 };
     let isEditing = false;
     let deleteModalFocusedButton = 'confirm';
-    // Updated column order: No, Information Date, User & Position, Department, Application, Type, Description, Action/Solution, Status, Completed Date, CNC Number, Project ID
-    const columnKeys = ['no', 'information_date', 'user_position', 'department', 'application', 'type', 'description', 'action_solution', 'status', 'due_date', 'cnc_number', 'project_id'];
-    const editableCols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]; // All columns except Activity ID (hidden)
+    // Updated column order: No, Information Date, User & Position, Department, Application, Type, Description, Action/Solution, Status, Due Date
+    const columnKeys = ['no', 'information_date', 'user_position', 'department', 'application', 'type', 'description', 'action_solution', 'status', 'due_date'];
+    const editableCols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // All visible columns except Activity ID (hidden)
 
     // Date formatting function
     function formatDate(dateString) {
         if (!dateString) return '';
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = monthNames[date.getMonth()];
         const year = String(date.getFullYear()).slice(-2);
         return `${day}-${month}-${year}`;
     }
@@ -350,7 +403,11 @@
     function parseDate(dateString) {
         if (!dateString) return '';
         const [day, month, year] = dateString.split('-');
-        return `20${year}-${month}-${day}`;
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const monthIndex = monthNames.indexOf(month);
+        const monthNum = String(monthIndex + 1).padStart(2, '0');
+        return `20${year}-${monthNum}-${day}`;
     }
 
     // --- AJAX FUNCTIONS ---
@@ -374,26 +431,34 @@
 
     async function saveActivity(activityData) {
         try {
+            console.log('🔄 Saving activity with data:', activityData);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            console.log('🔑 CSRF Token:', csrfToken ? 'Found' : 'NOT FOUND');
+
             const response = await fetch('/api/activities', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'X-CSRF-TOKEN': csrfToken || ''
                 },
                 body: JSON.stringify(activityData)
             });
+
+            console.log('📡 Response status:', response.status);
             const result = await response.json();
+            console.log('📋 Response data:', result);
+
             if (result.success) {
-                console.log('Activity saved:', result.data);
+                console.log('✅ Activity saved:', result.data);
                 showNotification('Activity saved successfully', 'success');
                 return result.data;
             } else {
-                console.error('Failed to save activity:', result.message);
+                console.error('❌ Failed to save activity:', result.message);
                 showNotification('Failed to save activity: ' + result.message, 'error');
                 return null;
             }
         } catch (error) {
-            console.error('Error saving activity:', error);
+            console.error('💥 Error saving activity:', error);
             showNotification('Error saving activity', 'error');
             return null;
         }
@@ -401,26 +466,34 @@
 
     async function updateActivity(id, activityData) {
         try {
+            console.log('🔄 Updating activity ID:', id, 'with data:', activityData);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            console.log('🔑 CSRF Token:', csrfToken ? 'Found' : 'NOT FOUND');
+
             const response = await fetch(`/api/activities/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'X-CSRF-TOKEN': csrfToken || ''
                 },
                 body: JSON.stringify(activityData)
             });
+
+            console.log('📡 Response status:', response.status);
             const result = await response.json();
+            console.log('📋 Response data:', result);
+
             if (result.success) {
-                console.log('Activity updated:', result.data);
+                console.log('✅ Activity updated:', result.data);
                 showNotification('Activity updated successfully', 'success');
                 return result.data;
             } else {
-                console.error('Failed to update activity:', result.message);
+                console.error('❌ Failed to update activity:', result.message);
                 showNotification('Failed to update activity: ' + result.message, 'error');
                 return null;
             }
         } catch (error) {
-            console.error('Error updating activity:', error);
+            console.error('💥 Error updating activity:', error);
             showNotification('Error updating activity', 'error');
             return null;
         }
@@ -454,7 +527,24 @@
     function showNotification(message, type = 'info') {
         // Simple notification system - you can enhance this
         console.log(`${type.toUpperCase()}: ${message}`);
-        // For now, just log to console. You can implement a proper notification system
+
+        // Create a simple notification element
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 px-4 py-2 rounded-md text-white text-sm font-medium z-50 ${
+            type === 'success' ? 'bg-green-500' :
+            type === 'error' ? 'bg-red-500' :
+            'bg-blue-500'
+        }`;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
     }
 
     // --- FUNGSI MODAL ---
@@ -618,9 +708,9 @@
 
                 // Set alignment and styling based on column
                 if (key === 'description' || key === 'action_solution') {
-                    cell.className = 'px-4 py-4 text-sm text-gray-900 dark:text-gray-200 text-left'; // Left align for description and action/solution
+                    cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-left break-words'; // Left align for description and action/solution with word wrapping
                 } else {
-                    cell.className = 'px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center'; // Center align for others
+                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center'; // Center align for others
                 }
 
                 // Format dates to dd-mm-yy
@@ -692,10 +782,12 @@
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Power FO" ${originalValue === 'Power FO' ? 'selected' : ''}>Power FO</option><option value="My POS" ${originalValue === 'My POS' ? 'selected' : ''}>My POS</option><option value="My MGR" ${originalValue === 'My MGR' ? 'selected' : ''}>My MGR</option><option value="Power AR" ${originalValue === 'Power AR' ? 'selected' : ''}>Power AR</option><option value="Power INV" ${originalValue === 'Power INV' ? 'selected' : ''}>Power INV</option><option value="Power AP" ${originalValue === 'Power AP' ? 'selected' : ''}>Power AP</option><option value="Power GL" ${originalValue === 'Power GL' ? 'selected' : ''}>Power GL</option><option value="Keylock" ${originalValue === 'Keylock' ? 'selected' : ''}>Keylock</option><option value="PABX" ${originalValue === 'PABX' ? 'selected' : ''}>PABX</option><option value="DIM" ${originalValue === 'DIM' ? 'selected' : ''}>DIM</option><option value="Dynamic Room Rate" ${originalValue === 'Dynamic Room Rate' ? 'selected' : ''}>Dynamic Room Rate</option><option value="Channel Manager" ${originalValue === 'Channel Manager' ? 'selected' : ''}>Channel Manager</option><option value="PB1" ${originalValue === 'PB1' ? 'selected' : ''}>PB1</option><option value="Power SIGN" ${originalValue === 'Power SIGN' ? 'selected' : ''}>Power SIGN</option><option value="Multi Properties" ${originalValue === 'Multi Properties' ? 'selected' : ''}>Multi Properties</option><option value="Scanner ID" ${originalValue === 'Scanner ID' ? 'selected' : ''}>Scanner ID</option><option value="IPOS" ${originalValue === 'IPOS' ? 'selected' : ''}>IPOS</option><option value="Power Runner" ${originalValue === 'Power Runner' ? 'selected' : ''}>Power Runner</option><option value="Power RA" ${originalValue === 'Power RA' ? 'selected' : ''}>Power RA</option><option value="Power ME" ${originalValue === 'Power ME' ? 'selected' : ''}>Power ME</option><option value="ECOS" ${originalValue === 'ECOS' ? 'selected' : ''}>ECOS</option><option value="Cloud WS" ${originalValue === 'Cloud WS' ? 'selected' : ''}>Cloud WS</option><option value="Power GO" ${originalValue === 'Power GO' ? 'selected' : ''}>Power GO</option><option value="Dashpad" ${originalValue === 'Dashpad' ? 'selected' : ''}>Dashpad</option><option value="IPTV" ${originalValue === 'IPTV' ? 'selected' : ''}>IPTV</option><option value="HSIA" ${originalValue === 'HSIA' ? 'selected' : ''}>HSIA</option><option value="SGI" ${originalValue === 'SGI' ? 'selected' : ''}>SGI</option><option value="Guest Survey" ${originalValue === 'Guest Survey' ? 'selected' : ''}>Guest Survey</option><option value="Loyalty Management" ${originalValue === 'Loyalty Management' ? 'selected' : ''}>Loyalty Management</option><option value="AccPac" ${originalValue === 'AccPac' ? 'selected' : ''}>AccPac</option><option value="GL Consolidation" ${originalValue === 'GL Consolidation' ? 'selected' : ''}>GL Consolidation</option><option value="Self Check In" ${originalValue === 'Self Check In' ? 'selected' : ''}>Self Check In</option><option value="Check In Desk" ${originalValue === 'Check In Desk' ? 'selected' : ''}>Check In Desk</option><option value="Others" ${originalValue === 'Others' ? 'selected' : ''}>Others</option></select>`;
         } else if (key === 'type') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Setup" ${originalValue === 'Setup' ? 'selected' : ''}>Setup</option><option value="Question" ${originalValue === 'Question' ? 'selected' : ''}>Question</option><option value="Issue" ${originalValue === 'Issue' ? 'selected' : ''}>Issue</option><option value="Report Issue" ${originalValue === 'Report Issue' ? 'selected' : ''}>Report Issue</option><option value="Report Request" ${originalValue === 'Report Request' ? 'selected' : ''}>Report Request</option><option value="Feature Request" ${originalValue === 'Feature Request' ? 'selected' : ''}>Feature Request</option></select>`;
+        } else if (key === 'description' || key === 'action_solution') {
+            cell.innerHTML = `<textarea rows="3" class="focus:ring-2 focus:ring-blue-400 w-full resize-none" style="min-height: 60px;">${originalValue}</textarea>`;
         } else {
             cell.innerHTML = `<input type="text" value="${originalValue}" class="focus:ring-2 focus:ring-blue-400">`;
         }
-        const input = cell.querySelector('input, select');
+        const input = cell.querySelector('input, select, textarea');
         input.focus();
         
         const saveAndExit = async (moveSelectionDown = false) => {
@@ -704,25 +796,37 @@
             const newValue = input.value;
             const oldValue = data[rowIndex][key];
 
+            console.log('💾 Inline edit save triggered:', {
+                rowIndex,
+                colIndex,
+                key,
+                oldValue,
+                newValue,
+                hasId: data[rowIndex] && data[rowIndex].id
+            });
+
             // Only save if value changed
             if (newValue !== oldValue) {
                 const updateData = { [key]: newValue };
 
                 if (data[rowIndex] && data[rowIndex].id) {
                     // Update existing activity
+                    console.log('📝 Updating existing activity via inline edit');
                     const result = await updateActivity(data[rowIndex].id, updateData);
                     if (result) {
                         data[rowIndex][key] = newValue;
-                        console.log('Inline edit saved for row', rowIndex, 'col', colIndex, 'value:', newValue);
+                        console.log('✅ Inline edit saved for row', rowIndex, 'col', colIndex, 'value:', newValue);
                     } else {
-                        console.log('Failed to save inline edit');
+                        console.log('❌ Failed to save inline edit');
                         return; // Don't exit editing if save failed
                     }
                 } else {
                     // For new unsaved rows, just update local data
                     data[rowIndex][key] = newValue;
-                    console.log('Inline edit saved locally for row', rowIndex, 'col', colIndex, 'value:', newValue);
+                    console.log('💾 Inline edit saved locally for row', rowIndex, 'col', colIndex, 'value:', newValue);
                 }
+            } else {
+                console.log('⏭️ No changes detected, skipping save');
             }
 
             isEditing = false;
@@ -861,7 +965,24 @@
     confirmDeleteBtn.addEventListener('click', deleteSelectedRow);
     cancelDeleteBtn.addEventListener('click', closeConfirmModal);
 
+            // Test API connectivity
+            async function testAPIConnection() {
+                try {
+                    console.log('🔍 Testing API connectivity...');
+                    const response = await fetch('/api/activities');
+                    console.log('🌐 API Response status:', response.status);
+                    if (response.ok) {
+                        console.log('✅ API is accessible');
+                    } else {
+                        console.log('❌ API returned error status:', response.status);
+                    }
+                } catch (error) {
+                    console.log('💥 API connection failed:', error);
+                }
+            }
+
             // Inisialisasi - Load data from database
+            testAPIConnection();
             loadActivities();
         });
     </script>

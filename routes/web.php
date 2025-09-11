@@ -22,6 +22,7 @@ use App\Http\Controllers\ActivityController;
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/check-session', [AuthController::class, 'checkSession'])->name('checkSession');
 
 // Layout switching routes
 Route::controller(LayoutController::class)->group(function () {
