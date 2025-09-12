@@ -4,7 +4,7 @@
 
 <x-head />
 
-<body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">
+<body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white pt-20">
 
     <!-- ..::  horizontal navigation start ::.. -->
     <x-horizontal-nav />
