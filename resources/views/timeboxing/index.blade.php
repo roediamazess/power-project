@@ -21,19 +21,17 @@
 
             <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0" id="timeboxing-table">
+                        <table class="table table-hover mb-0 w-full table-fixed" id="timeboxing-table">
                             <thead class="table-light dark:bg-gray-800 dark:border-gray-700 sticky-header">
                                 <tr>
-                                    <th class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-12">No</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Info Date</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-32">User & Position</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Department</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">Application</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Type</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-64">Description</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-64">Action / Solution</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Status</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-16">Due Date</th>
+                                    <th class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:4%">No</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:8%">Information Date</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:7%">Type</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:10%">PIC & Position</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:28%">Description</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:28%">Action / Solution</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:6%">Status</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:8%">Due Date</th>
                                 </tr>
                             </thead>
                             <tbody id="data-table-body" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -200,12 +198,16 @@
                     <div class="mb-4">
                         <label for="modal-type" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Type</label>
                         <select id="modal-type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                            <option value="Setup">Setup</option>
-                            <option value="Question">Question</option>
-                            <option value="Issue">Issue</option>
-                            <option value="Report Issue">Report Issue</option>
-                            <option value="Report Request">Report Request</option>
-                            <option value="Feature Request">Feature Request</option>
+                            <option value="General">General</option>
+                            <option value="Submission Maintenance">Submission Maintenance</option>
+                            <option value="Update to MD">Update to MD</option>
+                            <option value="Update to Team Bali">Update to Team Bali</option>
+                            <option value="Project Preparation">Project Preparation</option>
+                            <option value="Work Order">Work Order</option>
+                            <option value="Team Meeting">Team Meeting</option>
+                            <option value="Hotel Meeting">Hotel Meeting</option>
+                            <option value="Green Plan">Green Plan</option>
+                            <option value="Others Project">Others Project</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -215,10 +217,11 @@
                     <div class="mb-4">
                         <label for="modal-status" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Status</label>
                         <select id="modal-status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                            <option value="Open">Open</option>
-                            <option value="On Progress">On Progress</option>
-                            <option value="Need Requirement">Need Requirement</option>
-                            <option value="Done">Done</option>
+                            <option value="Brain Dump">Brain Dump</option>
+                            <option value="Priority List">Priority List</option>
+                            <option value="Time Boxing">Time Boxing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancel">Cancel</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -453,26 +456,26 @@
         justify-content: center;
     }
 
-    /* Force left alignment for Description and Action/Solution columns */
-    #activity-table tbody td[data-col="6"],
-    #activity-table tbody td[data-col="7"] {
+    /* Force left alignment for Description and Action/Solution columns (after removing Dept/App) */
+    #timeboxing-table tbody td[data-col="4"],
+    #timeboxing-table tbody td[data-col="5"] {
         text-align: left !important;
     }
 
     /* Ensure table cells maintain proper alignment */
-    #activity-table tbody td {
+    #timeboxing-table tbody td {
         vertical-align: middle;
     }
 
     /* Make table responsive and fit within viewport */
-    #activity-table {
+    #timeboxing-table {
         min-width: 1100px;
         table-layout: fixed;
     }
 
     /* Allow text wrapping in description and action/solution columns */
-    #activity-table tbody td[data-col="6"],
-    #activity-table tbody td[data-col="7"] {
+    #timeboxing-table tbody td[data-col="6"],
+    #timeboxing-table tbody td[data-col="7"] {
         white-space: normal !important;
         word-wrap: break-word;
         vertical-align: top;
@@ -488,7 +491,7 @@
     }
 
     /* Optimize table header styling */
-    #activity-table thead th {
+    #timeboxing-table thead th {
         padding: 0.5rem;
         font-size: 0.75rem;
         line-height: 1rem;
@@ -496,7 +499,7 @@
     }
 
     /* Allow table rows to have variable heights */
-    #activity-table tbody tr {
+    #timeboxing-table tbody tr {
         height: auto;
     }
 
@@ -676,9 +679,9 @@
     let selectedCoords = { row: 0, col: 0 };
     let isEditing = false;
     let deleteModalFocusedButton = 'confirm';
-    // Updated column order: No, Information Date, User & Position, Department, Application, Type, Description, Action/Solution, Status, Due Date
-    const columnKeys = ['no', 'information_date', 'user_position', 'department', 'application', 'type', 'description', 'action_solution', 'status', 'due_date'];
-    const editableCols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // All visible columns except Time Boxing ID (hidden)
+    // Updated column order: No, Information Date, Type, PIC & Position, Description, Action/Solution, Status, Due Date
+    const columnKeys = ['no', 'information_date', 'type', 'user_position', 'description', 'action_solution', 'status', 'due_date'];
+    const editableCols = [0, 1, 2, 3, 4, 5, 6, 7]; // All visible columns except Time Boxing ID (hidden)
 
     // Date formatting function
     function formatDate(dateString) {
@@ -1051,11 +1054,11 @@
             user_position: 'Staff',
             department: 'IT / EDP',
             application: 'Power FO',
-            type: 'Setup',
+            type: 'General',
             description: 'New activity - please update details',
             action_solution: '',
             due_date: '',
-            status: 'Open',
+            status: 'Brain Dump',
             cnc_number: ''
         };
 
@@ -1135,11 +1138,13 @@
 
                 // Set alignment and styling based on column
                 if (key === 'description' || key === 'action_solution') {
-                    cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-left break-words'; // Left align for description and action/solution with word wrapping
+                    cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-left break-words';
                 } else if (key === 'no') {
                     cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center w-12'; // Center align for NO column with increased width
+                } else if (key === 'status' || key === 'due_date' || key === 'information_date' || key === 'type' || key === 'user_position') {
+                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center overflow-hidden text-ellipsis';
                 } else {
-                    cell.className = 'px-2 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center'; // Center align for others
+                    cell.className = 'px-2 py-3 text-sm text-gray-900 dark:text-gray-200 text-center';
                 }
 
                 // Format dates to dd-mm-yy
@@ -1153,16 +1158,19 @@
                 if (key === 'status') {
                     let badgeClass = '';
                     switch(item.status) {
-                        case 'Done':
+                        case 'Completed':
                             badgeClass = 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200';
                             break;
-                        case 'On Progress':
+                        case 'Time Boxing':
                             badgeClass = 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200';
                             break;
-                        case 'Need Requirement':
-                            badgeClass = 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200';
+                        case 'Priority List':
+                            badgeClass = 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200';
                             break;
-                        case 'Open':
+                        case 'Cancel':
+                            badgeClass = 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200';
+                            break;
+                        case 'Brain Dump':
                         default:
                             badgeClass = 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
                             break;
@@ -1352,7 +1360,13 @@
         cell.classList.add('editing-cell');
         
         if (key === 'status') {
-            cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Open" ${originalValue === 'Open' ? 'selected' : ''}>Open</option><option value="On Progress" ${originalValue === 'On Progress' ? 'selected' : ''}>On Progress</option><option value="Need Requirement" ${originalValue === 'Need Requirement' ? 'selected' : ''}>Need Requirement</option><option value="Done" ${originalValue === 'Done' ? 'selected' : ''}>Done</option></select>`;
+            cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400">
+                <option value="Brain Dump" ${originalValue === 'Brain Dump' ? 'selected' : ''}>Brain Dump</option>
+                <option value="Priority List" ${originalValue === 'Priority List' ? 'selected' : ''}>Priority List</option>
+                <option value="Time Boxing" ${originalValue === 'Time Boxing' ? 'selected' : ''}>Time Boxing</option>
+                <option value="Completed" ${originalValue === 'Completed' ? 'selected' : ''}>Completed</option>
+                <option value="Cancel" ${originalValue === 'Cancel' ? 'selected' : ''}>Cancel</option>
+            </select>`;
         } else if (key === 'information_date' || key === 'due_date') {
             // Convert dd-mm-yy back to yyyy-mm-dd for date input
             const dateValue = originalValue ? formatDate(originalValue) : '';
@@ -1363,7 +1377,18 @@
         } else if (key === 'application') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Power FO" ${originalValue === 'Power FO' ? 'selected' : ''}>Power FO</option><option value="My POS" ${originalValue === 'My POS' ? 'selected' : ''}>My POS</option><option value="My MGR" ${originalValue === 'My MGR' ? 'selected' : ''}>My MGR</option><option value="Power AR" ${originalValue === 'Power AR' ? 'selected' : ''}>Power AR</option><option value="Power INV" ${originalValue === 'Power INV' ? 'selected' : ''}>Power INV</option><option value="Power AP" ${originalValue === 'Power AP' ? 'selected' : ''}>Power AP</option><option value="Power GL" ${originalValue === 'Power GL' ? 'selected' : ''}>Power GL</option><option value="Keylock" ${originalValue === 'Keylock' ? 'selected' : ''}>Keylock</option><option value="PABX" ${originalValue === 'PABX' ? 'selected' : ''}>PABX</option><option value="DIM" ${originalValue === 'DIM' ? 'selected' : ''}>DIM</option><option value="Dynamic Room Rate" ${originalValue === 'Dynamic Room Rate' ? 'selected' : ''}>Dynamic Room Rate</option><option value="Channel Manager" ${originalValue === 'Channel Manager' ? 'selected' : ''}>Channel Manager</option><option value="PB1" ${originalValue === 'PB1' ? 'selected' : ''}>PB1</option><option value="Power SIGN" ${originalValue === 'Power SIGN' ? 'selected' : ''}>Power SIGN</option><option value="Multi Properties" ${originalValue === 'Multi Properties' ? 'selected' : ''}>Multi Properties</option><option value="Scanner ID" ${originalValue === 'Scanner ID' ? 'selected' : ''}>Scanner ID</option><option value="IPOS" ${originalValue === 'IPOS' ? 'selected' : ''}>IPOS</option><option value="Power Runner" ${originalValue === 'Power Runner' ? 'selected' : ''}>Power Runner</option><option value="Power RA" ${originalValue === 'Power RA' ? 'selected' : ''}>Power RA</option><option value="Power ME" ${originalValue === 'Power ME' ? 'selected' : ''}>Power ME</option><option value="ECOS" ${originalValue === 'ECOS' ? 'selected' : ''}>ECOS</option><option value="Cloud WS" ${originalValue === 'Cloud WS' ? 'selected' : ''}>Cloud WS</option><option value="Power GO" ${originalValue === 'Power GO' ? 'selected' : ''}>Power GO</option><option value="Dashpad" ${originalValue === 'Dashpad' ? 'selected' : ''}>Dashpad</option><option value="IPTV" ${originalValue === 'IPTV' ? 'selected' : ''}>IPTV</option><option value="HSIA" ${originalValue === 'HSIA' ? 'selected' : ''}>HSIA</option><option value="SGI" ${originalValue === 'SGI' ? 'selected' : ''}>SGI</option><option value="Guest Survey" ${originalValue === 'Guest Survey' ? 'selected' : ''}>Guest Survey</option><option value="Loyalty Management" ${originalValue === 'Loyalty Management' ? 'selected' : ''}>Loyalty Management</option><option value="AccPac" ${originalValue === 'AccPac' ? 'selected' : ''}>AccPac</option><option value="GL Consolidation" ${originalValue === 'GL Consolidation' ? 'selected' : ''}>GL Consolidation</option><option value="Self Check In" ${originalValue === 'Self Check In' ? 'selected' : ''}>Self Check In</option><option value="Check In Desk" ${originalValue === 'Check In Desk' ? 'selected' : ''}>Check In Desk</option><option value="Others" ${originalValue === 'Others' ? 'selected' : ''}>Others</option></select>`;
         } else if (key === 'type') {
-            cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Setup" ${originalValue === 'Setup' ? 'selected' : ''}>Setup</option><option value="Question" ${originalValue === 'Question' ? 'selected' : ''}>Question</option><option value="Issue" ${originalValue === 'Issue' ? 'selected' : ''}>Issue</option><option value="Report Issue" ${originalValue === 'Report Issue' ? 'selected' : ''}>Report Issue</option><option value="Report Request" ${originalValue === 'Report Request' ? 'selected' : ''}>Report Request</option><option value="Feature Request" ${originalValue === 'Feature Request' ? 'selected' : ''}>Feature Request</option></select>`;
+            cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400">
+                <option value="General" ${originalValue === 'General' ? 'selected' : ''}>General</option>
+                <option value="Submission Maintenance" ${originalValue === 'Submission Maintenance' ? 'selected' : ''}>Submission Maintenance</option>
+                <option value="Update to MD" ${originalValue === 'Update to MD' ? 'selected' : ''}>Update to MD</option>
+                <option value="Update to Team Bali" ${originalValue === 'Update to Team Bali' ? 'selected' : ''}>Update to Team Bali</option>
+                <option value="Project Preparation" ${originalValue === 'Project Preparation' ? 'selected' : ''}>Project Preparation</option>
+                <option value="Work Order" ${originalValue === 'Work Order' ? 'selected' : ''}>Work Order</option>
+                <option value="Team Meeting" ${originalValue === 'Team Meeting' ? 'selected' : ''}>Team Meeting</option>
+                <option value="Hotel Meeting" ${originalValue === 'Hotel Meeting' ? 'selected' : ''}>Hotel Meeting</option>
+                <option value="Green Plan" ${originalValue === 'Green Plan' ? 'selected' : ''}>Green Plan</option>
+                <option value="Others Project" ${originalValue === 'Others Project' ? 'selected' : ''}>Others Project</option>
+            </select>`;
         } else if (key === 'description' || key === 'action_solution') {
             cell.innerHTML = `<textarea rows="3" class="focus:ring-2 focus:ring-blue-400 w-full resize-none" style="min-height: 60px;">${originalValue}</textarea>`;
         } else {
