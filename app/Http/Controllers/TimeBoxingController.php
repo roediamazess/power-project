@@ -122,11 +122,7 @@ class TimeBoxingController extends Controller
             if (isset($payload['due_date']) && $payload['due_date'] === '') {
                 $payload['due_date'] = null;
             }
-            // Generate timeboxing_id if not provided
-            if (empty($payload['timeboxing_id'])) {
-                $nextNo = TimeBoxing::max('no') ? (TimeBoxing::max('no') + 1) : 1;
-                $payload['timeboxing_id'] = 'TB' . str_pad($nextNo, 3, '0', STR_PAD_LEFT);
-            }
+            // No separate timeboxing_id needed; using auto-increment id
 
             $timeBoxing = new TimeBoxing();
             $timeBoxing->fill($payload);

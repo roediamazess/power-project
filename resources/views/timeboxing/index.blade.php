@@ -122,10 +122,6 @@
                 <input type="hidden" id="modal-row-index">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="mb-4">
-                        <label for="modal-activity-id" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Time Boxing ID</label>
-                        <input type="text" id="modal-activity-id" readonly class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 dark:text-gray-400 dark:bg-gray-600 dark:border-gray-500 leading-tight bg-gray-100 dark:bg-gray-600">
-                    </div>
-                    <div class="mb-4">
                         <label for="modal-project-id" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Project ID</label>
                         <input type="text" id="modal-project-id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                     </div>
@@ -934,7 +930,6 @@
     function openEditModal(rowIndex) {
         const item = data[rowIndex];
         document.getElementById('modal-row-index').value = rowIndex;
-        document.getElementById('modal-activity-id').value = item.id;
         document.getElementById('modal-project-id').value = item.project_id;
         document.getElementById('modal-no').value = item.no;
         // Format dates for modal inputs (display dd-mmm-yy)

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class TimeBoxing extends Model
 {
     protected $fillable = [
-        'timeboxing_id',
         'project_id',
         'no',
         'information_date',
