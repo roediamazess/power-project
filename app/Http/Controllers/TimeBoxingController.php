@@ -92,8 +92,6 @@ class TimeBoxingController extends Controller
             'no' => 'required|integer|unique:time_boxings,no',
             'information_date' => 'required|date',
             'user_position' => 'nullable|string|max:255',
-            'department' => 'required|string',
-            'application' => 'required|string',
             'type' => 'required|string',
             'description' => 'nullable|string',
             'action_solution' => 'nullable|string',
@@ -169,12 +167,6 @@ class TimeBoxingController extends Controller
                 case 'user_position':
                     $validationRules['user_position'] = 'nullable|string|max:255';
                     break;
-                case 'department':
-                    $validationRules['department'] = 'required|string';
-                    break;
-                case 'application':
-                    $validationRules['application'] = 'required|string';
-                    break;
                 case 'type':
                     $validationRules['type'] = 'required|string';
                     break;
@@ -201,8 +193,6 @@ class TimeBoxingController extends Controller
                 'no' => 'required|integer|unique:time_boxings,no,' . $id,
                 'information_date' => 'required|date',
                 'user_position' => 'nullable|string|max:255',
-                'department' => 'required|string',
-                'application' => 'required|string',
                 'type' => 'required|string',
                 'description' => 'nullable|string',
                 'action_solution' => 'nullable|string',

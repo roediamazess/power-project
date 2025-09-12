@@ -1,5 +1,86 @@
 # PowerPro - Version History
 
+## Version 1.4.0 - Time Boxing Module & Status Capsule Fixes
+**Date:** 2025-09-12 22:20:00
+
+### 🎯 **Changes Made:**
+
+#### **Time Boxing Module Development:**
+- ✅ **Complete Module Creation** - Built Time Boxing module with identical workflow to Activity module
+- ✅ **Database Structure** - Created time_boxings table with Activity-like fields:
+  - `no`, `information_date`, `type`, `user_position`, `description`, `action_solution`, `due_date`, `status`, `cnc_number`
+- ✅ **Model & Controller** - Full CRUD operations with API endpoints
+- ✅ **Sample Data** - Added 3 sample Time Boxing records for testing
+- ✅ **Navigation Integration** - Added Time Boxing menu item with clock icon
+
+#### **Status System Enhancement:**
+- ✅ **New Status Options** - Updated to: `Brain Dump`, `Priority List`, `Time Boxing`, `Completed`, `Cancel`
+- ✅ **Capsule Styling** - Applied rounded-full badges with color coding:
+  - Brain Dump: Yellow (default)
+  - Priority List: Purple
+  - Time Boxing: Blue
+  - Completed: Green
+  - Cancel: Red
+- ✅ **Type Options** - Updated to: `General`, `Submission Maintenance`, `Update to MD`, `Update to Team Bali`, `Project Preparation`, `Work Order`, `Team Meeting`, `Hotel Meeting`, `Green Plan`, `Others Project`
+
+#### **UI/UX Improvements:**
+- ✅ **Date Formatting** - Information Date and Due Date formatted as `dd-mmm-yy`
+- ✅ **Table Layout** - Optimized column widths and order:
+  - No, Information Date, Type, PIC & Position, Description, Action / Solution, Status, Due Date
+- ✅ **Modal Enhancements** - Reordered buttons (Save left, Cancel right)
+- ✅ **Keyboard Shortcuts** - Arrow Down on last row creates new row and focuses
+- ✅ **Inline Editing** - Full inline editing capability with validation
+
+#### **Database Optimizations:**
+- ✅ **Field Cleanup** - Removed `timeboxing_id`, `department`, `application` fields
+- ✅ **Default Values** - Set `project_id` and `cnc_number` to default empty strings
+- ✅ **Migration System** - Created proper migrations for all schema changes
+
+#### **Bug Fixes:**
+- ✅ **Avatar 404 Fix** - Created missing `default-avatar.png` file
+- ✅ **Status Rendering** - Fixed status capsule display with proper whitespace-nowrap
+- ✅ **Validation Rules** - Corrected unique constraints and field requirements
+- ✅ **JavaScript Errors** - Fixed function naming and API endpoint issues
+
+#### **Technical Improvements:**
+- ✅ **API Endpoints** - Full REST API for Time Boxing operations
+- ✅ **Error Handling** - Proper validation and error responses
+- ✅ **Logging** - Added comprehensive logging for debugging
+- ✅ **Cache Management** - Cleared all Laravel caches for proper updates
+
+### 🔧 **Files Modified:**
+- `app/Models/TimeBoxing.php` - Complete model with Activity-like structure
+- `app/Http/Controllers/TimeBoxingController.php` - Full CRUD controller with API support
+- `resources/views/timeboxing/index.blade.php` - Complete UI matching Activity module
+- `database/migrations/2025_09_12_101533_create_time_boxings_table.php` - Initial table creation
+- `database/migrations/2025_09_12_140501_update_time_boxings_type_check.php` - Type enum update
+- `database/migrations/2025_09_12_140601_update_time_boxings_status_check.php` - Status enum update
+- `database/migrations/2025_09_12_140701_drop_department_application_from_time_boxings.php` - Field cleanup
+- `database/migrations/2025_09_12_140801_update_time_boxings_drop_tbid_set_defaults.php` - Final optimizations
+- `database/seeders/TimeBoxingSeeder.php` - Sample data seeder
+- `routes/web.php` - Web routes for Time Boxing
+- `routes/api.php` - API routes for Time Boxing
+- `resources/views/components/horizontal-nav.blade.php` - Added Time Boxing menu item
+- `public/assets/images/default-avatar.png` - Created missing avatar file
+- `VERSION_HISTORY.md` - Updated with new version information
+
+### 🎨 **Visual Changes:**
+- New Time Boxing module with identical Activity workflow
+- Color-coded status capsules with proper styling
+- Optimized table layout with better column proportions
+- Enhanced date formatting for better readability
+- Improved modal design with proper button positioning
+
+### 🚀 **Features:**
+- Complete Time Boxing management system
+- Inline editing with real-time validation
+- Keyboard shortcuts for productivity
+- Responsive design for all devices
+- Full API support for future integrations
+- Comprehensive error handling and logging
+
+---
+
 ## Version 1.3.0 - Floating Navigation & Icon Enhancements
 **Date:** 2025-09-12 02:15:00
 

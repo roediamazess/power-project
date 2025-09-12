@@ -138,60 +138,6 @@
                         <input type="text" id="modal-user-position" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                     </div>
                     <div class="mb-4">
-                        <label for="modal-department" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Department</label>
-                        <select id="modal-department" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                            <option value="Food & Beverage">Food & Beverage</option>
-                            <option value="Kitchen">Kitchen</option>
-                            <option value="Room Division">Room Division</option>
-                            <option value="Front Office">Front Office</option>
-                            <option value="Housekeeping">Housekeeping</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Sales & Marketing">Sales & Marketing</option>
-                            <option value="IT / EDP">IT / EDP</option>
-                            <option value="Accounting">Accounting</option>
-                            <option value="Executive Office">Executive Office</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label for="modal-application" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Application</label>
-                        <select id="modal-application" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                            <option value="Power FO">Power FO</option>
-                            <option value="My POS">My POS</option>
-                            <option value="My MGR">My MGR</option>
-                            <option value="Power AR">Power AR</option>
-                            <option value="Power INV">Power INV</option>
-                            <option value="Power AP">Power AP</option>
-                            <option value="Power GL">Power GL</option>
-                            <option value="Keylock">Keylock</option>
-                            <option value="PABX">PABX</option>
-                            <option value="DIM">DIM</option>
-                            <option value="Dynamic Room Rate">Dynamic Room Rate</option>
-                            <option value="Channel Manager">Channel Manager</option>
-                            <option value="PB1">PB1</option>
-                            <option value="Power SIGN">Power SIGN</option>
-                            <option value="Multi Properties">Multi Properties</option>
-                            <option value="Scanner ID">Scanner ID</option>
-                            <option value="IPOS">IPOS</option>
-                            <option value="Power Runner">Power Runner</option>
-                            <option value="Power RA">Power RA</option>
-                            <option value="Power ME">Power ME</option>
-                            <option value="ECOS">ECOS</option>
-                            <option value="Cloud WS">Cloud WS</option>
-                            <option value="Power GO">Power GO</option>
-                            <option value="Dashpad">Dashpad</option>
-                            <option value="IPTV">IPTV</option>
-                            <option value="HSIA">HSIA</option>
-                            <option value="SGI">SGI</option>
-                            <option value="Guest Survey">Guest Survey</option>
-                            <option value="Loyalty Management">Loyalty Management</option>
-                            <option value="AccPac">AccPac</option>
-                            <option value="GL Consolidation">GL Consolidation</option>
-                            <option value="Self Check In">Self Check In</option>
-                            <option value="Check In Desk">Check In Desk</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
                         <label for="modal-type" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Type</label>
                         <select id="modal-type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                             <option value="General">General</option>
@@ -937,8 +883,6 @@
         infoEl.value = item.information_date ? formatDate(item.information_date) : '';
         applyDateMask(infoEl);
         document.getElementById('modal-user-position').value = item.user_position;
-        document.getElementById('modal-department').value = item.department;
-        document.getElementById('modal-application').value = item.application;
         document.getElementById('modal-type').value = item.type;
         document.getElementById('modal-description').value = item.description;
         document.getElementById('modal-action-solution').value = item.action_solution;
@@ -983,8 +927,6 @@
             no: parseInt(document.getElementById('modal-no').value),
             information_date: parseDate(document.getElementById('modal-information-date').value),
             user_position: document.getElementById('modal-user-position').value,
-            department: document.getElementById('modal-department').value,
-            application: document.getElementById('modal-application').value,
             type: document.getElementById('modal-type').value,
             description: document.getElementById('modal-description').value,
             action_solution: document.getElementById('modal-action-solution').value,
@@ -1151,8 +1093,10 @@
 
                 // Handle status display
                 if (key === 'status') {
+                    const statusValue = (item.status || '').toString().trim();
+                    console.log('🔍 Status value:', statusValue, 'for item:', item.id);
                     let badgeClass = '';
-                    switch(item.status) {
+                    switch(statusValue) {
                         case 'Completed':
                             badgeClass = 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200';
                             break;
@@ -1170,7 +1114,9 @@
                             badgeClass = 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
                             break;
                     }
-                    cell.innerHTML = `<span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${badgeClass}">${item.status}</span>`;
+                    console.log('🎨 Badge class for', statusValue, ':', badgeClass);
+                    cell.innerHTML = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${badgeClass}">${statusValue}</span>`;
+                    cell.classList.add('whitespace-nowrap');
                 } else {
                     cell.textContent = displayValue;
                 }
@@ -1367,10 +1313,8 @@
             const dateValue = originalValue ? formatDate(originalValue) : '';
             cell.innerHTML = `<input type="text" value="${dateValue}" placeholder="dd-mmm-yy" class="focus:ring-2 focus:ring-blue-400">`;
             applyDateMask(cell.querySelector('input'));
-        } else if (key === 'department') {
+        } else if (key === 'user_position') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Food & Beverage" ${originalValue === 'Food & Beverage' ? 'selected' : ''}>Food & Beverage</option><option value="Kitchen" ${originalValue === 'Kitchen' ? 'selected' : ''}>Kitchen</option><option value="Room Division" ${originalValue === 'Room Division' ? 'selected' : ''}>Room Division</option><option value="Front Office" ${originalValue === 'Front Office' ? 'selected' : ''}>Front Office</option><option value="Housekeeping" ${originalValue === 'Housekeeping' ? 'selected' : ''}>Housekeeping</option><option value="Engineering" ${originalValue === 'Engineering' ? 'selected' : ''}>Engineering</option><option value="Sales & Marketing" ${originalValue === 'Sales & Marketing' ? 'selected' : ''}>Sales & Marketing</option><option value="IT / EDP" ${originalValue === 'IT / EDP' ? 'selected' : ''}>IT / EDP</option><option value="Accounting" ${originalValue === 'Accounting' ? 'selected' : ''}>Accounting</option><option value="Executive Office" ${originalValue === 'Executive Office' ? 'selected' : ''}>Executive Office</option></select>`;
-        } else if (key === 'application') {
-            cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Power FO" ${originalValue === 'Power FO' ? 'selected' : ''}>Power FO</option><option value="My POS" ${originalValue === 'My POS' ? 'selected' : ''}>My POS</option><option value="My MGR" ${originalValue === 'My MGR' ? 'selected' : ''}>My MGR</option><option value="Power AR" ${originalValue === 'Power AR' ? 'selected' : ''}>Power AR</option><option value="Power INV" ${originalValue === 'Power INV' ? 'selected' : ''}>Power INV</option><option value="Power AP" ${originalValue === 'Power AP' ? 'selected' : ''}>Power AP</option><option value="Power GL" ${originalValue === 'Power GL' ? 'selected' : ''}>Power GL</option><option value="Keylock" ${originalValue === 'Keylock' ? 'selected' : ''}>Keylock</option><option value="PABX" ${originalValue === 'PABX' ? 'selected' : ''}>PABX</option><option value="DIM" ${originalValue === 'DIM' ? 'selected' : ''}>DIM</option><option value="Dynamic Room Rate" ${originalValue === 'Dynamic Room Rate' ? 'selected' : ''}>Dynamic Room Rate</option><option value="Channel Manager" ${originalValue === 'Channel Manager' ? 'selected' : ''}>Channel Manager</option><option value="PB1" ${originalValue === 'PB1' ? 'selected' : ''}>PB1</option><option value="Power SIGN" ${originalValue === 'Power SIGN' ? 'selected' : ''}>Power SIGN</option><option value="Multi Properties" ${originalValue === 'Multi Properties' ? 'selected' : ''}>Multi Properties</option><option value="Scanner ID" ${originalValue === 'Scanner ID' ? 'selected' : ''}>Scanner ID</option><option value="IPOS" ${originalValue === 'IPOS' ? 'selected' : ''}>IPOS</option><option value="Power Runner" ${originalValue === 'Power Runner' ? 'selected' : ''}>Power Runner</option><option value="Power RA" ${originalValue === 'Power RA' ? 'selected' : ''}>Power RA</option><option value="Power ME" ${originalValue === 'Power ME' ? 'selected' : ''}>Power ME</option><option value="ECOS" ${originalValue === 'ECOS' ? 'selected' : ''}>ECOS</option><option value="Cloud WS" ${originalValue === 'Cloud WS' ? 'selected' : ''}>Cloud WS</option><option value="Power GO" ${originalValue === 'Power GO' ? 'selected' : ''}>Power GO</option><option value="Dashpad" ${originalValue === 'Dashpad' ? 'selected' : ''}>Dashpad</option><option value="IPTV" ${originalValue === 'IPTV' ? 'selected' : ''}>IPTV</option><option value="HSIA" ${originalValue === 'HSIA' ? 'selected' : ''}>HSIA</option><option value="SGI" ${originalValue === 'SGI' ? 'selected' : ''}>SGI</option><option value="Guest Survey" ${originalValue === 'Guest Survey' ? 'selected' : ''}>Guest Survey</option><option value="Loyalty Management" ${originalValue === 'Loyalty Management' ? 'selected' : ''}>Loyalty Management</option><option value="AccPac" ${originalValue === 'AccPac' ? 'selected' : ''}>AccPac</option><option value="GL Consolidation" ${originalValue === 'GL Consolidation' ? 'selected' : ''}>GL Consolidation</option><option value="Self Check In" ${originalValue === 'Self Check In' ? 'selected' : ''}>Self Check In</option><option value="Check In Desk" ${originalValue === 'Check In Desk' ? 'selected' : ''}>Check In Desk</option><option value="Others" ${originalValue === 'Others' ? 'selected' : ''}>Others</option></select>`;
         } else if (key === 'type') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400">
                 <option value="General" ${originalValue === 'General' ? 'selected' : ''}>General</option>
