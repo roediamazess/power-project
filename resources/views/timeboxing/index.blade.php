@@ -15,7 +15,7 @@
                 <p class="text-sm text-muted mb-0">
                     <b>Actions:</b> Edit (Enter/F2), Delete (Del), Modal (Ctrl+Click). | <b>Save:</b> Enter/Tab.<br>
                     <b>Navigation:</b> ↑↓←→ to move between cells. | <b>Add New Row:</b> Press ↓ on last row.<br>
-                    <b>Note:</b> CNC Number & Project ID can be edited via Modal (Ctrl+Click).
+                    <b>Note:</b> CNC Number & Project ID can be edited via Modal (Ctrl+Click). | <b>User & Position:</b> Shows user and their position.
                 </p>
             </div>
 
@@ -27,7 +27,7 @@
                                     <th class="px-2 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:4%">No</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:8%">Information Date</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:7%">Type</th>
-                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:10%">PIC & Position</th>
+                                    <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:10%">User & Position</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:28%">Description</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:28%">Action / Solution</th>
                                     <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" style="width:6%">Status</th>
@@ -122,16 +122,26 @@
                 <input type="hidden" id="modal-row-index">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="mb-4">
-                        <label for="modal-project-id" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Project ID</label>
-                        <input type="text" id="modal-project-id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                    </div>
-                    <div class="mb-4">
                         <label for="modal-no" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">No</label>
                         <input type="number" id="modal-no" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                     </div>
                     <div class="mb-4">
+                        <label for="modal-status" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Status</label>
+                        <select id="modal-status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                            <option value="Brain Dump" class="bg-warning-100 dark:bg-warning-600/25 text-warning-600">Brain Dump</option>
+                            <option value="Priority List" class="bg-purple-100 dark:bg-purple-600/25 text-purple-600">Priority List</option>
+                            <option value="Time Boxing" class="bg-info-100 dark:bg-info-600/25 text-info-600">Time Boxing</option>
+                            <option value="Completed" class="bg-success-100 dark:bg-success-600/25 text-success-600">Completed</option>
+                            <option value="Cancel" class="bg-danger-100 dark:bg-danger-600/25 text-danger-600">Cancel</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
                         <label for="modal-information-date" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Information Date</label>
-                        <input type="text" id="modal-information-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                        <input type="text" id="modal-information-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" maxlength="9">
+                    </div>
+                    <div class="mb-4">
+                        <label for="modal-due-date" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Due Date</label>
+                        <input type="text" id="modal-due-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" maxlength="9">
                     </div>
                     <div class="mb-4">
                         <label for="modal-user-position" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">User & Position</label>
@@ -142,7 +152,7 @@
                         <select id="modal-type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                             <option value="General">General</option>
                             <option value="Submission Maintenance">Submission Maintenance</option>
-                            <option value="Update to MD">Update to MD</option>
+                            <option value="Update to Management">Update to Management</option>
                             <option value="Update to Team Bali">Update to Team Bali</option>
                             <option value="Project Preparation">Project Preparation</option>
                             <option value="Work Order">Work Order</option>
@@ -153,18 +163,8 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="modal-due-date" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Due Date</label>
-                        <input type="text" id="modal-due-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                    </div>
-                    <div class="mb-4">
-                        <label for="modal-status" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Status</label>
-                        <select id="modal-status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
-                            <option value="Brain Dump">Brain Dump</option>
-                            <option value="Priority List">Priority List</option>
-                            <option value="Time Boxing">Time Boxing</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Cancel">Cancel</option>
-                        </select>
+                        <label for="modal-project-id" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Project ID</label>
+                        <input type="text" id="modal-project-id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
                     </div>
                     <div class="mb-4">
                         <label for="modal-cnc-number" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">CNC Number</label>
@@ -639,12 +639,29 @@
 
     function parseDate(dateString) {
         if (!dateString) return '';
-        const [day, month, year] = dateString.split('-');
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const monthIndex = monthNames.indexOf(month);
-        const monthNum = String(monthIndex + 1).padStart(2, '0');
-        return `20${year}-${monthNum}-${day}`;
+        
+        // Check if it's already in yyyy-mm-dd format (from database)
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            return dateString;
+        }
+        
+        // Check if it's in dd-mm-yy format (from display)
+        if (/^\d{2}-\w{3}-\d{2}$/.test(dateString)) {
+            const [day, month, year] = dateString.split('-');
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthIndex = monthNames.indexOf(month);
+            if (monthIndex === -1) return '';
+            const fullYear = year.length === 2 ? '20' + year : year;
+            return `${fullYear}-${String(monthIndex + 1).padStart(2, '0')}-${day.padStart(2, '0')}`;
+        }
+        
+        // If it's in yyyy-mm-dd format but with time, extract just the date part
+        if (/^\d{4}-\d{2}-\d{2}T/.test(dateString)) {
+            return dateString.split('T')[0];
+        }
+        
+        return '';
     }
 
     // --- DATE INPUT MASK (dd-mmm-yy) ---
@@ -878,21 +895,20 @@
         document.getElementById('modal-row-index').value = rowIndex;
         document.getElementById('modal-project-id').value = item.project_id;
         document.getElementById('modal-no').value = item.no;
-        // Format dates for modal inputs (display dd-mmm-yy)
-        const infoEl = document.getElementById('modal-information-date');
-        infoEl.value = item.information_date ? formatDate(item.information_date) : '';
-        applyDateMask(infoEl);
+        // Set dates for modal inputs (display in dd-mmm-yy format)
+        document.getElementById('modal-information-date').value = item.information_date ? formatDate(item.information_date) : '';
         document.getElementById('modal-user-position').value = item.user_position;
         document.getElementById('modal-type').value = item.type;
         document.getElementById('modal-description').value = item.description;
         document.getElementById('modal-action-solution').value = item.action_solution;
-        // Format due date for modal input (display dd-mmm-yy)
-        const dueEl = document.getElementById('modal-due-date');
-        dueEl.value = item.due_date ? formatDate(item.due_date) : '';
-        applyDateMask(dueEl);
+        document.getElementById('modal-due-date').value = item.due_date ? formatDate(item.due_date) : '';
         document.getElementById('modal-status').value = item.status;
         document.getElementById('modal-cnc-number').value = item.cnc_number;
         editModal.classList.remove('hidden');
+        
+        // Apply date mask to modal date inputs
+        applyDateMask(document.getElementById('modal-information-date'));
+        applyDateMask(document.getElementById('modal-due-date'));
     }
 
     function closeEditModal() { editModal.classList.add('hidden'); }
@@ -1098,20 +1114,20 @@
                     let badgeClass = '';
                     switch(statusValue) {
                         case 'Completed':
-                            badgeClass = 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200';
+                            badgeClass = 'bg-success-100 dark:bg-success-600/25 text-success-600';
                             break;
                         case 'Time Boxing':
-                            badgeClass = 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200';
+                            badgeClass = 'bg-info-100 dark:bg-info-600/25 text-info-600';
                             break;
                         case 'Priority List':
-                            badgeClass = 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200';
+                            badgeClass = 'bg-purple-100 dark:bg-purple-600/25 text-purple-600';
                             break;
                         case 'Cancel':
-                            badgeClass = 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200';
+                            badgeClass = 'bg-danger-100 dark:bg-danger-600/25 text-danger-600';
                             break;
                         case 'Brain Dump':
                         default:
-                            badgeClass = 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
+                            badgeClass = 'bg-warning-100 dark:bg-warning-600/25 text-warning-600';
                             break;
                     }
                     console.log('🎨 Badge class for', statusValue, ':', badgeClass);
@@ -1302,24 +1318,23 @@
         
         if (key === 'status') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400">
-                <option value="Brain Dump" ${originalValue === 'Brain Dump' ? 'selected' : ''}>Brain Dump</option>
-                <option value="Priority List" ${originalValue === 'Priority List' ? 'selected' : ''}>Priority List</option>
-                <option value="Time Boxing" ${originalValue === 'Time Boxing' ? 'selected' : ''}>Time Boxing</option>
-                <option value="Completed" ${originalValue === 'Completed' ? 'selected' : ''}>Completed</option>
-                <option value="Cancel" ${originalValue === 'Cancel' ? 'selected' : ''}>Cancel</option>
+                <option value="Brain Dump" class="bg-warning-100 dark:bg-warning-600/25 text-warning-600" ${originalValue === 'Brain Dump' ? 'selected' : ''}>Brain Dump</option>
+                <option value="Priority List" class="bg-purple-100 dark:bg-purple-600/25 text-purple-600" ${originalValue === 'Priority List' ? 'selected' : ''}>Priority List</option>
+                <option value="Time Boxing" class="bg-info-100 dark:bg-info-600/25 text-info-600" ${originalValue === 'Time Boxing' ? 'selected' : ''}>Time Boxing</option>
+                <option value="Completed" class="bg-success-100 dark:bg-success-600/25 text-success-600" ${originalValue === 'Completed' ? 'selected' : ''}>Completed</option>
+                <option value="Cancel" class="bg-danger-100 dark:bg-danger-600/25 text-danger-600" ${originalValue === 'Cancel' ? 'selected' : ''}>Cancel</option>
             </select>`;
         } else if (key === 'information_date' || key === 'due_date') {
             // Convert dd-mm-yy back to yyyy-mm-dd for date input
-            const dateValue = originalValue ? formatDate(originalValue) : '';
-            cell.innerHTML = `<input type="text" value="${dateValue}" placeholder="dd-mmm-yy" class="focus:ring-2 focus:ring-blue-400">`;
-            applyDateMask(cell.querySelector('input'));
+            const dateValue = originalValue ? parseDate(originalValue) : '';
+            cell.innerHTML = `<input type="date" value="${dateValue}" class="focus:ring-2 focus:ring-blue-400">`;
         } else if (key === 'user_position') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400"><option value="Food & Beverage" ${originalValue === 'Food & Beverage' ? 'selected' : ''}>Food & Beverage</option><option value="Kitchen" ${originalValue === 'Kitchen' ? 'selected' : ''}>Kitchen</option><option value="Room Division" ${originalValue === 'Room Division' ? 'selected' : ''}>Room Division</option><option value="Front Office" ${originalValue === 'Front Office' ? 'selected' : ''}>Front Office</option><option value="Housekeeping" ${originalValue === 'Housekeeping' ? 'selected' : ''}>Housekeeping</option><option value="Engineering" ${originalValue === 'Engineering' ? 'selected' : ''}>Engineering</option><option value="Sales & Marketing" ${originalValue === 'Sales & Marketing' ? 'selected' : ''}>Sales & Marketing</option><option value="IT / EDP" ${originalValue === 'IT / EDP' ? 'selected' : ''}>IT / EDP</option><option value="Accounting" ${originalValue === 'Accounting' ? 'selected' : ''}>Accounting</option><option value="Executive Office" ${originalValue === 'Executive Office' ? 'selected' : ''}>Executive Office</option></select>`;
         } else if (key === 'type') {
             cell.innerHTML = `<select class="focus:ring-2 focus:ring-blue-400">
                 <option value="General" ${originalValue === 'General' ? 'selected' : ''}>General</option>
                 <option value="Submission Maintenance" ${originalValue === 'Submission Maintenance' ? 'selected' : ''}>Submission Maintenance</option>
-                <option value="Update to MD" ${originalValue === 'Update to MD' ? 'selected' : ''}>Update to MD</option>
+                <option value="Update to Management" ${originalValue === 'Update to Management' ? 'selected' : ''}>Update to Management</option>
                 <option value="Update to Team Bali" ${originalValue === 'Update to Team Bali' ? 'selected' : ''}>Update to Team Bali</option>
                 <option value="Project Preparation" ${originalValue === 'Project Preparation' ? 'selected' : ''}>Project Preparation</option>
                 <option value="Work Order" ${originalValue === 'Work Order' ? 'selected' : ''}>Work Order</option>
@@ -1353,8 +1368,7 @@
 
             // Only save if value changed
             if (newValue !== oldValue) {
-                const valueToSave = (key === 'information_date' || key === 'due_date') ? parseDate(newValue) : newValue;
-                const updateData = { [key]: valueToSave };
+                const updateData = { [key]: newValue };
                 console.log('📤 Preparing to save:', { rowIndex, key, oldValue, newValue, hasId: data[rowIndex] && data[rowIndex].id });
 
                 if (data[rowIndex] && data[rowIndex].id) {
@@ -1410,8 +1424,7 @@
 
                 // Only save if value changed
                 if (newValue !== oldValue) {
-                    const valueToSaveForTab = (key === 'information_date' || key === 'due_date') ? parseDate(newValue) : newValue;
-                    const updateData = { [key]: valueToSaveForTab };
+                    const updateData = { [key]: newValue };
 
                     if (data[rowIndex] && data[rowIndex].id) {
                         // Update existing activity - wait for save to complete

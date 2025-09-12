@@ -22,8 +22,8 @@ class TimeBoxing extends Model
     ];
 
     protected $casts = [
-        'information_date' => 'date',
-        'due_date' => 'date',
+        'information_date' => 'date:Y-m-d',
+        'due_date' => 'date:Y-m-d',
     ];
 
     // Scope untuk filter berdasarkan status

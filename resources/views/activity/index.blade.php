@@ -135,7 +135,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="modal-information-date" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Information Date</label>
-                        <input type="date" id="modal-information-date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                        <input type="text" id="modal-information-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" maxlength="9">
                     </div>
                     <div class="mb-4">
                         <label for="modal-user-position" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">User & Position</label>
@@ -208,7 +208,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="modal-due-date" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Due Date</label>
-                        <input type="date" id="modal-due-date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                        <input type="text" id="modal-due-date" placeholder="dd-mmm-yy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" maxlength="9">
                     </div>
                     <div class="mb-4">
                         <label for="modal-status" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Status</label>
@@ -692,12 +692,77 @@
 
     function parseDate(dateString) {
         if (!dateString) return '';
-        const [day, month, year] = dateString.split('-');
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const monthIndex = monthNames.indexOf(month);
-        const monthNum = String(monthIndex + 1).padStart(2, '0');
-        return `20${year}-${monthNum}-${day}`;
+        
+        // Check if it's already in yyyy-mm-dd format (from database)
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            return dateString;
+        }
+        
+        // Check if it's in dd-mm-yy format (from display)
+        if (/^\d{2}-\w{3}-\d{2}$/.test(dateString)) {
+            const [day, month, year] = dateString.split('-');
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthIndex = monthNames.indexOf(month);
+            if (monthIndex === -1) return '';
+            const fullYear = year.length === 2 ? '20' + year : year;
+            return `${fullYear}-${String(monthIndex + 1).padStart(2, '0')}-${day.padStart(2, '0')}`;
+        }
+        
+        // If it's in yyyy-mm-dd format but with time, extract just the date part
+        if (/^\d{4}-\d{2}-\d{2}T/.test(dateString)) {
+            return dateString.split('T')[0];
+        }
+        
+        return '';
+    }
+
+    // --- DATE INPUT MASK (dd-mmm-yy) ---
+    function applyDateMask(inputEl) {
+        if (!inputEl) return;
+        const monthAbbr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        inputEl.setAttribute('maxlength', '9');
+        inputEl.setAttribute('placeholder', 'dd-mmm-yy');
+
+        inputEl.addEventListener('keypress', (e) => {
+            const allowed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-';
+            if (!allowed.includes(e.key)) e.preventDefault();
+        });
+
+        inputEl.addEventListener('input', (e) => {
+            let v = e.target.value;
+            // Auto-insert dashes after day and month
+            v = v.replace(/[^0-9A-Za-z-]/g, '');
+            // Split parts
+            const parts = v.split('-');
+            // Enforce day 2 digits
+            if (parts[0]) parts[0] = parts[0].slice(0, 2).replace(/[^0-9]/g, '');
+            // Enforce month as 3 letters abbr, capitalize first letter
+            if (parts.length > 1) {
+                let m = parts[1].slice(0, 3).replace(/[^A-Za-z]/g, '');
+                m = m.charAt(0).toUpperCase() + m.slice(1).toLowerCase();
+                // Autocomplete to closest month if fully typed
+                if (m.length === 3 && !monthAbbr.includes(m)) {
+                    const guess = monthAbbr.find(mon => mon.toLowerCase().startsWith(m.toLowerCase()));
+                    if (guess) m = guess;
+                }
+                parts[1] = m;
+            }
+            // Enforce year 2 digits
+            if (parts.length > 2) parts[2] = parts[2].slice(0, 2).replace(/[^0-9]/g, '');
+            // Rejoin with max 3 parts
+            e.target.value = parts.slice(0, 3).join('-');
+        });
+
+        inputEl.addEventListener('blur', (e) => {
+            const v = e.target.value;
+            const ok = /^\d{2}-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{2}$/.test(v);
+            if (!ok && v !== '') {
+                // If invalid, clear to force correct format next time
+                e.target.value = '';
+            }
+        });
     }
 
     // --- AJAX FUNCTIONS ---
@@ -884,8 +949,8 @@
         document.getElementById('modal-activity-id').value = item.id;
         document.getElementById('modal-project-id').value = item.project_id;
         document.getElementById('modal-no').value = item.no;
-        // Format dates for modal inputs (convert dd-mm-yy to yyyy-mm-dd)
-        document.getElementById('modal-information-date').value = item.information_date ? parseDate(item.information_date) : '';
+        // Format dates for modal inputs (display in dd-mmm-yy format)
+        document.getElementById('modal-information-date').value = item.information_date ? formatDate(item.information_date) : '';
         document.getElementById('modal-user-position').value = item.user_position;
         document.getElementById('modal-department').value = item.department;
         document.getElementById('modal-application').value = item.application;
@@ -893,10 +958,14 @@
         document.getElementById('modal-description').value = item.description;
         document.getElementById('modal-action-solution').value = item.action_solution;
         // Format due date for modal input
-        document.getElementById('modal-due-date').value = item.due_date ? parseDate(item.due_date) : '';
+        document.getElementById('modal-due-date').value = item.due_date ? formatDate(item.due_date) : '';
         document.getElementById('modal-status').value = item.status;
         document.getElementById('modal-cnc-number').value = item.cnc_number;
         editModal.classList.remove('hidden');
+        
+        // Apply date mask to modal date inputs
+        applyDateMask(document.getElementById('modal-information-date'));
+        applyDateMask(document.getElementById('modal-due-date'));
     }
 
     function closeEditModal() { editModal.classList.add('hidden'); }
@@ -929,14 +998,14 @@
         const activityData = {
             project_id: document.getElementById('modal-project-id').value,
             no: parseInt(document.getElementById('modal-no').value),
-            information_date: document.getElementById('modal-information-date').value,
+            information_date: parseDate(document.getElementById('modal-information-date').value),
             user_position: document.getElementById('modal-user-position').value,
             department: document.getElementById('modal-department').value,
             application: document.getElementById('modal-application').value,
             type: document.getElementById('modal-type').value,
             description: document.getElementById('modal-description').value,
             action_solution: document.getElementById('modal-action-solution').value,
-            due_date: document.getElementById('modal-due-date').value,
+            due_date: parseDate(document.getElementById('modal-due-date').value),
             status: document.getElementById('modal-status').value,
             cnc_number: document.getElementById('modal-cnc-number').value
         };
