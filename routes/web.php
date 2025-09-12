@@ -17,6 +17,7 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\TimeBoxingController;
 
 // Authentication routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -187,6 +188,12 @@ Route::prefix('users')->group(function () {
 
 // Activity
 Route::get('/activity', [ActivityController::class, 'index'])->name('activity');
+
+// Time Boxing
+Route::resource('timeboxing', TimeBoxingController::class);
+Route::post('/timeboxing/{timeBoxing}/start', [TimeBoxingController::class, 'start'])->name('timeboxing.start');
+Route::post('/timeboxing/{timeBoxing}/complete', [TimeBoxingController::class, 'complete'])->name('timeboxing.complete');
+Route::post('/timeboxing/{timeBoxing}/cancel', [TimeBoxingController::class, 'cancel'])->name('timeboxing.cancel');
 
 // User Update API
 Route::prefix('api')->group(function () {

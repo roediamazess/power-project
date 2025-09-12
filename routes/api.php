@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\TimeBoxingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,13 @@ Route::controller(ActivityController::class)->group(function () {
     Route::put('/activities/{id}', 'update')->name('activities.update');
     Route::delete('/activities/{id}', 'destroy')->name('activities.destroy');
     Route::get('/activities/next-number', 'getNextNumber')->name('activities.next-number');
+});
+
+// Time Boxing API routes (no CSRF required)
+Route::controller(TimeBoxingController::class)->group(function () {
+    Route::get('/timeboxing', 'getTimeBoxings')->name('timeboxing.get');
+    Route::post('/timeboxing', 'store')->name('timeboxing.store');
+    Route::put('/timeboxing/{id}', 'update')->name('timeboxing.update');
+    Route::delete('/timeboxing/{id}', 'destroy')->name('timeboxing.destroy');
+    Route::get('/timeboxing/next-number', 'getNextNumber')->name('timeboxing.next-number');
 });
