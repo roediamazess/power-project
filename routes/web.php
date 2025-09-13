@@ -196,9 +196,6 @@ Route::post('/timeboxing/{timeBoxing}/complete', [TimeBoxingController::class, '
 Route::post('/timeboxing/{timeBoxing}/cancel', [TimeBoxingController::class, 'cancel'])->name('timeboxing.cancel');
 
 // Demo routes
-Route::get('/demo/notifications', function () {
-    return view('demo.notifications');
-})->name('demo.notifications');
 
 
 // User Update API

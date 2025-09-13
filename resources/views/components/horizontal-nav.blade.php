@@ -75,13 +75,6 @@
                     <span>Time Boxing</span>
                 </a>
 
-                <!-- Notification Demo link -->
-                <a href="{{ route('demo.notifications') }}" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
-                    <iconify-icon icon="solar:notification-unread-outline" class="text-lg"></iconify-icon>
-                    <span>Notifications</span>
-                </a>
-
-
                 <!-- Components Dropdown (from Sidebar) -->
                 <div class="relative dropdown-group">
                     <button onclick="toggleDropdown('components-dropdown')" class="nav-link flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-neutral-700 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors duration-150">
