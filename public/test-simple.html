@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Notification Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #notification-container {
+            position: fixed;
+            top: 5rem;
+            left: 1.5rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .notification-capsule {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Simple Notification Test</h1>
+        
+        <button onclick="showTestNotification()" 
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
+            Test Notification
+        </button>
+    </div>
+    
+    <div id="notification-container"></div>
+    
+    <script>
+        function showTestNotification() {
+            console.log('Testing notification...');
+            
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = 'notification-capsule';
+            notification.textContent = 'Test notification from below logo!';
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Auto test on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, testing notification in 2 seconds...');
+            setTimeout(showTestNotification, 2000);
+        });
+    </script>
+</body>
+</html>

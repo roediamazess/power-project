@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="public/assets/css/notifications.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .floating-nav {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: inline-block;
+            margin-right: 0.5rem;
+            animation: rotate 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .test-button.success { background: linear-gradient(135deg, #10b981, #059669); }
+        .test-button.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .test-button.warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .test-button.info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .test-button.create { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .test-button.update { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .test-button.delete { background: linear-gradient(135deg, #f97316, #ea580c); }
+    </style>
+</head>
+<body>
+    <!-- Floating Navigation Bar (Mock) -->
+    <nav class="floating-nav">
+        <div class="flex items-center">
+            <div class="logo"></div>
+            <span class="font-bold text-gray-800">Power Project</span>
+        </div>
+    </nav>
+
+    <div class="test-container">
+        <h1 class="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            🔔 Enhanced Notification System Test
+        </h1>
+        
+        <p class="text-center text-gray-600 mb-8">
+            Test the notification system that appears below the floating navigation bar on the left side
+        </p>
+
+        <!-- Basic Notifications -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Basic Notifications</h2>
+            <div class="flex flex-wrap gap-2">
+                <button class="test-button success" onclick="showSuccess('Success notification!')">
+                    ✓ Success
+                </button>
+                <button class="test-button error" onclick="showError('Error notification!')">
+                    ✕ Error
+                </button>
+                <button class="test-button warning" onclick="showWarning('Warning notification!')">
+                    ⚠ Warning
+                </button>
+                <button class="test-button info" onclick="showInfo('Info notification!')">
+                    ℹ Info
+                </button>
+                <button class="test-button create" onclick="showCreate('Create notification!')">
+                    + Create
+                </button>
+                <button class="test-button update" onclick="showUpdate('Update notification!')">
+                    ↻ Update
+                </button>
+                <button class="test-button delete" onclick="showDelete('Delete notification!')">
+                    🗑 Delete
+                </button>
+            </div>
+        </div>
+
+        <!-- Enhanced Features -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Enhanced Features</h2>
+            <div class="flex flex-wrap gap-2">
+                <button class="test-button info" onclick="showImportant('This is an important notification!', 'info')">
+                    ⭐ Important
+                </button>
+                <button class="test-button warning" onclick="showPersistent('This notification stays until clicked', 'warning')">
+                    📌 Persistent
+                </button>
+                <button class="test-button success" onclick="showQuick('Quick notification (2s)', 'success')">
+                    ⚡ Quick
+                </button>
+                <button class="test-button error" onclick="clearAllNotifications()">
+                    🗑 Clear All
+                </button>
+            </div>
+        </div>
+
+        <!-- Custom Options -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Custom Options</h2>
+            <div class="flex flex-wrap gap-2">
+                <button class="test-button info" onclick="showNotification('3 second duration', 'info', {duration: 3000})">
+                    3s Duration
+                </button>
+                <button class="test-button warning" onclick="showNotification('10 second duration', 'warning', {duration: 10000})">
+                    10s Duration
+                </button>
+                <button class="test-button error" onclick="showNotification('No auto-close', 'error', {autoClose: false})">
+                    No Auto-close
+                </button>
+                <button class="test-button success" onclick="showNotification('Important success', 'success', {important: true, duration: 8000})">
+                    Important Success
+                </button>
+            </div>
+        </div>
+
+        <!-- Multiple Notifications -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Multiple Notifications</h2>
+            <div class="flex flex-wrap gap-2">
+                <button class="test-button create" onclick="showMultiple()">
+                    📚 Show Multiple
+                </button>
+                <button class="test-button update" onclick="showSequence()">
+                    🎬 Show Sequence
+                </button>
+                <button class="test-button info" onclick="showNotification('Count: ' + getNotificationCount(), 'info')">
+                    🔢 Show Count
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Display -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold mb-2 text-gray-800">Status</h3>
+            <p class="text-sm text-gray-600">
+                Notifications will appear below the floating navigation bar on the left side.
+                Each notification has smooth animations, hover effects, and can be dismissed by clicking.
+            </p>
+            <div class="mt-2 text-sm text-gray-500">
+                Active notifications: <span id="notification-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Notification System -->
+    <script src="public/assets/js/notifications.js"></script>
+    
+    <script>
+        // Demo functions
+        function showMultiple() {
+            const messages = [
+                { msg: 'First notification', type: 'info' },
+                { msg: 'Second notification', type: 'success' },
+                { msg: 'Third notification', type: 'warning' },
+                { msg: 'Fourth notification', type: 'error' }
+            ];
+            
+            messages.forEach((item, index) => {
+                setTimeout(() => {
+                    showNotification(item.msg, item.type);
+                }, index * 500);
+            });
+        }
+
+        function showSequence() {
+            const sequence = [
+                { msg: 'Step 1: Initializing...', type: 'info', duration: 2000 },
+                { msg: 'Step 2: Processing data...', type: 'warning', duration: 3000 },
+                { msg: 'Step 3: Almost done...', type: 'info', duration: 2000 },
+                { msg: 'Step 4: Complete!', type: 'success', duration: 4000 }
+            ];
+            
+            sequence.forEach((item, index) => {
+                setTimeout(() => {
+                    showNotification(item.msg, item.type, { duration: item.duration });
+                }, index * 1000);
+            });
+        }
+
+        // Update notification count
+        function updateCount() {
+            document.getElementById('notification-count').textContent = getNotificationCount();
+        }
+
+        // Override showNotification to update count
+        const originalShowNotification = window.showNotification;
+        window.showNotification = function(...args) {
+            originalShowNotification.apply(this, args);
+            setTimeout(updateCount, 100);
+        };
+
+        const originalClearAll = window.clearAllNotifications;
+        window.clearAllNotifications = function() {
+            originalClearAll.apply(this, arguments);
+            updateCount();
+        };
+
+        // Initial count update
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCount();
+            
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('Welcome to the notification test page!', 'info', {
+                    duration: 3000
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
