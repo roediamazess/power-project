@@ -1166,6 +1166,9 @@
         let newNo;
         try {
             const response = await fetch('/api/timeboxing/next-number');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const result = await response.json();
             if (result.success) {
                 newNo = result.next_number;
@@ -1173,10 +1176,10 @@
             } else {
                 // Fallback to local calculation
                 newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
-                console.log('📊 Using local calculation for next number:', newNo);
+                console.log('📊 Server returned error, using local calculation for next number:', newNo);
             }
         } catch (error) {
-            console.log('💥 Error getting next number from server, using local calculation');
+            console.log('💥 Error getting next number from server:', error.message, '- using local calculation');
             newNo = data.length > 0 ? Math.max(...data.map(d => d.no)) + 1 : 1;
         }
 
@@ -1200,23 +1203,34 @@
 
         console.log('📤 Sending new activity data:', newTimeBoxingData);
 
-        const result = await saveTimeBoxing(newTimeBoxingData);
-        console.log('📥 Save result:', result);
+        try {
+            const result = await saveTimeBoxing(newTimeBoxingData);
+            console.log('📥 Save result:', result);
 
-        if (result) {
-            console.log('✅ New row added successfully:', result);
-            showNotification('New activity created successfully', 'success');
-            // Reload current page to refresh pagination and then focus last row
-            await loadTimeBoxings(pagination.current_page, pagination.per_page, true);
-            // Focus the newly created last row (blue selection)
-            if (data.length > 0) {
-                selectedCoords.row = data.length - 1;
-                selectedCoords.col = 0; // first column (No)
-                updateSelection();
+            if (result) {
+                console.log('✅ New row added successfully:', result);
+                showNotification('New activity created successfully', 'success', {
+                    duration: 3000
+                });
+                // Reload current page to refresh pagination and then focus last row
+                await loadTimeBoxings(pagination.current_page, pagination.per_page, true);
+                // Focus the newly created last row (blue selection)
+                if (data.length > 0) {
+                    selectedCoords.row = data.length - 1;
+                    selectedCoords.col = 0; // first column (No)
+                    updateSelection();
+                }
+            } else {
+                console.log('❌ Failed to add new row - saveTimeBoxing returned null');
+                showNotification('Failed to create new activity', 'error', {
+                    duration: 5000
+                });
             }
-        } else {
-            console.log('❌ Failed to add new row - saveTimeBoxing returned null');
-            showNotification('Failed to create new activity', 'error');
+        } catch (error) {
+            console.error('💥 Error in addNewRow:', error);
+            showNotification('Error creating new activity: ' + error.message, 'error', {
+                duration: 5000
+            });
         }
     }
     

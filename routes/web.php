@@ -195,6 +195,11 @@ Route::post('/timeboxing/{timeBoxing}/start', [TimeBoxingController::class, 'sta
 Route::post('/timeboxing/{timeBoxing}/complete', [TimeBoxingController::class, 'complete'])->name('timeboxing.complete');
 Route::post('/timeboxing/{timeBoxing}/cancel', [TimeBoxingController::class, 'cancel'])->name('timeboxing.cancel');
 
+// Time Boxing API
+Route::prefix('api')->group(function () {
+    Route::get('/timeboxing/next-number', [TimeBoxingController::class, 'getNextNumber'])->name('timeboxing.next-number');
+});
+
 // Demo routes
 
 

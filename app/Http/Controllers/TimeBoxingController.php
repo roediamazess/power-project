@@ -260,15 +260,35 @@ class TimeBoxingController extends Controller
         }
     }
 
-    // API endpoint to get next available number
+    // API endpoint to get next available number for new timeboxing
     public function getNextNumber()
     {
-        $maxNo = TimeBoxing::max('no') ?? 0;
+        try {
+            $maxNo = TimeBoxing::max('no');
+            $nextNumber = $maxNo ? $maxNo + 1 : 1;
 
-        return response()->json([
-            'success' => true,
-            'next_number' => $maxNo + 1
-        ]);
+            \Log::info('Next Number API Request', [
+                'max_no_in_db' => $maxNo,
+                'next_number' => $nextNumber,
+                'timestamp' => now()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'next_number' => $nextNumber
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error getting next number', [
+                'error' => $e->getMessage(),
+                'timestamp' => now()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error getting next number: ' . $e->getMessage(),
+                'next_number' => 1 // fallback
+            ], 500);
+        }
     }
 }
 
