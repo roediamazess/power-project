@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/notifications.css">
+    <script src="assets/js/notifications.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Notification System Test</h1>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <button onclick="showSuccess('Success notification!')" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg">
+                Success
+            </button>
+            
+            <button onclick="showError('Error notification!')" 
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg">
+                Error
+            </button>
+            
+            <button onclick="showWarning('Warning notification!')" 
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg">
+                Warning
+            </button>
+            
+            <button onclick="showInfo('Info notification!')" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
+                Info
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button onclick="showCreate('Create notification!')" 
+                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg">
+                Create
+            </button>
+            
+            <button onclick="showUpdate('Update notification!')" 
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg">
+                Update
+            </button>
+            
+            <button onclick="showDelete('Delete notification!')" 
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg">
+                Delete
+            </button>
+            
+            <button onclick="showNotification('Custom notification!', 'info', {duration: 0})" 
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
+                Custom
+            </button>
+        </div>
+    </div>
+</body>
+</html>

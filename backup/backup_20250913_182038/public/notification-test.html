@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #notification-container {
+            position: fixed;
+            top: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .notification-capsule {
+            transform-origin: top center;
+            animation: emerge-from-logo 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 400px;
+            min-width: 300px;
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-capsule:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes emerge-from-logo {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.6);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .notification-capsule.hide {
+            animation: fade-out 0.4s ease-in forwards;
+        }
+        
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+        }
+        
+        .progress-line {
+            height: 2px;
+            animation: shrink 4.5s linear forwards;
+            border-radius: 1px;
+        }
+        
+        @keyframes shrink {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+        
+        .notification-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .notification-error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .notification-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .notification-info {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .notification-create {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+        
+        .notification-update {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+        }
+        
+        .notification-delete {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Notification Test</h1>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button onclick="showNotification('Success message!', 'success')" 
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg">
+                Success
+            </button>
+            
+            <button onclick="showNotification('Error message!', 'error')" 
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg">
+                Error
+            </button>
+            
+            <button onclick="showNotification('Warning message!', 'warning')" 
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg">
+                Warning
+            </button>
+            
+            <button onclick="showNotification('Info message!', 'info')" 
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg">
+                Info
+            </button>
+            
+            <button onclick="showNotification('Create message!', 'create')" 
+                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg">
+                Create
+            </button>
+            
+            <button onclick="showNotification('Update message!', 'update')" 
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg">
+                Update
+            </button>
+            
+            <button onclick="showNotification('Delete message!', 'delete')" 
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg">
+                Delete
+            </button>
+            
+            <button onclick="testMultiple()" 
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
+                Test Multiple
+            </button>
+        </div>
+    </div>
+    
+    <div id="notification-container"></div>
+    
+    <script>
+        function showNotification(message, type = 'info') {
+            console.log('🔔 Notification:', message, type);
+            
+            const container = document.getElementById('notification-container');
+            
+            const notification = document.createElement('div');
+            notification.className = `notification-capsule notification-${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <div class="notification-icon bg-white bg-opacity-20 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                        ${getIcon(type)}
+                    </div>
+                    <div class="notification-content">
+                        <p class="notification-message">${message}</p>
+                        <div class="notification-progress progress-line ${getProgressColor(type)}"></div>
+                    </div>
+                </div>
+            `;
+            
+            notification.addEventListener('click', () => {
+                notification.classList.add('hide');
+                setTimeout(() => notification.remove(), 400);
+            });
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.classList.add('hide');
+                    setTimeout(() => notification.remove(), 400);
+                }
+            }, 5000);
+        }
+        
+        function getIcon(type) {
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ',
+                create: '+',
+                update: '↻',
+                delete: '🗑'
+            };
+            return icons[type] || icons.info;
+        }
+        
+        function getProgressColor(type) {
+            const colors = {
+                success: 'bg-green-400',
+                error: 'bg-red-400',
+                warning: 'bg-yellow-400',
+                info: 'bg-blue-400',
+                create: 'bg-purple-400',
+                update: 'bg-cyan-400',
+                delete: 'bg-orange-400'
+            };
+            return colors[type] || colors.info;
+        }
+        
+        function testMultiple() {
+            showNotification('First notification', 'info');
+            setTimeout(() => showNotification('Second notification', 'success'), 500);
+            setTimeout(() => showNotification('Third notification', 'warning'), 1000);
+        }
+        
+        // Auto test on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, testing notification...');
+            setTimeout(() => {
+                showNotification('Page loaded successfully!', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

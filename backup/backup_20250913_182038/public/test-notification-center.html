@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Notification Center</title>
+    <link rel="stylesheet" href="assets/css/notifications.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f3f4f6;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Mock logo at top center */
+        .mock-logo {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Override notification position untuk test */
+        #notification-container {
+            top: 4.5rem !important; /* 72px, tepat di bawah logo */
+        }
+        
+        .test-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 2rem;
+        }
+        
+        .test-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .test-button {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-success { background: #10b981; color: white; }
+        .btn-error { background: #ef4444; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-info { background: #3b82f6; color: white; }
+        .btn-create { background: #8b5cf6; color: white; }
+        .btn-update { background: #06b6d4; color: white; }
+        .btn-delete { background: #f97316; color: white; }
+        .btn-multiple { background: #6b7280; color: white; }
+    </style>
+</head>
+<body>
+    <!-- Mock logo at top center -->
+    <div class="mock-logo">P</div>
+    
+    <div class="test-content">
+        <h1>Test Notification Center Position</h1>
+        <p>Notifikasi seharusnya muncul tepat di bawah logo (lingkaran biru di atas).</p>
+        
+        <div class="test-buttons">
+            <button class="test-button btn-success" onclick="showNotification('Success notification!', 'success')">
+                Success
+            </button>
+            
+            <button class="test-button btn-error" onclick="showNotification('Error notification!', 'error')">
+                Error
+            </button>
+            
+            <button class="test-button btn-warning" onclick="showNotification('Warning notification!', 'warning')">
+                Warning
+            </button>
+            
+            <button class="test-button btn-info" onclick="showNotification('Info notification!', 'info')">
+                Info
+            </button>
+            
+            <button class="test-button btn-create" onclick="showNotification('Create notification!', 'create')">
+                Create
+            </button>
+            
+            <button class="test-button btn-update" onclick="showNotification('Update notification!', 'update')">
+                Update
+            </button>
+            
+            <button class="test-button btn-delete" onclick="showNotification('Delete notification!', 'delete')">
+                Delete
+            </button>
+            
+            <button class="test-button btn-multiple" onclick="testMultiple()">
+                Test Multiple
+            </button>
+        </div>
+    </div>
+    
+    <div id="notification-container"></div>
+    
+    <script>
+        function showNotification(message, type = 'info') {
+            console.log('🔔 Notification:', message, type);
+            
+            const container = document.getElementById('notification-container');
+            
+            const notification = document.createElement('div');
+            notification.className = `notification-capsule notification-${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <div style="background: rgba(255, 255, 255, 0.2); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                        ${getIcon(type)}
+                    </div>
+                    <div style="flex: 1; padding: 0 0.75rem; display: flex; flex-direction: column;">
+                        <p style="font-size: 0.875rem; font-weight: 500; line-height: 1.25; margin: 0;">${message}</p>
+                        <div style="height: 2px; background: ${getProgressColor(type)}; margin-top: 0.25rem; border-radius: 1px; animation: shrink 4.5s linear forwards;"></div>
+                    </div>
+                </div>
+            `;
+            
+            notification.addEventListener('click', () => {
+                notification.style.animation = 'fade-out 0.4s ease-in forwards';
+                setTimeout(() => notification.remove(), 400);
+            });
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'fade-out 0.4s ease-in forwards';
+                    setTimeout(() => notification.remove(), 400);
+                }
+            }, 5000);
+        }
+        
+        function getIcon(type) {
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ',
+                create: '+',
+                update: '↻',
+                delete: '🗑'
+            };
+            return icons[type] || icons.info;
+        }
+        
+        function getProgressColor(type) {
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6',
+                create: '#8b5cf6',
+                update: '#06b6d4',
+                delete: '#f97316'
+            };
+            return colors[type] || colors.info;
+        }
+        
+        function testMultiple() {
+            showNotification('First notification', 'info');
+            setTimeout(() => showNotification('Second notification', 'success'), 500);
+            setTimeout(() => showNotification('Third notification', 'warning'), 1000);
+        }
+        
+        // Auto test on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, testing notification...');
+            setTimeout(() => {
+                showNotification('Notification test loaded! Should appear below the logo.', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
